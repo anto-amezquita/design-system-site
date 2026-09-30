@@ -8,7 +8,8 @@ export type Mode = (typeof MODES)[number]
 export function PreviewPage({ mode, label }: { mode: Mode; label: string }) {
   return (
     <div data-mode={mode} className="preview">
-      <main className="preview__main" aria-label={label}>
+      <main className="preview__main">
+        <h1 className="visually-hidden">{label}</h1>
         <DemoProviders>
           <SampleScreen />
         </DemoProviders>
