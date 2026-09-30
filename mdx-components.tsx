@@ -1,7 +1,7 @@
 import type { MDXComponents } from 'mdx/types'
 import NextLink from 'next/link'
 import { Heading } from '@amezquita/design-system/components/primitives/Heading'
-import { Link } from '@amezquita/design-system/components/primitives/Link'
+import { Link } from '@/components/ds/Link'
 import { CodeBlock } from '@/components/site/CodeBlock'
 import { slugify } from '@/lib/slugify'
 

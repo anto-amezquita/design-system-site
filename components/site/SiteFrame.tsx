@@ -23,8 +23,8 @@ type SiteFrameProps = {
  * The whole site frame, built from the package's own navigation components
  * (decisions/0017): SkipLink, a header with NavigationMenu, and SideNav,
  * which is inline from 1024px up and a drawer below it. The landing page
- * has no section tree, so SideNav runs drawer-only there and still carries
- * the header links on small screens.
+ * shows no section tree beside its content, so SideNav runs drawer-only
+ * there; the drawer still carries the header links and the full tree.
  */
 export function SiteFrame({ headerItems, sectionItems, children }: SiteFrameProps) {
   const pathname = usePathname()
@@ -57,7 +57,7 @@ export function SiteFrame({ headerItems, sectionItems, children }: SiteFrameProp
       </header>
       <div className={isLanding ? 'site-body site-body--landing' : 'site-body'}>
         <SideNav
-          items={isLanding ? [] : sectionItems}
+          items={sectionItems}
           headerItems={headerItems}
           currentHref={pathname}
           LinkComponent={NextLink}

@@ -74,8 +74,10 @@ body {
   flex-shrink: 0;
 }
 
+/* Two classes to outrank .button's own display. Below 768px the drawer
+   carries the links, and Getting started is the first one in it. */
 @media (max-width: 767px) {
-  .site-header__cta {
+  .site-header .site-header__cta {
     display: none;
   }
 }
@@ -145,6 +147,15 @@ body {
 .doc__content {
   display: grid;
   gap: var(--space-section-gap);
+  min-width: 0;
+}
+
+/* Grid items default to min-width: auto and grow to fit a wide table.
+   Zero lets tables scroll inside their own region instead of the page. */
+.doc__content > *,
+.doc__section > *,
+.token-groups > *,
+.token-group > * {
   min-width: 0;
 }
 
@@ -425,4 +436,204 @@ body {
   padding-inline-start: var(--space-component-gap);
   font-size: var(--font-size-small);
   line-height: var(--line-height-small);
+}
+
+/* ─── Token tables ───────────────────────────────────────── */
+
+.swatch-pair {
+  display: inline-flex;
+  gap: var(--space-tight-gap);
+}
+
+.swatch {
+  display: inline-block;
+  width: var(--size-icon-lg);
+  height: var(--size-icon-lg);
+  border: var(--border-width-default) solid var(--color-border-strong);
+  border-radius: var(--border-radius-interactive);
+}
+
+.space-bar {
+  display: block;
+  max-width: 100%;
+  height: var(--space-inline-gap);
+  border-radius: var(--border-radius-interactive);
+  background: var(--color-accent-default);
+}
+
+.token-muted {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+
+/* Token names and values are read as one unit: don't break them. The
+   table scrolls sideways inside its own region instead. */
+.table-scroll code {
+  white-space: nowrap;
+  overflow-wrap: normal;
+}
+
+/* Prop types in the doc twins are long: let them wrap, but only at spaces. */
+.markdown__table code {
+  overflow-wrap: normal;
+}
+
+.token-groups {
+  display: grid;
+  gap: var(--space-container-padding);
+}
+
+.token-group {
+  display: grid;
+  gap: var(--space-inline-gap);
+}
+
+.token-group__title {
+  font-weight: var(--font-weight-heading);
+}
+
+.token-group__desc {
+  max-width: var(--size-container-text);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+
+/* ─── Type scale ─────────────────────────────────────────── */
+
+.type-scale {
+  display: grid;
+  list-style: none;
+  padding: 0;
+  border-top: var(--border-width-default) solid var(--color-border-default);
+}
+
+.type-scale__step {
+  display: grid;
+  gap: var(--space-inline-gap);
+  padding-block: var(--space-element-gap);
+  border-bottom: var(--border-width-default) solid var(--color-border-default);
+}
+
+@media (min-width: 768px) {
+  .type-scale__step {
+    grid-template-columns: 12rem minmax(0, 1fr);
+    align-items: baseline;
+    gap: var(--space-component-gap);
+  }
+}
+
+.type-scale__meta {
+  display: grid;
+  gap: var(--space-tight-gap);
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+
+.type-scale__label {
+  font-weight: var(--font-weight-label);
+}
+
+.type-scale__sample {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* ─── Motion demo ────────────────────────────────────────── */
+
+.motion-demo {
+  display: grid;
+  gap: var(--space-container-padding);
+}
+
+.motion-demo__list {
+  display: grid;
+  list-style: none;
+  padding: 0;
+  border-top: var(--border-width-default) solid var(--color-border-default);
+}
+
+.motion-demo__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-inline-gap) var(--space-element-gap);
+  padding-block: var(--space-inline-gap);
+  border-bottom: var(--border-width-default) solid var(--color-border-default);
+}
+
+.motion-demo__meta {
+  display: grid;
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+
+.motion-demo__track {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  position: relative;
+  height: var(--space-inline-gap);
+  border-radius: var(--border-radius-pill);
+  background: var(--color-surface-secondary);
+}
+
+@media (min-width: 768px) {
+  .motion-demo__row {
+    grid-template-columns: 16rem minmax(0, 1fr) auto;
+  }
+
+  .motion-demo__track {
+    grid-column: auto;
+    grid-row: auto;
+  }
+}
+
+.motion-demo__bar {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--color-accent-default);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition-property: transform;
+  transition-timing-function: var(--easing-default);
+}
+
+.motion-demo__bar.is-playing {
+  transform: scaleX(1);
+}
+
+.motion-demo__dot {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: var(--space-element-gap);
+  height: var(--space-element-gap);
+  border-radius: var(--border-radius-pill);
+  background: var(--color-accent-default);
+  transform: translateY(-50%);
+  transition-property: left;
+  transition-duration: var(--duration-entrance);
+}
+
+.motion-demo__dot.is-playing {
+  left: calc(100% - var(--space-element-gap));
+}
+
+.motion-demo__easings {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-element-gap);
+}
+
+.motion-demo__easings .motion-demo__list {
+  width: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-demo__bar,
+  .motion-demo__dot {
+    transition-duration: var(--duration-instant) !important;
+  }
 }
