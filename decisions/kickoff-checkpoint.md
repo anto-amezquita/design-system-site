@@ -1,6 +1,6 @@
 # Kickoff checkpoint — design-system-site
 
-**Current stage:** Stages 1–5 ✓ — Stage 6 (first build) →
+**Current stage:** Stages 1–6 ✓ — Stage 7 (project setup) →
 **Stages 1 and 2:** already answered by `decisions/0017-standalone-docs-site-base-theme.md` in the `design-system` repo, written 2026-09-22 and accepted. Recorded here as answered so `/project-kickoff` doesn't reopen them.
 
 ## Stage 1 — Idea ✓
@@ -54,6 +54,10 @@ The pages are dense and plain: tables and live renders carry the content, prose 
 **Testing:** typecheck and build only. That is a real gate here rather than a weak one, because the generated pages read the package at build time: if a release stops shipping a file they need, the build fails instead of a page going blank. No Playwright and no link checker in v1.
 
 **Not on Chromatic.** It would be a second project on the same free account, and the library alone used 4,794 snapshots in the Aug 23–Sep 23 period against a 5,000 ceiling. Visual review stays with the library, where the components live.
+
+## Stage 6 — First build ✓ (2026-09-30)
+
+Spec: `specs/2026-09-30-first-build.md`, built on branch `feat/first-build`. Every page in `decisions/0001` exists, the frame is built from the package's navigation components, and the agent-facing files are served from the installed package. The spec's §9 records eight deviations from 0001 with their reasons; the ones that need the library or Antonio are in `docs/backlog.md`.
 
 ## Open questions
 

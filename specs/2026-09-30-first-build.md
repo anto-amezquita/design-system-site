@@ -186,6 +186,16 @@ Site frame, on-page contents list, token table, live-render map, sample screen (
 4. **The Changelog is built from `CHANGELOG.md`, not `tokens/changelog.json`.** In 1.1.1 the JSON stops at `v1.1.0`, while `CHANGELOG.md` has 1.1.1. 0017 names `CHANGELOG.md` as the source anyway; the portfolio used the JSON.
 5. **The package is pinned to an exact version (`1.1.1`), not a range,** so the release sync PR is the only thing that changes it, as 0001 item 3 intends.
 
+Found during the build:
+
+6. **`Link` is re-exported from a client module (`components/ds/Link.tsx`) for use in Server Components.** The package's `Link` has no `'use client'` directive but renders Radix `Slot`, which needs React context, so importing it into a Server Component fails the build. The re-export is Next's documented pattern for third-party components in that state; it's one line and goes away when the library adds the directive. `SkipLink` (an `onClick`) and `Tag` (with `removable`) have the same gap; the site only renders them from client components, so they need no re-export. Logged for the library.
+7. **Component pages take their token table from `tokens/token-reference.json`, not from the doc twin.** The twins' Tokens tables show the portfolio brand's values (Button's `--button-secondary-border` is `#292524`, warm-800), the same bug 1.1.1 fixed in the registry. Showing them on a base-theme site would contradict the live render next to them. The twins are still served verbatim at `/components/<slug>.md`. Logged for the library.
+8. **SkipLink's card is a note, not a live render.** A SkipLink only shows on focus and jumps to the page's own `<main>`, so a second one in a card would be confusing. The site's own SkipLink is the live example, and the card says so.
+
+### How the build was checked
+
+`npx tsc --noEmit` and `npm run build` clean (52 static pages). axe-core over every page type, light and dark: no violations, apart from a race where it ran before the package's Table marked its scroll region focusable (it passes on a re-run; the Table sets `tabIndex` from a ResizeObserver). The agent-facing files are byte-identical to the package's; the portfolio brand CSS appears only in the `/themes/preview/portfolio/*` documents; `app/site.css` has no hex values, primitive tokens or two-argument `var()`; checked at 1440px and at a 390px viewport, light and dark.
+
 ### Risks
 
 - The agent-facing files still point at `amezquita.dk` (the 1.1.1 changeset says so). Served here unchanged, they send agents back to the portfolio until the library switches origin. Rewriting them here would be a copy that drifts, so it isn't done.
