@@ -20,15 +20,20 @@ Its job is narrow on purpose: a session should be able to open this file and kno
 
 ## 2. Open items
 
-[List each open item as its own entry. One item = one thing someone could actually start work on today.]
+### First build of the docs site (kickoff Stage 6)
 
-### [Item name]
+- **Source:** `decisions/0017-standalone-docs-site-base-theme.md` in the `design-system` repo, and this repo's `decisions/kickoff-checkpoint.md` (stages 1-5 answered).
+- **Why it matters:** the design system is only shown as a page inside the portfolio, in the portfolio skin. This site shows what a new consumer actually gets, and it is the first real consumer of the `1.1.0` navigation components. The library-side prerequisites are done: the package ships `llms*.txt`, `AGENTS.md`, `CHANGELOG.md` and `decisions/*.md`.
+- **Scope, first wave:** Landing, Getting started, Foundations, Components, Themes, Changelog, Working with AI and Guidelines (governance and versioning), per `decisions/0001`. The site also serves the agent-facing surface: `/.well-known/skills/`, `llms.txt`, `llms-full.txt`, `tokens.json`, the registry and the component doc twins, generated at build time from the installed package.
+- **Before the agent surface can be generated:** the library's patch release adding `skills/`, `registry/`, `tokens.json` and `docs/components/` to its `files` (tracked in the `design-system` repo's backlog).
+- **After the move:** check that `npx shadcn add` follows a redirect and that the registry manifests don't hardcode `amezquita.dk`; then delete the old design-system docs pages and agent files in the portfolio (its `app/design-system-playbook/` stays) and redirect the old URLs to the subdomain.
+- **Status:** not started. App code doesn't exist yet.
 
-- **Source:** [Where this came from — a stakeholder request, a spec's own deferred section, a bug found during other work, research, etc.]
-- **Why it matters:** [One or two sentences. Skip if the item name already makes it obvious.]
-- **Status:** [Not started / Spec needed / In progress / Blocked — and on what]
+### Release sync workflow
 
-[Repeat per item. Delete this bracketed template block once real items replace it.]
+- **Source:** `decisions/0001`, item 3.
+- **What:** a workflow that receives the library's `design-system-released` dispatch, bumps `@amezquita/design-system`, rebuilds and opens a PR, modelled on the portfolio's `sync-design-system.yml`.
+- **Status:** not started. Needs, in order: the `amez-ds-self-heal` App installed on this repo, with `SELF_HEAL_APP_CLIENT_ID` and `SELF_HEAL_APP_PRIVATE_KEY` added as secrets (the same one-time step is open for the portfolio, so do both together); then this workflow; then this repo added as a second dispatch target in the library's `release.yml`. The dispatch target comes last on purpose, since until this workflow exists nothing here would receive it.
 
 ---
 

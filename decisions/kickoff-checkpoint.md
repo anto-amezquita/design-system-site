@@ -57,5 +57,4 @@ The pages are dense and plain: tables and live renders carry the content, prose 
 
 ## Open questions
 
-- Whether the moved pages keep their current structure or get reorganized to the section list above.
-- Where the `.well-known` agent skill is served from once it leaves the portfolio.
+None. Both were answered on 2026-09-30 in `decisions/0001-page-structure-agent-surface-release-sync.md`, along with how a new release lands here.
