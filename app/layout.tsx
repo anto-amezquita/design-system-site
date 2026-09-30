@@ -3,9 +3,10 @@ import '@amezquita/design-system/styles/reset.css'
 import '@amezquita/design-system/styles/brands/base-light.css'
 import '@amezquita/design-system/styles/brands/base-dark.css'
 import './site.css'
+import { SITE_URL } from '@/lib/site'
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://design.amezquita.dk'),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: 'amezquita design system',
     template: '%s · amezquita design system',

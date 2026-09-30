@@ -295,6 +295,10 @@ body {
   line-height: var(--line-height-small);
 }
 
+.code-block__pre--wrap {
+  white-space: pre-wrap;
+}
+
 .code-block__pre code {
   padding: 0;
   background: none;
@@ -870,4 +874,42 @@ body {
   .landing__frame {
     padding: var(--space-element-gap);
   }
+}
+
+.table-prose {
+  display: block;
+  min-width: 16rem;
+}
+
+/* ─── Changelog ──────────────────────────────────────────── */
+
+.release {
+  display: grid;
+  gap: var(--space-element-gap);
+  min-width: 0;
+  padding-top: var(--space-component-gap);
+  border-top: var(--border-width-default) solid var(--color-border-default);
+}
+
+.release__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-inline-gap);
+}
+
+.release__group {
+  display: grid;
+  gap: var(--space-inline-gap);
+  min-width: 0;
+}
+
+/* Loose list items hold several paragraphs (changelog entries). */
+.markdown li {
+  display: grid;
+  gap: var(--space-inline-gap);
+}
+
+.markdown li + li {
+  margin-top: var(--space-inline-gap);
 }

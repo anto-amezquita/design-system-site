@@ -1,0 +1,27 @@
+## Governance
+
+Every change to the library goes through one gate. `npm run validate` runs the token linter, a token-architecture linter, a WCAG AA contrast check across all four theme combinations, a check that every component is documented, a check that every component has stories, a type check and the test suite. If any of them fails, the change isn’t finished. The fix is to solve the underlying problem, not to route around the check.
+
+Some things aren’t left to review at all, because the token linter rejects them:
+
+- raw hex colours or primitive tokens in component CSS
+- hardcoded spacing, motion or line heights
+- the two-argument `var(--token, fallback)` form: a token either exists or it doesn’t
+
+The rules are the same whether a person or an AI agent makes the change. Every check fails with a specific fix, not just a red cross, so an agent can act on it without someone reading the output for it.
+
+## Decisions
+
+A change to how the system works, like a new token tier, a new brand or a changed component model, gets a written decision record before it lands: the context, the decision, the alternatives considered and the consequences, one file per decision. They ship in the package under `decisions/`, so they sit in `node_modules` next to the code they explain.
+
+## Versioning
+
+The package follows semantic versioning. A major version means you have to change your code, a minor adds something, a patch fixes something. The [changelog](/changelog) says which, and a breaking change comes with the before and after.
+
+## Releases
+
+Releases go out through [Changesets](https://github.com/changesets/changesets). A change that should ship gets a changeset describing it for the people who use the package. A bot collects pending changesets into one Version Packages pull request with the version bump and the changelog. Merging it publishes to npm, through npm’s trusted publishing from GitHub Actions rather than a stored token.
+
+## How this site keeps up
+
+This site installs the package from npm like any other project and builds its data pages from the installed files. A new release reaches it as a pull request that bumps the version and rebuilds, and typecheck and build have to pass before it merges. If a release stops shipping a file the site reads, the build fails and names the file, instead of a page going blank.

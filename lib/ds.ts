@@ -1,5 +1,5 @@
 import 'server-only'
-import { existsSync, readFileSync } from 'node:fs'
+import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 
 // Every data-driven page reads the installed package through this file, at
@@ -143,7 +143,16 @@ export function getAgentsMarkdown(): string {
   return readPackageFile('AGENTS.md')
 }
 
-export type SkillIndex = { skills: { name: string; description: string; files: string[] }[] }
+/** File names in a package folder, e.g. the registry manifests. Throws if the folder is gone. */
+export function listPackageDir(path: string): string[] {
+  const full = join(PKG_ROOT, path)
+  if (!existsSync(full)) {
+    throw new Error(`@amezquita/design-system doesn't ship ${path}/. Check the package's "files" list.`)
+  }
+  return readdirSync(full).sort()
+}
+
+export type SkillIndex ={ skills: { name: string; description: string; files: string[] }[] }
 
 export function getSkillIndex(): SkillIndex {
   return readJson<SkillIndex>('skills/index.json')
