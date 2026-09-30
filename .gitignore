@@ -1,2 +1,24 @@
 .claude/settings.local.json
 .DS_Store
+
+# dependencies
+node_modules/
+
+# next.js
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+
+# Generated from the installed package by scripts/sync-agent-surface.mjs.
+# Never commit these: the package is the source.
+public/.well-known/
+public/r/
+public/components/
+public/llms.txt
+public/llms-full.txt
+public/tokens.json
+
+# env
+.env*.local
+.vercel

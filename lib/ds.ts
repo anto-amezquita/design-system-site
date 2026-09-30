@@ -1,0 +1,165 @@
+import 'server-only'
+import { existsSync, readFileSync } from 'node:fs'
+import { join } from 'node:path'
+
+// Every data-driven page reads the installed package through this file, at
+// build time. Nothing here is a copy: if a release stops shipping a file,
+// the build fails naming it, instead of a page rendering empty.
+
+// Resolved from the project root rather than with require.resolve, which the
+// bundler rewrites into a module id at build time.
+const PKG_ROOT = join(process.cwd(), 'node_modules', '@amezquita', 'design-system')
+
+function readPackageFile(path: string): string {
+  const full = join(PKG_ROOT, path)
+  if (!existsSync(full)) {
+    throw new Error(
+      `@amezquita/design-system doesn't ship ${path}. The docs site builds from it ` +
+      '(decisions/0001). Check the package\'s "files" list.',
+    )
+  }
+  return readFileSync(full, 'utf8')
+}
+
+const cache = new Map<string, unknown>()
+function readJson<T>(path: string): T {
+  if (!cache.has(path)) cache.set(path, JSON.parse(readPackageFile(path)))
+  return cache.get(path) as T
+}
+
+// ─── Package ────────────────────────────────────────────────────────────
+
+export function getPackageVersion(): string {
+  return readJson<{ version: string }>('package.json').version
+}
+
+export const PACKAGE_NAME = '@amezquita/design-system'
+
+// ─── Tokens ─────────────────────────────────────────────────────────────
+
+export const AXES = ['base-light', 'base-dark', 'portfolio-light', 'portfolio-dark'] as const
+export type Axis = (typeof AXES)[number]
+
+export type Token = {
+  name: string
+  cssVar: string
+  type: string
+  category: string
+  rawValue: string
+  resolved: Partial<Record<Axis, string>>
+  axisAware: boolean
+  usedBy: string[]
+}
+
+type TokenReference = {
+  meta: { primitiveCount: number; semanticCount: number; componentCount: number; total: number }
+  tokens: Token[]
+}
+
+export function getTokenReference(): TokenReference {
+  return readJson<TokenReference>('tokens/token-reference.json')
+}
+
+export function getTokens(): Token[] {
+  return getTokenReference().tokens
+}
+
+export function getTokensByCategory(category: string): Token[] {
+  return getTokens().filter(t => t.category === category)
+}
+
+// ─── Components ─────────────────────────────────────────────────────────
+
+export const TIERS = ['primitives', 'composition', 'patterns'] as const
+export type Tier = (typeof TIERS)[number]
+
+export const TIER_LABELS: Record<Tier, string> = {
+  primitives: 'Primitives',
+  composition: 'Composition',
+  patterns: 'Patterns',
+}
+
+export const TIER_DESCRIPTIONS: Record<Tier, string> = {
+  primitives: 'Single elements: buttons, inputs, links, labels.',
+  composition: 'Containers and overlays that hold other components.',
+  patterns: 'Larger, opinionated pieces of a page, built from the other two tiers.',
+}
+
+export type ComponentEntry = {
+  name: string
+  slug: string
+  tier: Tier
+  purpose: string
+  storybookPath: string
+  storybookTitleId: string
+  tokenPrefix: string | null
+  stories: string[]
+  tokenCount: number
+  internal: boolean
+  parent?: string
+}
+
+type ComponentRegistry = {
+  meta: { componentCount: number; publicComponentCount: number; subComponentCount: number }
+  components: ComponentEntry[]
+}
+
+function getComponentRegistry(): ComponentRegistry {
+  return readJson<ComponentRegistry>('tokens/component-registry.json')
+}
+
+/** Public, top-level components: not internal (BaseSheet), not a sub-component (CardBody). */
+export function getPublicComponents(): ComponentEntry[] {
+  return getComponentRegistry().components.filter(c => !c.internal && !c.parent)
+}
+
+export function getSubComponents(parentSlug: string): ComponentEntry[] {
+  return getComponentRegistry().components.filter(c => c.parent === parentSlug)
+}
+
+export function getComponentTokens(component: ComponentEntry): Token[] {
+  if (!component.tokenPrefix) return []
+  return getTokens().filter(t => t.category === 'component' && t.name.startsWith(`${component.tokenPrefix}-`))
+}
+
+/** The compiled Markdown twin for a component, or null if the package has none. */
+export function getComponentDoc(slug: string): string | null {
+  const path = `docs/components/${slug}.md`
+  return existsSync(join(PKG_ROOT, path)) ? readPackageFile(path) : null
+}
+
+/** Strips Markdown backticks from registry prose for plain-text contexts. */
+export function plainText(markdown: string): string {
+  return markdown.replace(/`([^`]+)`/g, '$1')
+}
+
+// ─── Markdown sources ───────────────────────────────────────────────────
+
+export function getChangelogMarkdown(): string {
+  return readPackageFile('CHANGELOG.md')
+}
+
+export function getAgentsMarkdown(): string {
+  return readPackageFile('AGENTS.md')
+}
+
+export type SkillIndex = { skills: { name: string; description: string; files: string[] }[] }
+
+export function getSkillIndex(): SkillIndex {
+  return readJson<SkillIndex>('skills/index.json')
+}
+
+/**
+ * One `## heading` section of a Markdown file, without the heading line.
+ * Throws if the heading is gone, so a renamed section fails the build.
+ */
+export function getMarkdownSection(markdown: string, heading: string, source: string): string {
+  const lines = markdown.split('\n')
+  const start = lines.findIndex(l => l.trim() === `## ${heading}`)
+  if (start === -1) {
+    throw new Error(`${source} in @amezquita/design-system has no "## ${heading}" section any more.`)
+  }
+  const rest = lines.slice(start + 1)
+  const end = rest.findIndex(l => /^##\s/.test(l))
+  return (end === -1 ? rest : rest.slice(0, end)).join('\n').trim()
+}
