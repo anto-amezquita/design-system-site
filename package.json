@@ -5,9 +5,9 @@
   "description": "Documentation site for @amezquita/design-system, rendered in the base theme",
   "type": "module",
   "scripts": {
-    "predev": "node scripts/sync-agent-surface.mjs",
+    "predev": "node scripts/sync-agent-surface.mjs && node scripts/check-workarounds.mjs",
     "dev": "next dev",
-    "prebuild": "node scripts/sync-agent-surface.mjs",
+    "prebuild": "node scripts/sync-agent-surface.mjs && node scripts/check-workarounds.mjs",
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit"

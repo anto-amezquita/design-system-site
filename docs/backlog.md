@@ -36,9 +36,9 @@ Its job is narrow on purpose: a session should be able to open this file and kno
 
 ### Library changes this site needs (design-system repo)
 
-Found in the first build; each is logged here because it's the library's to fix, and each has a note in the spec (§9). None blocks this site.
+Found in the first build; each has a note in the spec (§9). None blocks this site. They're tracked in the design-system repo's own `docs/backlog.md` ("Gaps found by the docs site's first build"), so a library session sees them. `scripts/check-workarounds.mjs` runs before every build here and warns, on the release-sync PR too, when a fix has landed and its workaround can go.
 
-- **`'use client'` on `Link`, `SkipLink` and `Tag`.** They use client-only APIs (Radix `Slot`'s context, `onClick` handlers) without the directive, so a Next.js consumer can't render them from a Server Component. This site re-exports `Link` from `components/ds/Link.tsx`; delete that file when the library adds the directive.
+- **`'use client'` on `Link`, `SkipLink` and `Tag`.** Fixed on the library's `fix/client-directives` branch, with a validate check so it can't come back. Waiting on review, merge and release. When it lands, delete `components/ds/Link.tsx`.
 - **A brand scope in the brand CSS.** `portfolio-*.css` targets `:root` and `[data-mode]`, so one page can only show one brand. Something like `[data-brand="portfolio"]` would let Themes render both brands on one page and drop its preview frames.
 - **Doc twins resolve token values from the portfolio brand.** `docs/components/*.md` Tokens tables show portfolio values (e.g. Button's `--button-secondary-border` is `#292524`). The registry had the same bug, fixed in 1.1.1. This site builds component token tables from `token-reference.json` instead.
 - **`tokens/changelog.json` stops at `v1.1.0`.** The site reads `CHANGELOG.md`, so nothing here is wrong, but the JSON is stale for anyone else.
