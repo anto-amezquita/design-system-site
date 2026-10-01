@@ -133,11 +133,6 @@ export function getSubComponents(parentSlug: string): ComponentEntry[] {
   return getComponentRegistry().components.filter(c => c.parent === parentSlug)
 }
 
-export function getComponentTokens(component: ComponentEntry): Token[] {
-  if (!component.tokenPrefix) return []
-  return getTokens().filter(t => t.category === 'component' && t.name.startsWith(`${component.tokenPrefix}-`))
-}
-
 /** The compiled Markdown twin for a component, or null if the package has none. */
 export function getComponentDoc(slug: string): string | null {
   const path = `docs/components/${slug}.md`
