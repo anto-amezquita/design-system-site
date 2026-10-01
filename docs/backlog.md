@@ -36,7 +36,7 @@ Its job is narrow on purpose: a session should be able to open this file and kno
 
 ### Library changes this site needs (design-system repo)
 
-Found in the first build and the move to 1.2.0; each has a note in the spec (§9). None blocks this site. They're tracked in the design-system repo's own `docs/backlog.md` ("Gaps found by the docs site's first build"), so a library session sees them; the two found in the 1.2.0 move (Breadcrumb, popovers) still need adding there. `scripts/check-workarounds.mjs` runs before every build here and warns, on the release-sync PR too, when a fix has landed and its workaround can go.
+Found in the first build and the move to 1.2.0; each has a note in the spec (§9). None blocks this site. They're tracked in the design-system repo's own `docs/backlog.md` ("Gaps found by the docs site's first build"), so a library session sees them; the two found in the 1.2.0 move are under "Gaps found putting both brands on one page" there. `scripts/check-workarounds.mjs` runs before every build here and warns, on the release-sync PR too, when a fix has landed and its workaround can go.
 
 - **`tokens/changelog.json` lags a release.** In 1.2.0 it stops at `v1.1.2`. The site reads `CHANGELOG.md`, so nothing here is wrong, but the JSON is stale for anyone else.
 - **Breadcrumb takes no `aria-label`.** It hardcodes "Breadcrumb", so two on one page (Themes) are duplicate landmarks. The site renames them with an effect in `components/themes/ThemeExplorer.tsx` (spec §9, item 9); `check-workarounds.mjs` warns when the prop lands.
