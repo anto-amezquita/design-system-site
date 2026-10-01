@@ -203,7 +203,7 @@ Also replaced in 1.2.0, with no deviation behind them: Motion's role one-liners 
 
 `npx tsc --noEmit` and `npm run build` clean (52 static pages). axe-core over every page type, light and dark: no violations, apart from a race where it ran before the package's Table marked its scroll region focusable (it passes on a re-run; the Table sets `tabIndex` from a ResizeObserver). The agent-facing files are byte-identical to the package's; the portfolio brand CSS appears only in the `/themes/preview/portfolio/*` documents; `app/site.css` has no hex values, primitive tokens or two-argument `var()`; checked at 1440px and at a 390px viewport, light and dark.
 
-Moving to 1.2.0 (branch `feat/design-system-1-2-0`): `npx tsc --noEmit` and `npm run build` clean (48 static pages; the four preview documents are gone). In the built CSS, every rule that sets a portfolio-only value is scoped to `[data-brand="portfolio"]`, and the one stylesheet holding them is linked only from `/themes`. In Chrome, with the system set to light and to dark and each mode tab on Themes: every element outside the portfolio panel resolves base's accent and surface, every element inside it resolves the portfolio's, and after client-side navigation to `/foundations` the page is still base. axe-core clean on Themes (both tabs), Getting started, Motion, Working with AI and two component pages, light and dark. No horizontal scroll at 390px.
+Moving to 1.2.0 (branch `feat/design-system-1-2-0`): `npx tsc --noEmit` and `npm run build` clean (48 static pages; the four preview documents are gone). In the built CSS, every rule that sets a portfolio-only value is scoped to `[data-brand="portfolio"]`, and the one stylesheet holding them is linked only from `/themes`. In Chrome, with the system set to light and to dark and each mode tab on Themes: every element outside the portfolio panel resolves base's accent and surface, every element inside it resolves the portfolio's, and after client-side navigation to `/foundations` the page is still base. axe-core clean on Themes (both tabs), Getting started, Motion, Working with AI and two component pages, light and dark. No horizontal scroll at 390px. The Themes checks are committed as `scripts/check-themes.mjs` (`npm run check:themes`, after a build); it was checked to fail when `portfolio-light.css` is loaded on Themes. It also warns about item 10 while that gap is open, and warns again once a release fixes it.
 
 ### Risks
 
@@ -233,6 +233,7 @@ Moving to 1.2.0 (branch `feat/design-system-1-2-0`): `npx tsc --noEmit` and `npm
 - `out`/`.next` contains no copy of the package in the repo: `git ls-files` shows no file from the package.
 - `public/` generated files are gitignored and byte-identical to the package's.
 - Every page has a `SkipLink`, one `<h1>`, `<main id="main-content">` and uniquely named `<nav>` landmarks.
+- `npm run check:themes` passes after `npm run build`.
 - `portfolio-light.css` and `portfolio-dark.css` are loaded nowhere. `portfolio-scoped.css` is loaded only by `/themes`, every rule in it is scoped to `[data-brand="portfolio"]`, and on `/themes` every element outside the portfolio panel resolves base values.
 - Site CSS contains no hex colours, no primitive tokens and no two-argument `var()`.
 
