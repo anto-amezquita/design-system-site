@@ -781,18 +781,6 @@ body {
   gap: var(--space-inline-gap);
 }
 
-/* ─── Theme preview documents ────────────────────────────── */
-
-.preview {
-  min-height: 100svh;
-  background: var(--color-surface-primary);
-  font-family: var(--font-family-base);
-}
-
-.preview__main {
-  padding: var(--space-component-gap);
-}
-
 /* ─── Themes page ────────────────────────────────────────── */
 
 .theme-frames {
@@ -823,12 +811,22 @@ body {
   font-weight: var(--font-weight-heading);
 }
 
-.theme-frame__iframe {
-  width: 100%;
-  height: 40rem;
+/* Each panel sets data-mode (and the portfolio one data-brand), so the
+   tokens re-resolve on the panel itself: paint its own surface, text and font. */
+.theme-frame__panel {
+  min-width: 0;
+  padding: var(--space-container-padding);
   border: var(--border-width-default) solid var(--color-border-default);
   border-radius: var(--border-radius-component);
   background: var(--color-surface-primary);
+  color: var(--color-text-primary);
+  font-family: var(--font-family-base);
+}
+
+@media (max-width: 767px) {
+  .theme-frame__panel {
+    padding: var(--space-element-gap);
+  }
 }
 
 .swatch--static {

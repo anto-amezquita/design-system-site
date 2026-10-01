@@ -10,7 +10,12 @@ import {
 import { CodeBlock } from '@/components/site/CodeBlock'
 import { DocPage, DocSection } from '@/components/site/DocPage'
 import { ThemeExplorer } from '@/components/themes/ThemeExplorer'
-import { getTokens, type Axis, type Token } from '@/lib/ds'
+import { getBrandFonts, getTokens, type Axis, type Token } from '@/lib/ds'
+// The portfolio brand, scoped to [data-brand="portfolio"]: only the panel
+// that carries the attribute takes it, so the rest of this page stays base,
+// and so does every page visited after it. Base comes from the root layout.
+// portfolio-light.css and portfolio-dark.css set :root and aren't loaded anywhere.
+import '@amezquita/design-system/styles/brands/portfolio-scoped.css'
 
 export const metadata: Metadata = {
   title: 'Themes',
@@ -38,6 +43,12 @@ const BRAND_FILE = `/* brand-light.css — a file you own, copied from portfolio
   --font-family-base: 'Your Font', sans-serif;
 }`
 
+const SCOPED = `import '@amezquita/design-system/styles/brands/base-light.css'
+import '@amezquita/design-system/styles/brands/base-dark.css'
+import '@amezquita/design-system/styles/brands/portfolio-scoped.css'
+
+<div data-brand="portfolio">…</div>`
+
 /** Semantic and component tokens whose value in either mode differs between base and portfolio. */
 function differences(tokens: Token[]): Token[] {
   const differs = (t: Token, a: Axis, b: Axis) => t.resolved[a] != null && t.resolved[b] != null && t.resolved[a] !== t.resolved[b]
@@ -51,7 +62,7 @@ function Value({ token, axis }: { token: Token; axis: Axis }) {
   if (value == null) return <span className="token-muted">—</span>
   return (
     <span className="compare-value">
-      {/* Painted from the reference value: this page doesn't load the portfolio CSS. */}
+      {/* Painted from the reference value, so each cell shows its own column's theme and mode. */}
       {token.type === 'color' && <span className="swatch swatch--static" aria-hidden="true" style={{ background: value }} />}
       <code>{value}</code>
     </span>
@@ -98,20 +109,22 @@ export default function ThemesPage() {
       lead={
         <p>
           A default theme is built in, and a brand is a CSS file you load after it. The screen below is the same
-          code twice. Only the CSS each frame loads is different.
+          code twice, on this page. The only difference is a <code>data-brand</code> attribute on the second panel.
         </p>
       }
       sections={added.length > 0 ? [...SECTIONS, { id: 'additions', label: 'What the portfolio adds' }] : SECTIONS}
     >
       <DocSection id="compare" title="Side by side">
+        {/* The portfolio brand names Schibsted Grotesk; the package names the font but doesn't ship it. */}
+        <link rel="stylesheet" href={getBrandFonts('portfolio').href} precedence="default" />
         <ThemeExplorer />
       </DocSection>
 
       <DocSection id="model" title="How themes work">
         <p>
           <strong>Base</strong> is brand-neutral: a real gray, the system font, a near-black accent. It’s
-          complete on its own, so a new project looks finished before it has a brand. Every screen on this site
-          outside the frames above is base.
+          complete on its own, so a new project looks finished before it has a brand. Everything on this site
+          outside the portfolio panel above is base.
         </p>
         <p>
           <strong>A brand</strong> overrides semantic tokens and nothing else, in a file loaded after base.
@@ -121,10 +134,13 @@ export default function ThemesPage() {
         </p>
         <CodeBlock code={SETUP} language="tsx" title="Loading a brand" />
         <CodeBlock code={BRAND_FILE} language="css" title="brand-light.css" />
-        <p className="note">
-          The brand files set their tokens on <code>:root</code>, so a page gets one brand at a time. That’s why
-          the frames above are separate documents.
+        <p>
+          <code>portfolio-light.css</code> and <code>portfolio-dark.css</code> set their tokens on{' '}
+          <code>:root</code>, so they restyle the whole page. To show a brand in one part of a page, as this page
+          does, load <code>portfolio-scoped.css</code> instead of those two and put{' '}
+          <code>data-brand="portfolio"</code> on the part. It follows the page’s <code>data-mode</code>, or its own.
         </p>
+        <CodeBlock code={SCOPED} language="tsx" title="One brand inside a page" />
       </DocSection>
 
       <DocSection

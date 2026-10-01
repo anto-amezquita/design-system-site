@@ -1,6 +1,8 @@
 'use client'
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@amezquita/design-system/components/patterns/Tabs'
+import { DemoProviders } from '@/components/demos/Demo'
+import { SampleScreen } from '@/components/demos/SampleScreen'
 
 const THEMES = [
   { id: 'base', label: 'Base', note: 'Built in. What every project starts from.' },
@@ -8,8 +10,11 @@ const THEMES = [
 ] as const
 
 /**
- * The same sample screen, once per theme, side by side. Each frame is its own
- * document, so the portfolio CSS never touches this page (spec §9, item 1).
+ * The same sample screen, once per theme, side by side on this page. The
+ * Themes page loads portfolio-scoped.css, which applies only under
+ * [data-brand="portfolio"], so the portfolio panel takes the brand and
+ * everything around it stays base. Each panel sets its own data-mode, so the
+ * Light and Dark tabs work whatever mode the page is in.
  */
 export function ThemeExplorer() {
   return (
@@ -27,12 +32,15 @@ export function ThemeExplorer() {
                   <span className="theme-frame__name">{theme.label}</span>
                   <span className="token-muted">{theme.note}</span>
                 </figcaption>
-                <iframe
-                  className="theme-frame__iframe"
-                  src={`/themes/preview/${theme.id}/${mode}`}
-                  title={`Sample screen in the ${theme.label.toLowerCase()} theme, ${mode} mode`}
-                  loading="lazy"
-                />
+                <div
+                  className="theme-frame__panel"
+                  data-mode={mode}
+                  data-brand={theme.id === 'portfolio' ? 'portfolio' : undefined}
+                >
+                  <DemoProviders>
+                    <SampleScreen />
+                  </DemoProviders>
+                </div>
               </figure>
             ))}
           </div>

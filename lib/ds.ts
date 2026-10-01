@@ -68,6 +68,22 @@ export function getTokensByCategory(category: string): Token[] {
   return getTokens().filter(t => t.category === category)
 }
 
+// ─── Fonts ──────────────────────────────────────────────────────────────
+
+export type BrandFonts = {
+  families: { family: string; tokens: string[]; weights: number[] }[]
+  /** The Google Fonts stylesheet with every family and weight the brand's tokens use. */
+  href: string
+  preconnect: string[]
+}
+
+/** The font links each brand needs. The package names the fonts but ships no font files. */
+export function getBrandFonts(brand: 'base' | 'portfolio'): BrandFonts {
+  const fonts = readJson<{ brands: Record<string, BrandFonts> }>('tokens/fonts.json').brands[brand]
+  if (!fonts) throw new Error(`@amezquita/design-system's tokens/fonts.json has no "${brand}" brand.`)
+  return fonts
+}
+
 // ─── Components ─────────────────────────────────────────────────────────
 
 export const TIERS = ['primitives', 'composition', 'patterns'] as const
