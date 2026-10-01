@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { Link } from '@/components/ds/Link'
+import { Link } from '@amezquita/design-system/components/primitives/Link'
 import { Demo, DemoProviders } from '@/components/demos/Demo'
 import { CodeBlock } from '@/components/site/CodeBlock'
 import { DocPage, DocSection } from '@/components/site/DocPage'

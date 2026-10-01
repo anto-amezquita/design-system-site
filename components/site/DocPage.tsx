@@ -1,5 +1,5 @@
 import { Heading } from '@amezquita/design-system/components/primitives/Heading'
-import { Link } from '@/components/ds/Link'
+import { Link } from '@amezquita/design-system/components/primitives/Link'
 
 export type PageSection = { id: string; label: string }
 

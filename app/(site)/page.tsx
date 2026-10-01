@@ -1,7 +1,7 @@
 import NextLink from 'next/link'
 import { Hero } from '@amezquita/design-system/components/patterns/Hero'
 import { Heading } from '@amezquita/design-system/components/primitives/Heading'
-import { Link } from '@/components/ds/Link'
+import { Link } from '@amezquita/design-system/components/primitives/Link'
 import { DemoProviders } from '@/components/demos/Demo'
 import { SampleScreen } from '@/components/demos/SampleScreen'
 import { LandingActions } from '@/components/site/LandingActions'

@@ -1,7 +1,7 @@
 import NextLink from 'next/link'
 import { Lexer, type Token, type Tokens } from 'marked'
 import { Heading } from '@amezquita/design-system/components/primitives/Heading'
-import { Link } from '@/components/ds/Link'
+import { Link } from '@amezquita/design-system/components/primitives/Link'
 import {
   Table,
   TableBody,

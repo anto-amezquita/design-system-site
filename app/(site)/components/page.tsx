@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import NextLink from 'next/link'
-import { Link } from '@/components/ds/Link'
+import { Link } from '@amezquita/design-system/components/primitives/Link'
 import { Demo, DemoProviders } from '@/components/demos/Demo'
 import { DocPage, DocSection } from '@/components/site/DocPage'
 import { TIERS, TIER_DESCRIPTIONS, TIER_LABELS, getPublicComponents, plainText } from '@/lib/ds'

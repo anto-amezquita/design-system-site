@@ -13,13 +13,9 @@ import { join } from 'node:path'
 const PKG = join(process.cwd(), 'node_modules', '@amezquita', 'design-system')
 const read = path => readFileSync(join(PKG, path), 'utf8')
 
+// When a fix lands and its workaround is removed, remove its entry here too.
+// (Spec §9 item 6, the Link client re-export, went this way in 1.1.2.)
 const CHECKS = [
-  {
-    // Spec §9, item 6.
-    workaround: 'components/ds/Link.tsx',
-    fixed: () => /^\s*['"]use client['"]/.test(read('components/primitives/Link/Link.tsx')),
-    todo: 'The package\'s Link now has \'use client\'. Delete components/ds/Link.tsx and import Link from @amezquita/design-system/components/primitives/Link.',
-  },
   {
     // Spec §9, item 1.
     workaround: 'app/(preview)/themes/preview/',

@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from '@amezquita/design-system/components/patterns/Table'
-import { Link } from '@/components/ds/Link'
+import { Link } from '@amezquita/design-system/components/primitives/Link'
 import { CodeBlock } from '@/components/site/CodeBlock'
 import { DocPage, DocSection } from '@/components/site/DocPage'
 import { Markdown } from '@/components/site/Markdown'
