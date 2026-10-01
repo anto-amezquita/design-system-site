@@ -12,22 +12,6 @@ export const metadata: Metadata = {
   description: 'Duration and easing tokens in the base theme, with a demo of each.',
 }
 
-const ROLES: Record<string, string> = {
-  '--duration-interaction': 'hover, press and focus',
-  '--duration-skeleton': 'skeleton pulse',
-  '--duration-transition': 'panel and content swaps',
-  '--duration-entrance': 'dialogs, drawers and large reveals',
-  '--duration-reveal': 'scroll reveals',
-  '--duration-reveal-delay': 'stagger before a reveal',
-  '--duration-spin': 'one spinner rotation',
-}
-
-const EASING_ROLES: Record<string, string> = {
-  '--easing-default': 'most transitions',
-  '--easing-in': 'things leaving the screen',
-  '--easing-out': 'things entering the screen',
-}
-
 /** Duration values may be ms or s: parseInt alone would read "1.2s" as 1. */
 function toMs(value: string): number {
   const match = value.match(/^([\d.]+)(ms|s)?$/)
@@ -65,7 +49,7 @@ export default function MotionPage() {
   const durations: MotionItem[] = durationTokens
     .map(t => {
       const value = t.resolved['base-light'] ?? t.rawValue
-      return { cssVar: t.cssVar, value, ms: toMs(value), role: ROLES[t.cssVar] ?? '' }
+      return { cssVar: t.cssVar, value, ms: toMs(value), description: t.description }
     })
     .sort((a, b) => a.ms - b.ms)
 
@@ -73,7 +57,7 @@ export default function MotionPage() {
     cssVar: t.cssVar,
     value: t.resolved['base-light'] ?? t.rawValue,
     ms: 0,
-    role: EASING_ROLES[t.cssVar] ?? '',
+    description: t.description,
   }))
 
   return (

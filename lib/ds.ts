@@ -45,6 +45,8 @@ export type Token = {
   cssVar: string
   type: string
   category: string
+  /** One line on what the token is for, from its $description. Null where the token has none. */
+  description: string | null
   rawValue: string
   resolved: Partial<Record<Axis, string>>
   axisAware: boolean

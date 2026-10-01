@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { Button } from '@amezquita/design-system/components/primitives/Button'
 
-export type MotionItem = { cssVar: string; value: string; ms: number; role: string }
+/** `description` is the token's own, from the token reference; null where it has none. */
+export type MotionItem = { cssVar: string; value: string; ms: number; description: string | null }
 
 /**
  * Ported from the portfolio's DurationDemo: each duration token drives a bar
@@ -43,7 +44,7 @@ export function MotionDemo({ durations, easings }: { durations: MotionItem[]; ea
           <li key={d.cssVar} className="motion-demo__row">
             <div className="motion-demo__meta">
               <code>{d.cssVar}</code>
-              <span className="token-muted">{d.value} · {d.role}</span>
+              <span className="token-muted">{d.description ? `${d.value} · ${d.description}` : d.value}</span>
             </div>
             <div className="motion-demo__track" aria-hidden="true">
               <span
@@ -64,7 +65,7 @@ export function MotionDemo({ durations, easings }: { durations: MotionItem[]; ea
             <li key={e.cssVar} className="motion-demo__row">
               <div className="motion-demo__meta">
                 <code>{e.cssVar}</code>
-                <span className="token-muted">{e.role}</span>
+                {e.description && <span className="token-muted">{e.description}</span>}
               </div>
               <div className="motion-demo__track" aria-hidden="true">
                 <span
