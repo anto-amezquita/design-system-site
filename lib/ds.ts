@@ -165,6 +165,22 @@ export function listPackageDir(path: string): string[] {
   return readdirSync(full).sort()
 }
 
+export type McpTool = { name: string; description: string }
+
+/**
+ * The MCP server's tools, from the "MCP server" section of llms.txt, which
+ * the library generates from the server itself. Throws if the section or its
+ * list is gone, so the site never shows an empty or stale list.
+ */
+export function getMcpTools(): McpTool[] {
+  const section = getMarkdownSection(readPackageFile('llms.txt'), 'MCP server', 'llms.txt')
+  const tools = [...section.matchAll(/^- `([\w-]+)`: (.+)$/gm)].map(([, name, description]) => ({ name, description }))
+  if (tools.length === 0) {
+    throw new Error('The "MCP server" section of llms.txt in @amezquita/design-system lists no tools any more.')
+  }
+  return tools
+}
+
 export type SkillIndex ={ skills: { name: string; description: string; files: string[] }[] }
 
 export function getSkillIndex(): SkillIndex {
