@@ -12,6 +12,7 @@ const SECTIONS = [
   { id: 'install', label: 'Install' },
   { id: 'compile-it', label: 'Compile it' },
   { id: 'load-the-base-theme', label: 'Load the base theme' },
+  { id: 'load-the-fonts', label: 'Load the fonts' },
   { id: 'your-first-component', label: 'Your first component' },
   { id: 'where-to-go-next', label: 'Where to go next' },
 ]
@@ -20,7 +21,7 @@ export default function GettingStartedPage() {
   return (
     <DocPage
       title="Getting started"
-      lead={<p>From an empty project to a first component in the base theme. Hand it to an AI tool, or do it yourself in four steps.</p>}
+      lead={<p>From an empty project to a first component in the base theme. Hand it to an AI tool, or do it yourself in five steps.</p>}
       sections={SECTIONS}
     >
       <div className="markdown">
