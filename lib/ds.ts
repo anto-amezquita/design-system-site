@@ -110,6 +110,8 @@ export type ComponentEntry = {
   purpose: string
   storybookPath: string
   storybookTitleId: string
+  /** Storybook's id for the component's first story (from 1.3.1), or null when it has no stories. */
+  defaultStoryId: string | null
   tokenPrefix: string | null
   stories: string[]
   tokenCount: number
