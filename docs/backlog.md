@@ -22,7 +22,7 @@ Its job is narrow on purpose: a session should be able to open this file and kno
 
 ### Deploy the site (Antonio)
 
-- **Source:** `specs/2026-09-30-first-build.md`; the first build is on branch `feat/first-build`.
+- **Source:** `specs/2026-09-30-first-build.md`; the first build is on branch `feat/first-build`, and the move to 1.2.0 on `feat/design-system-1-2-0`, branched from it.
 - **What:** review and merge `feat/first-build`; create the Vercel project for this repo (framework Next.js, default build command, no env vars required); add the domain `design.amezquita.dk` to it and the DNS record at the registrar. If the subdomain ends up different, change `SITE_URL` in `lib/site.ts`.
 - **Optional:** set `NEXT_PUBLIC_STORYBOOK_URL` on Vercel to the published Storybook. Without it, component pages leave out their Storybook links.
 
@@ -36,11 +36,11 @@ Its job is narrow on purpose: a session should be able to open this file and kno
 
 ### Library changes this site needs (design-system repo)
 
-Found in the first build; each has a note in the spec (§9). None blocks this site. They're tracked in the design-system repo's own `docs/backlog.md` ("Gaps found by the docs site's first build"), so a library session sees them. `scripts/check-workarounds.mjs` runs before every build here and warns, on the release-sync PR too, when a fix has landed and its workaround can go.
+Found in the first build and the move to 1.2.0; each has a note in the spec (§9). None blocks this site. They're tracked in the design-system repo's own `docs/backlog.md` ("Gaps found by the docs site's first build"), so a library session sees them; the two found in the 1.2.0 move are under "Gaps found putting both brands on one page" there. `scripts/check-workarounds.mjs` runs before every build here and warns, on the release-sync PR too, when a fix has landed and its workaround can go.
 
-- **A brand scope in the brand CSS.** `portfolio-*.css` targets `:root` and `[data-mode]`, so one page can only show one brand. Something like `[data-brand="portfolio"]` would let Themes render both brands on one page and drop its preview frames.
-- **Doc twins resolve token values from the portfolio brand.** `docs/components/*.md` Tokens tables show portfolio values (e.g. Button's `--button-secondary-border` is `#292524`). The registry had the same bug, fixed in 1.1.1. This site builds component token tables from `token-reference.json` instead.
-- **`tokens/changelog.json` stops at `v1.1.0`.** The site reads `CHANGELOG.md`, so nothing here is wrong, but the JSON is stale for anyone else.
+- **`tokens/changelog.json` lags a release.** In 1.2.0 it stops at `v1.1.2`. The site reads `CHANGELOG.md`, so nothing here is wrong, but the JSON is stale for anyone else.
+- **Breadcrumb takes no `aria-label`.** It hardcodes "Breadcrumb", so two on one page (Themes) are duplicate landmarks. The site renames them with an effect in `components/themes/ThemeExplorer.tsx` (spec §9, item 9); `check-workarounds.mjs` warns when the prop lands.
+- **Menu and Select popovers leave the brand scope.** Both portal to `<body>`, outside `[data-brand="portfolio"]`, so opening one in Themes' portfolio panel shows a base popover. The library item proposes a `BrandScope` component that overlays read from (spec §9, item 10). No workaround here; `npm run check:themes` warns while the gap is open and when a release fixes it. Before that release is published, install the library's `npm pack` tarball here on a throwaway branch and run the check against it.
 - **Switch the agent files' URLs to the subdomain.** `llms.txt`, `llms-full.txt`, `SKILL.md` and the registry point at `amezquita.dk`, and the doc twins at `/design-system/<slug>.md`. On this site the twins are at `/components/<slug>.md`. Do it after the deploy, so the new URLs resolve when the release goes out.
 
 ### Site follow-ups

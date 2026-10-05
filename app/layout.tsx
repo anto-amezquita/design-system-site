@@ -3,6 +3,7 @@ import '@amezquita/design-system/styles/reset.css'
 import '@amezquita/design-system/styles/brands/base-light.css'
 import '@amezquita/design-system/styles/brands/base-dark.css'
 import './site.css'
+import { getBrandFonts } from '@/lib/ds'
 import { SITE_URL } from '@/lib/site'
 
 export const metadata: Metadata = {
@@ -20,17 +21,17 @@ export const metadata: Metadata = {
 const colorSchemeScript = `try{if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.mode='dark'}catch(e){}`
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const fonts = getBrandFonts('base')
+  const stylesheetOrigin = new URL(fonts.href).origin
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: colorSchemeScript }} />
-        {/* The base theme names JetBrains Mono for code; load it so code renders as specified. */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap"
-        />
+        {/* The base theme's fonts, from the package's tokens/fonts.json. Font files are CORS requests. */}
+        {fonts.preconnect.map(origin => (
+          <link key={origin} rel="preconnect" href={origin} crossOrigin={origin === stylesheetOrigin ? undefined : ''} />
+        ))}
+        <link rel="stylesheet" href={fonts.href} />
       </head>
       <body>{children}</body>
     </html>

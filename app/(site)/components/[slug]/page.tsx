@@ -5,11 +5,9 @@ import { Demo, DemoProviders } from '@/components/demos/Demo'
 import { CodeBlock } from '@/components/site/CodeBlock'
 import { DocPage, DocSection } from '@/components/site/DocPage'
 import { Markdown } from '@/components/site/Markdown'
-import { TokenTable } from '@/components/site/TokenTable'
 import {
   TIER_LABELS,
   getComponentDoc,
-  getComponentTokens,
   getPublicComponents,
   getSubComponents,
   plainText,
@@ -39,17 +37,13 @@ export default async function ComponentPage({ params }: Props) {
   if (!component) notFound()
 
   const twin = getComponentDoc(slug)
-  // The twin's Tokens table shows the portfolio brand's values. This site
-  // documents base, so the tokens come from the token reference instead.
-  const twinSections = twin ? splitTwin(twin).filter(s => s.heading !== 'Tokens') : []
-  const tokens = getComponentTokens(component)
+  const twinSections = twin ? splitTwin(twin) : []
   const subComponents = getSubComponents(slug)
   const importStatement = (twin && importLine(twin)) ?? null
 
   const sections = [
     { id: 'live', label: 'Live render' },
     ...twinSections.map(s => ({ id: s.id, label: s.heading })),
-    ...(tokens.length > 0 ? [{ id: 'tokens', label: 'Tokens' }] : []),
     ...(subComponents.length > 0 ? [{ id: 'sub-components', label: 'Sub-components' }] : []),
   ]
 
@@ -94,16 +88,6 @@ export default async function ComponentPage({ params }: Props) {
           <Markdown source={section.body} headingLevel={3} idPrefix={`${section.id}-`} />
         </DocSection>
       ))}
-
-      {tokens.length > 0 && (
-        <DocSection
-          id="tokens"
-          title="Tokens"
-          lead={<p>{component.name}’s own tokens in the base theme. Override them in your CSS to change this component without touching the others.</p>}
-        >
-          <TokenTable tokens={tokens} label={`${component.name} tokens`} />
-        </DocSection>
-      )}
 
       {subComponents.length > 0 && (
         <DocSection id="sub-components" title="Sub-components" lead={<p>Imported from the same path as {component.name}.</p>}>

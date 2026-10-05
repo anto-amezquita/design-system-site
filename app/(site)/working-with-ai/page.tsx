@@ -14,6 +14,7 @@ import { Markdown } from '@/components/site/Markdown'
 import {
   getAgentsMarkdown,
   getMarkdownSection,
+  getMcpTools,
   getPublicComponents,
   getSkillIndex,
   listPackageDir,
@@ -24,18 +25,6 @@ export const metadata: Metadata = {
   title: 'Working with AI',
   description: 'The agent skill, llms.txt, tokens.json, the shadcn registry and the component docs an AI coding agent reads.',
 }
-
-// Ported from the portfolio's Guidelines page. The MCP server isn't in the
-// package, so this list is kept by hand.
-const MCP_TOOLS = [
-  { name: 'list_components', desc: 'Every public component: name, slug, tier, purpose, token count.' },
-  { name: 'get_component', desc: 'One component’s compiled doc: real props, real tokens, a real usage example.' },
-  { name: 'search_tokens', desc: 'Search tokens by name or category, with resolved values.' },
-  { name: 'get_token', desc: 'One token’s full entry: raw value, the value per theme and mode, and what uses it.' },
-  { name: 'validate_token', desc: 'Checks a var() or token name against the real rules before it ships.' },
-  { name: 'get_registry_item', desc: 'The shadcn-spec manifest for a component, to decide between installing it and writing it by hand.' },
-  { name: 'get_skill', desc: 'The current agent skill.' },
-]
 
 const SECTIONS = [
   { id: 'files', label: 'The files' },
@@ -50,6 +39,7 @@ export default function WorkingWithAiPage() {
   const manifests = listPackageDir('registry').filter(f => f.endsWith('.json') && f !== 'registry.json')
   const twins = listPackageDir('docs/components').filter(f => f.endsWith('.md'))
   const example = getPublicComponents()[0]?.slug ?? 'button'
+  const mcpTools = getMcpTools()
   const rules = getMarkdownSection(getAgentsMarkdown(), 'Never violate', 'AGENTS.md')
 
   const files = [
@@ -156,10 +146,10 @@ export default function WorkingWithAiPage() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {MCP_TOOLS.map(t => (
+              {mcpTools.map(t => (
                 <TableRow key={t.name}>
                   <TableCell><code>{t.name}</code></TableCell>
-                  <TableCell><span className="table-prose">{t.desc}</span></TableCell>
+                  <TableCell><span className="table-prose">{t.description}</span></TableCell>
                 </TableRow>
               ))}
             </TableBody>

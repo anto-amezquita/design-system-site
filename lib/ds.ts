@@ -45,6 +45,8 @@ export type Token = {
   cssVar: string
   type: string
   category: string
+  /** One line on what the token is for, from its $description. Null where the token has none. */
+  description: string | null
   rawValue: string
   resolved: Partial<Record<Axis, string>>
   axisAware: boolean
@@ -66,6 +68,22 @@ export function getTokens(): Token[] {
 
 export function getTokensByCategory(category: string): Token[] {
   return getTokens().filter(t => t.category === category)
+}
+
+// ─── Fonts ──────────────────────────────────────────────────────────────
+
+export type BrandFonts = {
+  families: { family: string; tokens: string[]; weights: number[] }[]
+  /** The Google Fonts stylesheet with every family and weight the brand's tokens use. */
+  href: string
+  preconnect: string[]
+}
+
+/** The font links each brand needs. The package names the fonts but ships no font files. */
+export function getBrandFonts(brand: 'base' | 'portfolio'): BrandFonts {
+  const fonts = readJson<{ brands: Record<string, BrandFonts> }>('tokens/fonts.json').brands[brand]
+  if (!fonts) throw new Error(`@amezquita/design-system's tokens/fonts.json has no "${brand}" brand.`)
+  return fonts
 }
 
 // ─── Components ─────────────────────────────────────────────────────────
@@ -117,11 +135,6 @@ export function getSubComponents(parentSlug: string): ComponentEntry[] {
   return getComponentRegistry().components.filter(c => c.parent === parentSlug)
 }
 
-export function getComponentTokens(component: ComponentEntry): Token[] {
-  if (!component.tokenPrefix) return []
-  return getTokens().filter(t => t.category === 'component' && t.name.startsWith(`${component.tokenPrefix}-`))
-}
-
 /** The compiled Markdown twin for a component, or null if the package has none. */
 export function getComponentDoc(slug: string): string | null {
   const path = `docs/components/${slug}.md`
@@ -150,6 +163,22 @@ export function listPackageDir(path: string): string[] {
     throw new Error(`@amezquita/design-system doesn't ship ${path}/. Check the package's "files" list.`)
   }
   return readdirSync(full).sort()
+}
+
+export type McpTool = { name: string; description: string }
+
+/**
+ * The MCP server's tools, from the "MCP server" section of llms.txt, which
+ * the library generates from the server itself. Throws if the section or its
+ * list is gone, so the site never shows an empty or stale list.
+ */
+export function getMcpTools(): McpTool[] {
+  const section = getMarkdownSection(readPackageFile('llms.txt'), 'MCP server', 'llms.txt')
+  const tools = [...section.matchAll(/^- `([\w-]+)`: (.+)$/gm)].map(([, name, description]) => ({ name, description }))
+  if (tools.length === 0) {
+    throw new Error('The "MCP server" section of llms.txt in @amezquita/design-system lists no tools any more.')
+  }
+  return tools
 }
 
 export type SkillIndex ={ skills: { name: string; description: string; files: string[] }[] }

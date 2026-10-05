@@ -1,4 +1,4 @@
-import { getPackageVersion } from '@/lib/ds'
+import { getBrandFonts, getPackageVersion } from '@/lib/ds'
 import { CodeBlock } from '@/components/site/CodeBlock'
 
 export const PROMPT = `Set up @amezquita/design-system in this project and build what I describe next with it.
@@ -6,7 +6,7 @@ export const PROMPT = `Set up @amezquita/design-system in this project and build
 1. Install it: npm install @amezquita/design-system
 2. Read node_modules/@amezquita/design-system/skills/amezquita-design-system/SKILL.md before writing any UI. It lists the components, their import paths and the rules.
 3. On Next.js, add '@amezquita/design-system' to transpilePackages in next.config. The package ships source, not a build.
-4. Import styles/brands/base-light.css and styles/brands/base-dark.css once, in the root layout.
+4. Import styles/brands/base-light.css and styles/brands/base-dark.css once, in the root layout, and add the font links listed for base in node_modules/@amezquita/design-system/tokens/fonts.json.
 5. For a component's props, read node_modules/@amezquita/design-system/docs/components/<slug>.md. Only use tokens listed in node_modules/@amezquita/design-system/tokens.json. Don't invent props or tokens.`
 
 export const NEXT_CONFIG = `const nextConfig = {
@@ -17,6 +17,19 @@ export default nextConfig`
 
 export const THEME_IMPORTS = `import '@amezquita/design-system/styles/brands/base-light.css'
 import '@amezquita/design-system/styles/brands/base-dark.css'`
+
+export const FONTS = getBrandFonts('base')
+
+export const FONT_LINKS = [
+  // The stylesheet's own origin is a plain preconnect; the font files come
+  // from the others, and font requests are CORS, so those need crossorigin.
+  ...FONTS.preconnect.map(origin =>
+    origin === new URL(FONTS.href).origin
+      ? `<link rel="preconnect" href="${origin}" />`
+      : `<link rel="preconnect" href="${origin}" crossorigin />`,
+  ),
+  `<link rel="stylesheet" href="${FONTS.href}" />`,
+].join('\n')
 
 export const FIRST_COMPONENT = `import { Button } from '@amezquita/design-system/components/primitives/Button'
 
@@ -53,6 +66,14 @@ Import the two base theme files once, at the root of your app. Light is the defa
 <CodeBlock code={THEME_IMPORTS} language="tsx" title="app/layout.tsx" />
 
 To use your own brand on top, load its CSS after these two. [Themes](/themes) shows how.
+
+## Load the fonts
+
+The package names its fonts but doesn't ship the font files. Base needs {FONTS.families.map(f => `${f.family} (${f.tokens.map(t => `--${t}`).join(', ')})`).join(' and ')}; text uses the system font. Add these links to your document's `<head>`:
+
+<CodeBlock code={FONT_LINKS} language="html" title="In your document’s <head>" />
+
+A brand can name other fonts. `tokens/fonts.json` in the package has the link for each brand, with the weights its tokens use.
 
 ## Your first component
 
