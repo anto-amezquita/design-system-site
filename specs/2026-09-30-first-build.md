@@ -184,7 +184,7 @@ Site frame, on-page contents list, token table, live-render map, sample screen (
 2. **The doc twins are served at `/components/<slug>.md`, next to their page, not at `/design-system/<slug>.md`** as the URLs inside the package's `llms.txt` and `SKILL.md` say. The old path makes no sense on a site with no `/design-system` section. The portfolio's redirect maps `/design-system/<slug>.md` to the new path, and the library's generators need the new path when they switch origin (backlog).
 3. **`/tokens` is not moved.** 0001 left this to be checked on the move. The four Foundations pages plus the "Other tokens" table on `/foundations` show every semantic token, component tokens show on their component pages, and primitives are deliberately not offered for use (the package's linter forbids them in component CSS). The full list, primitives included, is `/tokens.json`.
 4. **The Changelog is built from `CHANGELOG.md`, not `tokens/changelog.json`.** In 1.1.1 the JSON stops at `v1.1.0`, while `CHANGELOG.md` has 1.1.1. 0017 names `CHANGELOG.md` as the source anyway; the portfolio used the JSON. In 1.2.0 the JSON stops at `v1.1.2`, still one release behind.
-5. **The package is pinned to an exact version (`1.2.0` now), not a range,** so the release sync PR is the only thing that changes it, as 0001 item 3 intends.
+5. **The package is pinned to an exact version (`1.2.1` now), not a range,** so the release sync PR is the only thing that changes it, as 0001 item 3 intends.
 
 Found during the build:
 
