@@ -29,7 +29,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return { title: component.name, description: plainText(component.purpose) }
 }
 
-const STORYBOOK_URL = process.env.NEXT_PUBLIC_STORYBOOK_URL
+// The library's Storybook for main, on GitHub Pages:
+// https://anto-amezquita.github.io/design-system (set on Vercel). Unset, the links are left out.
+const STORYBOOK_URL = process.env.NEXT_PUBLIC_STORYBOOK_URL?.replace(/\/$/, '')
 
 export default async function ComponentPage({ params }: Props) {
   const { slug } = await params
@@ -56,10 +58,11 @@ export default async function ComponentPage({ params }: Props) {
           <p>{plainText(component.purpose)}</p>
           <p className="note">
             <Link href={`/components/${slug}.md`} variant="standalone">Markdown version for agents</Link>
-            {STORYBOOK_URL && component.stories.length > 0 && (
+            {STORYBOOK_URL && component.defaultStoryId && (
               <>
                 {' · '}
-                <Link href={`${STORYBOOK_URL}/?path=/docs/${component.storybookTitleId}--docs`} variant="standalone" external>
+                {/* The library's Storybook has no docs pages, so link the first story (the registry's id, Storybook's own). */}
+                <Link href={`${STORYBOOK_URL}/?path=/story/${component.defaultStoryId}`} variant="standalone" external>
                   {component.stories.length} stories in Storybook
                 </Link>
               </>

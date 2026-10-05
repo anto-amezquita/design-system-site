@@ -28,7 +28,7 @@ Found in the first build and the moves to 1.2.0 and 1.3.0; each has a note in th
 
 ### Site follow-ups
 
-- **Storybook links (Antonio).** `NEXT_PUBLIC_STORYBOOK_URL` isn't set on Vercel, so component pages leave out their Storybook links. Copy the value from the portfolio's Vercel project (Settings → Environment Variables), add it to this one, and redeploy: Next bakes it in at build time.
+- **Storybook links (Antonio).** Set `NEXT_PUBLIC_STORYBOOK_URL` = `https://anto-amezquita.github.io/design-system` on Vercel (Production and Preview) and redeploy. The code links each component page to its first story there (1.3.1's `defaultStoryId`); without the variable the links are left out.
 
 - **A light/dark switch.** The site follows the system setting only. A switch would let a reader compare modes without changing their OS; the token tables already show both values.
 - **Fill in `docs/architecture.md`.** It's still the starter kit's template. The stack and structure are in the spec's §7 and should move there once they've settled.
