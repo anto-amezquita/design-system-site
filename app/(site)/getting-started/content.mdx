@@ -1,0 +1,69 @@
+import { getPackageVersion } from '@/lib/ds'
+import { CodeBlock } from '@/components/site/CodeBlock'
+
+export const PROMPT = `Set up @amezquita/design-system in this project and build what I describe next with it.
+
+1. Install it: npm install @amezquita/design-system
+2. Read node_modules/@amezquita/design-system/skills/amezquita-design-system/SKILL.md before writing any UI. It lists the components, their import paths and the rules.
+3. On Next.js, add '@amezquita/design-system' to transpilePackages in next.config. The package ships source, not a build.
+4. Import styles/brands/base-light.css and styles/brands/base-dark.css once, in the root layout.
+5. For a component's props, read node_modules/@amezquita/design-system/docs/components/<slug>.md. Only use tokens listed in node_modules/@amezquita/design-system/tokens.json. Don't invent props or tokens.`
+
+export const NEXT_CONFIG = `const nextConfig = {
+  transpilePackages: ['@amezquita/design-system'],
+}
+
+export default nextConfig`
+
+export const THEME_IMPORTS = `import '@amezquita/design-system/styles/brands/base-light.css'
+import '@amezquita/design-system/styles/brands/base-dark.css'`
+
+export const FIRST_COMPONENT = `import { Button } from '@amezquita/design-system/components/primitives/Button'
+
+export default function Page() {
+  return <Button>Save changes</Button>
+}`
+
+## Start with your AI tool
+
+Paste this into Claude Code, Cursor or whichever tool you build with, then describe the screen you want. The skill it points to ships inside the package, so the agent reads the version you installed.
+
+<CodeBlock code={PROMPT} language="text" title="Prompt" />
+
+## Install
+
+```bash
+npm install @amezquita/design-system
+```
+
+This installs {getPackageVersion()}, the version this site is built from. It needs `react` and `react-dom` 19.
+
+## Compile it
+
+The package ships `.tsx` and `.css` source rather than a pre-built bundle, so your bundler has to process it. On Next.js, add it to `transpilePackages`:
+
+<CodeBlock code={NEXT_CONFIG} language="js" title="next.config.mjs" />
+
+Vite needs nothing for dev. If a production build hits a pre-bundling error, add the package to `optimizeDeps.include`.
+
+## Load the base theme
+
+Import the two base theme files once, at the root of your app. Light is the default. Set `data-mode="dark"` on `<html>`, or on any element, to switch that part of the page to dark.
+
+<CodeBlock code={THEME_IMPORTS} language="tsx" title="app/layout.tsx" />
+
+To use your own brand on top, load its CSS after these two. [Themes](/themes) shows how.
+
+## Your first component
+
+Every component has its own import path. There's no barrel file, so you only bundle what you use.
+
+<CodeBlock code={FIRST_COMPONENT} language="tsx" title="app/page.tsx" />
+
+Buttons are functional by default: a plain background change on hover. Add `motion="expressive"` for the animated hover and `arrow` for a trailing arrow.
+
+## Where to go next
+
+- [Components](/components): every component, live, with its props and tokens.
+- [Foundations](/foundations): the tokens to write your own CSS with.
+- [Working with AI](/working-with-ai): the skill, `llms.txt` and the component registry.
