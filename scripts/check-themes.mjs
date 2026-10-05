@@ -10,9 +10,10 @@
 //    everything inside it resolves portfolio, and the page is still base
 //    after client-side navigation away from Themes.
 // 3. axe-core is clean on Themes, on both tabs.
-// 4. Known gap (spec §9, item 10): a menu opened from the portfolio panel
-//    renders outside it, in base. It warns while that's true, and warns again
-//    when it stops being true, so the check can become a hard one.
+// 4. A menu opened from either panel matches its panel, brand and mode,
+//    although it renders at the end of <body>. The panels are ThemeScopes
+//    (library 1.3.0, decisions/0021); before that, the portfolio panel's menu
+//    came out in base (spec §9, item 10).
 //
 // Expected values come from the package's token-reference.json, never from
 // this file, so a release that changes a colour doesn't break the check.
@@ -38,7 +39,6 @@ const fail = message => {
   console.error(ci ? `::error::${message}` : `✗ ${message}`)
 }
 const pass = message => console.log(`✓ ${message}`)
-const warn = message => console.warn(ci ? `::warning::${message}` : `⚠ ${message}`)
 
 if (!existsSync(join(NEXT, 'BUILD_ID'))) {
   console.error('check-themes: no build in .next. Run `npm run build` first.')
@@ -163,7 +163,6 @@ function readThemes(page) {
 }
 
 let browser
-let popoverInBrand = null
 try {
   await waitForServer()
   browser = await launch()
@@ -204,14 +203,22 @@ try {
       else pass(`${at}: axe clean on /themes`)
     }
 
-    // Known gap, spec §9 item 10: Menu portals to <body>, outside the brand scope.
-    await page.locator('.theme-frame__panel[data-brand="portfolio"]').getByRole('button', { name: 'More' }).first().click()
-    const menu = page.getByRole('menu').first()
-    await menu.waitFor()
-    const accent = await menu.evaluate(el => getComputedStyle(el).getPropertyValue('--color-accent-default').trim().toLowerCase())
-    const mode = await page.locator('.theme-frame__panel[data-brand="portfolio"]').first().getAttribute('data-mode')
-    popoverInBrand = (popoverInBrand ?? true) && accent === expected('--color-accent-default', `portfolio-${mode}`)
-    await page.keyboard.press('Escape')
+    // A menu portals to <body>; it must still match the panel it was opened from.
+    // The Dark tab is open here, so on a light system the base panel's menu
+    // checks the mode side and the portfolio panel's checks brand and mode.
+    for (const brand of ['base', 'portfolio']) {
+      const panel = page.locator(brand === 'portfolio' ? '.theme-frame__panel[data-brand="portfolio"]' : '.theme-frame__panel:not([data-brand])').first()
+      const panelMode = await panel.getAttribute('data-mode')
+      await panel.getByRole('button', { name: 'More' }).click()
+      const menu = page.getByRole('menu').first()
+      await menu.waitFor()
+      const accent = await menu.evaluate(el => getComputedStyle(el).getPropertyValue('--color-accent-default').trim().toLowerCase())
+      const want = expected('--color-accent-default', `${brand}-${panelMode}`)
+      if (accent !== want) fail(`system ${scheme}: a menu opened from the ${brand} panel (${panelMode}) has accent ${accent}, not ${brand}-${panelMode}'s ${want}`)
+      else pass(`system ${scheme}: a menu opened from the ${brand} panel matches it (${brand}-${panelMode})`)
+      await page.keyboard.press('Escape')
+      await menu.waitFor({ state: 'detached' })
+    }
 
     // Route CSS stays loaded after client-side navigation; the scope must keep it inert.
     await page.locator('a[href="/foundations"]').first().click()
@@ -232,14 +239,6 @@ try {
     await page.close()
   }
 
-  if (popoverInBrand) {
-    warn(
-      'Known gap fixed: a menu opened from the portfolio panel now takes the portfolio brand. ' +
-      'Close spec §9 item 10, and make this a hard check in scripts/check-themes.mjs.',
-    )
-  } else {
-    warn('Known gap (spec §9, item 10): a menu opened from the portfolio panel renders in base. Waits on the library (BrandScope).')
-  }
 } catch (error) {
   fail(error.message)
 } finally {

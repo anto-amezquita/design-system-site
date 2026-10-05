@@ -1,7 +1,7 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@amezquita/design-system/components/patterns/Tabs'
+import { ThemeScope } from '@amezquita/design-system/components/composition/ThemeScope'
 import { SampleScreen } from '@/components/demos/SampleScreen'
 
 const THEMES = [
@@ -11,61 +11,41 @@ const THEMES = [
 
 /**
  * The same sample screen, once per theme, side by side on this page. The
- * Themes page loads portfolio-scoped.css, which applies only under
- * [data-brand="portfolio"], so the portfolio panel takes the brand and
- * everything around it stays base. Each panel sets its own data-mode, so the
- * Light and Dark tabs work whatever mode the page is in.
+ * Themes page loads portfolio-scoped.css, and each panel is a ThemeScope:
+ * the portfolio one sets the brand, both set the tab's mode, so the tabs work
+ * whatever mode the page is in. Menus and selects opened in a panel follow
+ * it, although they render at the end of the page (the library's
+ * decisions/0021).
  */
 export function ThemeExplorer() {
-  const root = useRef<HTMLDivElement>(null)
-
-  // Two sample screens on one page give two <nav aria-label="Breadcrumb">
-  // landmarks, and the package's Breadcrumb takes no aria-label to tell them
-  // apart. Name each one after its panel. Spec §9; check-workarounds.mjs
-  // warns when Breadcrumb accepts aria-label and this can go.
-  useEffect(() => {
-    const label = () =>
-      root.current?.querySelectorAll<HTMLElement>('.theme-frame__panel').forEach(panel => {
-        const nav = panel.querySelector('nav.breadcrumb')
-        nav?.setAttribute('aria-label', `Breadcrumb, ${panel.dataset.theme} theme`)
-      })
-    label()
-    // Tabs mount the other mode's panels when it's selected.
-    const observer = new MutationObserver(label)
-    if (root.current) observer.observe(root.current, { childList: true, subtree: true })
-    return () => observer.disconnect()
-  }, [])
-
   return (
-    <div ref={root}>
-      <Tabs defaultValue="light" variant="pill" size="sm">
-        <TabsList aria-label="Colour mode">
-          <TabsTrigger value="light">Light</TabsTrigger>
-          <TabsTrigger value="dark">Dark</TabsTrigger>
-        </TabsList>
-        {(['light', 'dark'] as const).map(mode => (
-          <TabsContent key={mode} value={mode}>
-            <div className="theme-frames">
-              {THEMES.map(theme => (
-                <figure key={theme.id} className="theme-frame">
-                  <figcaption className="theme-frame__caption">
-                    <span className="theme-frame__name">{theme.label}</span>
-                    <span className="token-muted">{theme.note}</span>
-                  </figcaption>
-                  <div
-                    className="theme-frame__panel"
-                    data-mode={mode}
-                    data-brand={theme.id === 'portfolio' ? 'portfolio' : undefined}
-                    data-theme={theme.id}
-                  >
-                    <SampleScreen />
-                  </div>
-                </figure>
-              ))}
-            </div>
-          </TabsContent>
-        ))}
-      </Tabs>
-    </div>
+    <Tabs defaultValue="light" variant="pill" size="sm">
+      <TabsList aria-label="Colour mode">
+        <TabsTrigger value="light">Light</TabsTrigger>
+        <TabsTrigger value="dark">Dark</TabsTrigger>
+      </TabsList>
+      {(['light', 'dark'] as const).map(mode => (
+        <TabsContent key={mode} value={mode}>
+          <div className="theme-frames">
+            {THEMES.map(theme => (
+              <figure key={theme.id} className="theme-frame">
+                <figcaption className="theme-frame__caption">
+                  <span className="theme-frame__name">{theme.label}</span>
+                  <span className="token-muted">{theme.note}</span>
+                </figcaption>
+                <ThemeScope
+                  className="theme-frame__panel"
+                  mode={mode}
+                  brand={theme.id === 'portfolio' ? 'portfolio' : undefined}
+                >
+                  {/* Two sample screens on one page: name each breadcrumb landmark. */}
+                  <SampleScreen breadcrumbLabel={`Breadcrumb, ${theme.label.toLowerCase()} theme`} />
+                </ThemeScope>
+              </figure>
+            ))}
+          </div>
+        </TabsContent>
+      ))}
+    </Tabs>
   )
 }

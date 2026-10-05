@@ -25,6 +25,7 @@ import { Drawer } from '@amezquita/design-system/components/composition/Drawer'
 import { Menu } from '@amezquita/design-system/components/composition/Menu'
 import { NavigationMenu } from '@amezquita/design-system/components/composition/NavigationMenu'
 import { ToastProvider, useToast } from '@amezquita/design-system/components/composition/Toast'
+import { ThemeScope } from '@amezquita/design-system/components/composition/ThemeScope'
 import { Tooltip, TooltipProvider } from '@amezquita/design-system/components/composition/Tooltip'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@amezquita/design-system/components/patterns/Accordion'
 import { Breadcrumb } from '@amezquita/design-system/components/patterns/Breadcrumb'
@@ -290,6 +291,22 @@ function MenuDemo() {
   )
 }
 
+// Mode only: the portfolio CSS loads on Themes alone, and Themes shows the
+// brand side. Open either menu: it renders at the end of the page and still
+// matches its panel.
+function ThemeScopeDemo() {
+  return (
+    <div className="theme-frames">
+      {(['light', 'dark'] as const).map(mode => (
+        <ThemeScope key={mode} mode={mode} className="theme-frame__panel">
+          <p>A {mode} part of the page.</p>
+          <MenuDemo />
+        </ThemeScope>
+      ))}
+    </div>
+  )
+}
+
 function NavigationMenuDemo() {
   return (
     <NavigationMenu
@@ -465,6 +482,7 @@ const DEMOS: Record<string, () => React.ReactNode> = {
   drawer: DrawerDemo,
   menu: MenuDemo,
   'navigation-menu': NavigationMenuDemo,
+  'theme-scope': ThemeScopeDemo,
   toast: ToastDemo,
   tooltip: TooltipDemo,
   accordion: AccordionDemo,

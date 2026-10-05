@@ -27,13 +27,14 @@ const MEMBERS = [
  * base; the Themes frames show the same screen per theme, so the only thing
  * that changes between them is the CSS the page loads.
  */
-export function SampleScreen() {
+/** `breadcrumbLabel` names the breadcrumb landmark, for pages that show the screen more than once (Themes). */
+export function SampleScreen({ breadcrumbLabel }: { breadcrumbLabel?: string } = {}) {
   const id = useId()
   const [saved, setSaved] = useState(false)
 
   return (
     <div className="sample">
-      <Breadcrumb items={[{ label: 'Projects', href: '#projects' }, { label: 'Ajar', href: '#ajar' }, { label: 'Settings' }]} />
+      <Breadcrumb aria-label={breadcrumbLabel} items={[{ label: 'Projects', href: '#projects' }, { label: 'Ajar', href: '#ajar' }, { label: 'Settings' }]} />
       <div className="sample__head">
         <Heading level={4} as="h2">Project settings</Heading>
         <Menu

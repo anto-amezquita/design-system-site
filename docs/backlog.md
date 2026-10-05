@@ -22,12 +22,9 @@ Its job is narrow on purpose: a session should be able to open this file and kno
 
 ### Library changes this site needs (design-system repo)
 
-Found in the first build and the move to 1.2.0; each has a note in the spec (§9). None blocks this site. They're tracked in the design-system repo's own `docs/backlog.md` ("Gaps found by the docs site's first build"), so a library session sees them; the two found in the 1.2.0 move are under "Gaps found putting both brands on one page" there. `scripts/check-workarounds.mjs` runs before every build here and warns, on the release-sync PR too, when a fix has landed and its workaround can go.
+Found in the first build and the moves to 1.2.0 and 1.3.0; each has a note in the spec (§9). None blocks this site. They're tracked in the design-system repo's own `docs/backlog.md` ("Gaps found by the docs site's first build"), so a library session sees them. `scripts/check-workarounds.mjs` runs before every build here and warns, on the release-sync PR too, when a fix has landed and its workaround can go.
 
 - **`tokens/changelog.json` lags a release.** In 1.2.0 it stops at `v1.1.2`. The site reads `CHANGELOG.md`, so nothing here is wrong, but the JSON is stale for anyone else.
-- **Breadcrumb takes no `aria-label`.** It hardcodes "Breadcrumb", so two on one page (Themes) are duplicate landmarks. The site renames them with an effect in `components/themes/ThemeExplorer.tsx` (spec §9, item 9); `check-workarounds.mjs` warns when the prop lands.
-- **Menu and Select popovers leave the brand scope.** Both portal to `<body>`, outside `[data-brand="portfolio"]`, so opening one in Themes' portfolio panel shows a base popover. The library item proposes a `BrandScope` component that overlays read from (spec §9, item 10). No workaround here; `npm run check:themes` warns while the gap is open and when a release fixes it. Before that release is published, install the library's `npm pack` tarball here on a throwaway branch and run the check against it.
-- **Switch the agent files' URLs to the subdomain.** `llms.txt`, `llms-full.txt`, `SKILL.md` and the registry point at `amezquita.dk`, and the doc twins at `/design-system/<slug>.md`. On this site the twins are at `/components/<slug>.md`. Since 2026-10-05 the portfolio redirects all of these here (its `specs/2026-10-05-move-docs-to-design-site.md`), so they work, but every agent and every `npx shadcn add` takes one or two extra hops. Pointing them here directly makes the redirects a fallback. Can go in the next release.
 
 ### Site follow-ups
 
