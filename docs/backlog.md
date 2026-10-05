@@ -33,12 +33,6 @@ Found in the first build and the moves to 1.2.0 and 1.3.0; each has a note in th
 - **A light/dark switch.** The site follows the system setting only. A switch would let a reader compare modes without changing their OS; the token tables already show both values.
 - **Fill in `docs/architecture.md`.** It's still the starter kit's template. The stack and structure are in the spec's §7 and should move there once they've settled.
 
-### Release sync workflow
-
-- **Source:** `decisions/0001`, item 3.
-- **What:** a workflow that receives the library's `design-system-released` dispatch, bumps `@amezquita/design-system`, rebuilds and opens a PR, modelled on the portfolio's `sync-design-system.yml`. That workflow works end to end: on 2026-10-05 a dispatch for 1.3.0 made it open portfolio PR #8. The package is pinned to an exact version in `package.json`, so the workflow sets the exact new version (`npm install --save-exact @amezquita/design-system@<version>`). `npm run build` also runs the agent-surface sync, so the PR's build checks the new release's files.
-- **Status:** built in `.github/workflows/sync-design-system.yml` (2026-10-05): bump, then typecheck, build and `check:themes` as the gate, then a PR, or an issue naming the failed step. The App is installed here. Still to do, in order: this repo's `SELF_HEAL_APP_CLIENT_ID` and `SELF_HEAL_APP_PRIVATE_KEY` secrets; merge the workflow (a `repository_dispatch` only runs workflows on `main`); test it with a hand-sent dispatch; then this repo added as a second dispatch target in the library's `release.yml`, so a real release reaches it.
-
 ---
 
 ## 3. What doesn't belong here
