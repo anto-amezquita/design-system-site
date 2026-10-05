@@ -2,8 +2,6 @@ import NextLink from 'next/link'
 import { Hero } from '@amezquita/design-system/components/patterns/Hero'
 import { Heading } from '@amezquita/design-system/components/primitives/Heading'
 import { Link } from '@amezquita/design-system/components/primitives/Link'
-import { DemoProviders } from '@/components/demos/Demo'
-import { SampleScreen } from '@/components/demos/SampleScreen'
 import { LandingActions } from '@/components/site/LandingActions'
 import { PACKAGE_NAME, getPackageVersion, getPublicComponents, getTokenReference } from '@/lib/ds'
 
@@ -31,20 +29,6 @@ export default function LandingPage() {
         lead="A token-first React component library. Everything on this site is what a new project gets after npm install: the brand-neutral base theme, unskinned."
         actions={<LandingActions />}
       />
-
-      <section className="landing__screen" aria-labelledby="in-use">
-        <div className="landing__screen-head">
-          <Heading level={5} as="h2" id="in-use">In use</Heading>
-          <p className="token-muted">
-            A settings screen built only from the package. Try the tabs, the menu and Save changes.
-          </p>
-        </div>
-        <div className="landing__frame">
-          <DemoProviders>
-            <SampleScreen />
-          </DemoProviders>
-        </div>
-      </section>
 
       <section className="landing__stats" aria-label="The package in numbers">
         <div className="stat-row">
