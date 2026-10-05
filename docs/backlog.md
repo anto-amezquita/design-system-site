@@ -20,22 +20,11 @@ Its job is narrow on purpose: a session should be able to open this file and kno
 
 ## 2. Open items
 
-### Move the portfolio's docs and agent files to this site
-
-- **Source:** `decisions/0001`, item 2. Unblocked: the site is live at `https://design.amezquita.dk`.
-- **Already answered:** the registry manifests *do* hardcode `amezquita.dk` (every component's `registryDependencies` points at `https://amezquita.dk/r/theme.json`), so the portfolio's `/r/*` must redirect, not disappear.
-- **Also answered (2026-10-05):** the registry served here installs (1.2.1 fixed the theme's `null` cssVars, which broke every install from 1.1.1 on). And `npx shadcn add` (4.21.1) follows redirects, for the item asked for and for its `registryDependencies`. Tested through a local server answering 308 for Button, Spinner and the theme: all three installed. The portfolio's apex already answers `/r/*` with a 307 to `www`, and shadcn installs through that today.
-- **Redirect map for the portfolio** (paths changed on the move): `/design-system` → `/`, `/design-system/foundations/*` → `/foundations/*`, `/design-system/components` and `/design-system/components/:slug` → `/components` and `/components/:slug`, `/design-system/changelog` → `/changelog`, `/design-system/guidelines` → `/guidelines`, `/design-system/tokens` → `/foundations`, `/design-system/:slug.md` → `/components/:slug.md`. Same paths: `/.well-known/skills/*`, `/llms.txt`, `/llms-full.txt`, `/tokens.json`, `/r/*`.
-- **Then:** delete the portfolio's `app/design-system/`, `components/docs/` and the agent files in `public/` (its `app/design-system-playbook/` and `/design-tokens` stay).
-
 ### Library changes this site needs (design-system repo)
 
-Found in the first build and the move to 1.2.0; each has a note in the spec (§9). None blocks this site. They're tracked in the design-system repo's own `docs/backlog.md` ("Gaps found by the docs site's first build"), so a library session sees them; the two found in the 1.2.0 move are under "Gaps found putting both brands on one page" there. `scripts/check-workarounds.mjs` runs before every build here and warns, on the release-sync PR too, when a fix has landed and its workaround can go.
+Found in the first build and the moves to 1.2.0 and 1.3.0; each has a note in the spec (§9). None blocks this site. They're tracked in the design-system repo's own `docs/backlog.md` ("Gaps found by the docs site's first build"), so a library session sees them. `scripts/check-workarounds.mjs` runs before every build here and warns, on the release-sync PR too, when a fix has landed and its workaround can go.
 
 - **`tokens/changelog.json` lags a release.** In 1.2.0 it stops at `v1.1.2`. The site reads `CHANGELOG.md`, so nothing here is wrong, but the JSON is stale for anyone else.
-- **Breadcrumb takes no `aria-label`.** It hardcodes "Breadcrumb", so two on one page (Themes) are duplicate landmarks. The site renames them with an effect in `components/themes/ThemeExplorer.tsx` (spec §9, item 9); `check-workarounds.mjs` warns when the prop lands.
-- **Menu and Select popovers leave the brand scope.** Both portal to `<body>`, outside `[data-brand="portfolio"]`, so opening one in Themes' portfolio panel shows a base popover. The library item proposes a `BrandScope` component that overlays read from (spec §9, item 10). No workaround here; `npm run check:themes` warns while the gap is open and when a release fixes it. Before that release is published, install the library's `npm pack` tarball here on a throwaway branch and run the check against it.
-- **Switch the agent files' URLs to the subdomain.** `llms.txt`, `llms-full.txt`, `SKILL.md` and the registry point at `amezquita.dk`, and the doc twins at `/design-system/<slug>.md`. On this site the twins are at `/components/<slug>.md`. The site is live, so the new URLs resolve; this can go in the next release.
 
 ### Site follow-ups
 

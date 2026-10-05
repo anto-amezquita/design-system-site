@@ -14,15 +14,9 @@ const PKG = join(process.cwd(), 'node_modules', '@amezquita', 'design-system')
 const read = path => readFileSync(join(PKG, path), 'utf8')
 
 // When a fix lands and its workaround is removed, remove its entry here too.
-// (Spec §9 items 6, 1 and 7 went this way: 6 in 1.1.2, 1 and 7 in 1.2.0.)
-const CHECKS = [
-  {
-    // Spec §9, item 9: two sample screens on Themes give two "Breadcrumb" navs.
-    workaround: 'the Breadcrumb labelling effect in components/themes/ThemeExplorer.tsx',
-    fixed: () => /['"]aria-label['"]\??:/.test(read('components/patterns/Breadcrumb/Breadcrumb.tsx')),
-    todo: 'Breadcrumb now takes an aria-label. Pass one from SampleScreen per theme and delete the effect in ThemeExplorer.',
-  },
-]
+// (Spec §9 items 6, 1, 7 and 9 went this way: 6 in 1.1.2, 1 and 7 in 1.2.0,
+// 9 in 1.3.0.) Each entry: { workaround, fixed: () => boolean, todo }.
+const CHECKS = []
 
 const ci = process.env.GITHUB_ACTIONS === 'true'
 

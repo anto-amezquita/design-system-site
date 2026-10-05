@@ -47,7 +47,9 @@ const SCOPED = `import '@amezquita/design-system/styles/brands/base-light.css'
 import '@amezquita/design-system/styles/brands/base-dark.css'
 import '@amezquita/design-system/styles/brands/portfolio-scoped.css'
 
-<div data-brand="portfolio">…</div>`
+import { ThemeScope } from '@amezquita/design-system/components/composition/ThemeScope'
+
+<ThemeScope brand="portfolio">…</ThemeScope>`
 
 /** Semantic and component tokens whose value in either mode differs between base and portfolio. */
 function differences(tokens: Token[]): Token[] {
@@ -109,7 +111,7 @@ export default function ThemesPage() {
       lead={
         <p>
           A default theme is built in, and a brand is a CSS file you load after it. The screen below is the same
-          code twice, on this page. The only difference is a <code>data-brand</code> attribute on the second panel.
+          code twice, on this page. The only difference is that the second panel is a <code>ThemeScope</code> with the portfolio brand.
         </p>
       }
       sections={added.length > 0 ? [...SECTIONS, { id: 'additions', label: 'What the portfolio adds' }] : SECTIONS}
@@ -137,8 +139,10 @@ export default function ThemesPage() {
         <p>
           <code>portfolio-light.css</code> and <code>portfolio-dark.css</code> set their tokens on{' '}
           <code>:root</code>, so they restyle the whole page. To show a brand in one part of a page, as this page
-          does, load <code>portfolio-scoped.css</code> instead of those two and put{' '}
-          <code>data-brand="portfolio"</code> on the part. It follows the page’s <code>data-mode</code>, or its own.
+          does, load <code>portfolio-scoped.css</code> instead of those two and wrap the part in{' '}
+          <code>&lt;ThemeScope brand="portfolio"&gt;</code>. It follows the page’s mode, or its own with{' '}
+          <code>mode</code>. Menus, selects and dialogs opened inside it match it too, although they render at the
+          end of the page.
         </p>
         <CodeBlock code={SCOPED} language="tsx" title="One brand inside a page" />
       </DocSection>
