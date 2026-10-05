@@ -53,13 +53,34 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # The dispatch arrives seconds after the publish, and npm can take a
+      # minute or two to serve the new version: 1.3.1's first sync failed
+      # with ETARGET. Wait for it, then install without npm's cached metadata.
+      - name: Wait for the version on npm
+        id: published
+        continue-on-error: true
+        run: |
+          for i in $(seq 1 20); do
+            if npm view "@amezquita/design-system@$VERSION" version --prefer-online > /dev/null 2>&1; then
+              echo "On npm after $(( (i - 1) * 15 ))s"
+              exit 0
+            fi
+            sleep 15
+          done
+          echo "::error::@amezquita/design-system@$VERSION isn't on npm after 5 minutes"
+          exit 1
+
       - name: Bump @amezquita/design-system
-        run: npm install "@amezquita/design-system@$VERSION" --save-exact
+        id: bump
+        if: steps.published.outcome == 'success'
+        continue-on-error: true
+        run: npm install "@amezquita/design-system@$VERSION" --save-exact --prefer-online
 
       # Each gate is its own step so a failure names itself in the issue.
       # continue-on-error keeps the job going to the PR-or-issue branch below.
       - name: Typecheck
         id: typecheck
+        if: steps.bump.outcome == 'success'
         continue-on-error: true
         run: npx tsc --noEmit
 
@@ -85,7 +106,9 @@ jobs:
         id: gate
         run: |
           failed=""
-          [ "${{ steps.typecheck.outcome }}" = "success" ] || failed="typecheck"
+          [ "${{ steps.published.outcome }}" = "success" ] || failed="waiting for npm"
+          [ -z "$failed" ] && [ "${{ steps.bump.outcome }}" != "success" ] && failed="the install"
+          [ -z "$failed" ] && [ "${{ steps.typecheck.outcome }}" != "success" ] && failed="typecheck"
           [ -z "$failed" ] && [ "${{ steps.build.outcome }}" != "success" ] && failed="build"
           [ -z "$failed" ] && [ "${{ steps.themes.outcome }}" != "success" ] && failed="check:themes"
           echo "failed=$failed" >> "$GITHUB_OUTPUT"
@@ -127,5 +150,5 @@ jobs:
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
           gh issue create \
-            --title "design-system $VERSION: $FAILED fails against it" \
+            --title "design-system $VERSION: sync failed at $FAILED" \
             --body "The library published \`$VERSION\`. Bumping to it here and running the gate failed at **$FAILED**. Most likely the release renamed or removed something a page or script here uses. Run: $RUN_URL. Bump by hand on a branch, fix what broke, and merge that instead."
