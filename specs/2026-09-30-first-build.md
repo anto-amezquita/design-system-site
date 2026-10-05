@@ -217,7 +217,7 @@ Moving to 1.2.0 (branch `feat/design-system-1-2-0`): `npx tsc --noEmit` and `npm
 
 ### Assumptions
 
-- The subdomain will be `design.amezquita.dk`. Only used in metadata (`metadataBase`); nothing breaks if it changes.
+- The subdomain will be `design.amezquita.dk`. Only used in metadata (`metadataBase`); nothing breaks if it changes. **Confirmed 2026-10-05:** the Vercel project `design-system-site` (team `vikincas-1710's projects`, Hobby) deploys `main`, and serves `design.amezquita.dk` through a CNAME at Simply.com to the target Vercel gave (`df37d7d1bcc6c541.vercel-dns-017.com`). The zone's catch-all `*` record points at Simply's web hotel, so a subdomain without its own record shows Simply's page, with a certificate for `simply.com`.
 - Storybook stays at the URL the portfolio's pages use, set with `NEXT_PUBLIC_STORYBOOK_URL`; without it, Storybook links are left out.
 
 ### Open questions

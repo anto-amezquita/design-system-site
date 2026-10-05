@@ -20,15 +20,9 @@ Its job is narrow on purpose: a session should be able to open this file and kno
 
 ## 2. Open items
 
-### Deploy the site (Antonio)
-
-- **Source:** `specs/2026-09-30-first-build.md`; the first build is on branch `feat/first-build`, and the move to 1.2.0 on `feat/design-system-1-2-0`, branched from it.
-- **What:** review and merge `feat/first-build`; create the Vercel project for this repo (framework Next.js, default build command, no env vars required); add the domain `design.amezquita.dk` to it and the DNS record at the registrar. If the subdomain ends up different, change `SITE_URL` in `lib/site.ts`.
-- **Optional:** set `NEXT_PUBLIC_STORYBOOK_URL` on Vercel to the published Storybook. Without it, component pages leave out their Storybook links.
-
 ### Move the portfolio's docs and agent files to this site
 
-- **Source:** `decisions/0001`, item 2. Blocked on the deploy above.
+- **Source:** `decisions/0001`, item 2. Unblocked: the site is live at `https://design.amezquita.dk`.
 - **Already answered:** the registry manifests *do* hardcode `amezquita.dk` (every component's `registryDependencies` points at `https://amezquita.dk/r/theme.json`), so the portfolio's `/r/*` must redirect, not disappear.
 - **Still to check:** whether `npx shadcn add` follows a redirect. Try `npx shadcn add https://amezquita.dk/r/button.json` against a redirect before deleting anything.
 - **Redirect map for the portfolio** (paths changed on the move): `/design-system` → `/`, `/design-system/foundations/*` → `/foundations/*`, `/design-system/components` and `/design-system/components/:slug` → `/components` and `/components/:slug`, `/design-system/changelog` → `/changelog`, `/design-system/guidelines` → `/guidelines`, `/design-system/tokens` → `/foundations`, `/design-system/:slug.md` → `/components/:slug.md`. Same paths: `/.well-known/skills/*`, `/llms.txt`, `/llms-full.txt`, `/tokens.json`, `/r/*`.
@@ -41,9 +35,11 @@ Found in the first build and the move to 1.2.0; each has a note in the spec (§9
 - **`tokens/changelog.json` lags a release.** In 1.2.0 it stops at `v1.1.2`. The site reads `CHANGELOG.md`, so nothing here is wrong, but the JSON is stale for anyone else.
 - **Breadcrumb takes no `aria-label`.** It hardcodes "Breadcrumb", so two on one page (Themes) are duplicate landmarks. The site renames them with an effect in `components/themes/ThemeExplorer.tsx` (spec §9, item 9); `check-workarounds.mjs` warns when the prop lands.
 - **Menu and Select popovers leave the brand scope.** Both portal to `<body>`, outside `[data-brand="portfolio"]`, so opening one in Themes' portfolio panel shows a base popover. The library item proposes a `BrandScope` component that overlays read from (spec §9, item 10). No workaround here; `npm run check:themes` warns while the gap is open and when a release fixes it. Before that release is published, install the library's `npm pack` tarball here on a throwaway branch and run the check against it.
-- **Switch the agent files' URLs to the subdomain.** `llms.txt`, `llms-full.txt`, `SKILL.md` and the registry point at `amezquita.dk`, and the doc twins at `/design-system/<slug>.md`. On this site the twins are at `/components/<slug>.md`. Do it after the deploy, so the new URLs resolve when the release goes out.
+- **Switch the agent files' URLs to the subdomain.** `llms.txt`, `llms-full.txt`, `SKILL.md` and the registry point at `amezquita.dk`, and the doc twins at `/design-system/<slug>.md`. On this site the twins are at `/components/<slug>.md`. The site is live, so the new URLs resolve; this can go in the next release.
 
 ### Site follow-ups
+
+- **Storybook links (Antonio).** `NEXT_PUBLIC_STORYBOOK_URL` isn't set on Vercel, so component pages leave out their Storybook links. Copy the value from the portfolio's Vercel project (Settings → Environment Variables), add it to this one, and redeploy: Next bakes it in at build time.
 
 - **A light/dark switch.** The site follows the system setting only. A switch would let a reader compare modes without changing their OS; the token tables already show both values.
 - **Fill in `docs/architecture.md`.** It's still the starter kit's template. The stack and structure are in the spec's §7 and should move there once they've settled.
