@@ -152,6 +152,15 @@ Input: `docs/brand.md` (§1, §4, §5, §9) and the Day 1 teardown. Output: one 
 |---|---|---|---|---|---|---|
 | Result | | | | | | |
 
+### After Day 2: make the brand process reusable
+
+Every project that uses the design system should get its own brand the same way. Once Day 2 has tested the exploration step, codify the process in two places:
+
+- **The starter kit's Stage 3 (`guide/stages/03-brand-character.md`):** add the teardown worksheet, make `brand.md` §1, §4, §5 and §9 required, add the Claude Design prompt with placeholders and the decision table, and end with the hand-off: a new `tokens/brands/<project>/` in the design system, applied with `ThemeScope`. Stage 3 can't be skipped (this site skipped it and looked default).
+- **A Claude skill** that runs the same five steps from any chat: teardown, brief, explore, decide, hand off.
+
+Needs the starter kit's folder connected.
+
 ## Later, out of scope this week
 
 - **Stripe-grade motion, as its own track after the site ships.** Stripe's premium feel comes from bespoke animated graphics: the hero wave, and a WebGL2 canvas per card ("Monetise through agentic commerce", "Create a card issuing programme", the globe, the "squeezy" carousel). That layer sits on top of a design system; tokens and Figma don't produce it. Learn it separately, starting with three.js. This week builds the foundation it will sit on: the motion only reads as premium because the type, spacing and restraint underneath are already right.
