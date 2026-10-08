@@ -24,7 +24,7 @@ Decided in the 2026-10-07 amendment to `decisions/0017` in the design-system rep
 | 4 | Docs page template | Figma, variables from the token files | Foundations and Components layouts; active-nav state; previews as siblings of branded frames |
 | 5 | Preview frames | Figma | One frame treatment that works for all 35 components, light and dark |
 | 6 | Ship | Claude Code | New brand released from the library (one minor, ADR 0022); site bumps and applies it |
-| 7 | Polish and case study | — | Motion, spacing, dark mode checked; before/after written up |
+| 7 | Polish and case study | — | Motion, spacing, dark mode checked; before/after written up. Nice to have: the hero's scroll parallax (content below slides up over it, as on Astryx) |
 
 ---
 
@@ -36,49 +36,50 @@ Two hours. For each reference, look at the landing page and one docs page. Write
 
 | Question | Answer |
 |---|---|
-| Content max width, and gutter | |
-| Headline font, size and weight at desktop | |
-| Body font and size | |
-| Colours on the landing first screen (count them) | |
-| Where the accent colour is used, and where it isn't | |
-| What fills the first screen | |
-| The one signature element you'd recognise it by | |
-| How a component preview is framed: background, border, padding, label | |
-| Active state in the nav | |
-| One thing to take | |
-| One thing to leave | |
+| Content max width, and gutter | No page max width: sections run full width with a 24px gutter (1377px wide at a 1440px window). Only the hero text is capped, at 800px with 24px inline padding (`--spacing-6`). Top nav is full width with 8px padding. |
+| Headline font, size and weight at desktop | Figtree, 42px / 52px line height, weight 400, with the second half ("fully customizable and agent ready") at 600. Modest size; the big "astryx" above it is an SVG wordmark, not text. |
+| Body font and size | Figtree, 16px / 24px. One family for everything. |
+| Colours on the landing first screen (count them) | Four to five per theme, the same structure every time: one tinted background with a soft radial glow, near-black (or near-white) text, white card surfaces, one muted neutral for the secondary button, and one accent. Only y2k adds a second accent (lime next to dark brown). The blue logo mark in the nav never changes. |
+| Where the accent colour is used, and where it isn't | Used on the wordmark, the send button, progress bars, the radio dot, outlined buttons (butter). Never on body text, the nav or the headline. The primary "Get started" stays black (inverted in gothic), whatever the theme. |
+| What fills the first screen | A hero with a large wordmark (SVG), then a short, concrete line saying what it does. Two buttons: the high-contrast one and a toned-down one, as plain as possible. Around them, two product cards with smaller interactive components layered over them (chat input, add-to-cart card, points progress, "Limited time" badge, "Free shipping" radio). Cards and hero restyle together with the theme. The cards sit at the left and right edges, overlap each other, and run under the white sheet of the next section, which has rounded top corners. |
+| The one signature element you'd recognise it by | The hero is a theme carousel: the same sample screens re-skinned in five themes (astryx, matcha, butter, gothic, y2k), switched with previous/next and page dots under the hero. Opens on astryx, no autoplay. A theme changes more than colour: corner radius (matcha very round, y2k square), display type (matcha's script product names), button style (butter outlined, y2k flat lime), and mode (gothic is dark). The product pitch, shown before it is said. |
+| How a component preview is framed: background, border, padding, label | Overview (/components): a 3-column grid of bare tiles, 364px wide at 1440, 12px apart. Each tile is 16:10, 16px radius, no border, no shadow, filled with a translucent tint (`rgba(5, 54, 89, 0.047)`, about 5% navy over white, not a flat grey). The component sits centred, small. The label is outside the tile: 12px, regular weight, slate (`rgb(78, 96, 111)`), 4px below, name only, no description. Detail page (/components/Button): one 16:9 tile at full content width (912px), flat `#F1F1F1`, 12px radius, no border or shadow, component centred. |
+| Active state in the nav | Side nav: active item gets a rounded tint (`rgba(5, 54, 89, 0.1)`, the same navy tint as the preview tiles at double strength) and weight 500 instead of 400. Same text colour, no indicator bar. Hover is a lighter tint. Items are 32px tall, 14px text, 8px side padding, 12px radius. The thick black outline in the screenshot is the keyboard focus ring (`:focus-visible`), not the active style. |
+| Interaction states (added) | Buttons get darker one step at a time with a transparent overlay, not a new colour per state: `--color-overlay-hover` is 5% black and `--color-overlay-pressed` 10% black (`#0000000D`, `#0000001A`). In dark mode the same steps use white. Secondary rests at 6% black, ghost at transparent. The same 5% / 10% steps as the navy tint on tiles and the active nav item. |
+| One thing to take | The hero theme carousel: one screen, several skins, the visitor flips through them. The top nav: vector logo left, main menu centred, tools and links right (search, theme toggle, GitHub, Get started). |
+| One thing to leave | The skin, not the structure. The nav layout, tinted preview tiles, one accent, overlay states and hero carousel are the researched standard for a design-system site; take them as the baseline. Leave Astryx's palette, wordmark and theme names. What makes this site its own is the layer on top: type, accent, radius, voice (Day 2). Also: five themes. Cap the hero carousel at three. |
 
 ### Stripe — stripe.com/en-dk
 
 | Question | Answer |
 |---|---|
-| Content max width, and gutter | |
-| Headline font, size and weight at desktop | |
-| Body font and size | |
-| Colours on the landing first screen (count them) | |
-| Where the accent colour is used, and where it isn't | |
-| What fills the first screen | |
-| The one signature element you'd recognise it by | |
-| How a product UI shot is framed: background, border, padding, label | |
-| Active state in the nav | |
-| One thing to take | |
-| One thing to leave | |
+| Content max width, and gutter | One centred container, 1266px max with 16px padding (content 1234px), left edge at 80px on a 1440 window. Header is full width, 76px tall. Unlike Astryx, every section shares the same column. |
+| Headline font, size and weight at desktop | Söhne (`sohne-var`), 48px / 55px, weight 300, tracking -0.96px (-2%). Two-tone: the first sentence in navy (`#061B31`), the rest of the paragraph in a lighter slate, all one `h1`. Left-aligned. |
+| Body font and size | Söhne, 16px; nav links 14px regular. One family. |
+| Colours on the landing first screen (count them) | Five plus a gradient: white background, navy text, slate secondary text, indigo accent (`#533AFD`), a pale lavender for the outline button's border, and the orange-pink-violet gradient ribbon on the right. Customer logos in greyscale. |
+| Where the accent colour is used, and where it isn't | Indigo on the primary buttons (fill), the secondary buttons (text and pale border), and "Sign in". Never on the headline or body. The gradient carries the colour; the UI stays restrained. |
+| What fills the first screen | Eyebrow with a live counter ("Global GDP running on Stripe"), the two-tone headline, two buttons (filled indigo, outlined indigo on translucent white), the gradient ribbon bleeding off the right edge, a greyscale logo strip at the fold. No product UI above the fold. |
+| The one signature element you'd recognise it by | The animated wave in the hero: a WebGL2 canvas (`single-wave__canvas`) drawing a flowing orange-pink-violet ribbon that slowly shifts colour. The headline's second sentence changes colour where the wave passes behind it. How: the headline is rendered twice. The real `h1` (readable by screen readers) sits underneath in a yellow (`rgb(221, 214, 0)`); an exact copy marked `aria-hidden="true"` sits on top (z-index 2) in half-transparent blue (`rgba(0, 14, 255, 0.5)`) with `mix-blend-mode: hard-light`, inside a container with `isolation: isolate`. Over white the two layers mix to slate; over the moving wave the mix shifts with it. Five more WebGL canvases further down the page (globe, card graphics, a "squeezy" carousel). |
+| How a product UI shot is framed: background, border, padding, label | A bento grid of large tiles. Each tile has its title top-left in the same two-tone style, then real miniature product UI (a card terminal, a checkout, a billing chart) set over a soft gradient. The UI pieces are white cards, 6px radius, no border, with long soft navy-tinted shadows (`rgba(50, 50, 93, 0.12) 0 16px 32px`). The shadow tint matches the navy text, not black. |
+| Active state in the nav | None on the landing: marketing nav of dropdown triggers (Products, Solutions, Developers, Resources) plus Pricing, 14px regular. Sign in as outlined text button, Contact sales as filled indigo, both 40px, 4px radius. |
+| One thing to take | The use of animation: the moving wave behind the hero, and the headline that reacts to it. The two-layer blend trick is plain CSS and works over any background, so it could run over our own hero; the wave itself is a custom WebGL piece, a stretch goal beyond this week. Also: the restraint around it (one accent, navy-tinted shadows, real product UI). |
+| One thing to leave | The auto-scrolling customer-logo carousel under the hero. It is enterprise social proof; this site has no customer logos to show, and motion the visitor can't control reads as filler. More broadly, the business tone: Stripe is built for finance and engineering buyers and plays it safe on purpose. |
 
 ### Material 3 — m3.material.io
 
 | Question | Answer |
 |---|---|
-| Content max width, and gutter | |
-| Headline font, size and weight at desktop | |
-| Body font and size | |
-| Colours on the landing first screen (count them) | |
-| Where the accent colour is used, and where it isn't | |
-| What fills the first screen | |
-| The one signature element you'd recognise it by | |
-| How a component demo is framed: background, border, padding, label | |
-| Active state in the nav | |
+| Content max width, and gutter | No max width. An 88px icon rail on the left, then the content fills the rest of the window (1337px at 1440) in rounded panels with 8px gaps between them and the window edge. |
+| Headline font, size and weight at desktop | Google Sans, 96px / 96px (line height 1.0), weight 475, near-black (`#1C1B1D`). Very large, set tight, inside a panel. Section headings 57px at the same 475. Component page titles also 96px. |
+| Body font and size | Google Sans Text, 16px / 24px: a separate text cut of the display family. |
+| Colours on the landing first screen (count them) | Three in the UI: a lilac-tinted surface (`#F8F1F6`) for panels, near-black text, one purple accent (`#6442D6`). All the other colour comes from the imagery: a collage of phone screens in many hues. |
+| Where the accent colour is used, and where it isn't | The "Get started" pill and the selected icon in the rail. Not on headlines, panels or body text. The surfaces carry a faint tint of the accent's hue instead of grey. |
+| What fills the first screen | Two panels side by side, both 24px radius. Left: "Material Design" at 96px, one sentence, one large pill button (224 × 80px, fully round, purple). Right: a collage of real app screens built with Material (music player, chat, clock, shopping). Below the fold, a 57px section heading and more panels. |
+| The one signature element you'd recognise it by | Openness through restraint. The narrow 88px icon rail on the left clears the width for the content, so the hero has room: a very large headline (96px), one sentence, and one big pill button (224 × 80px). Few buttons, nothing competing. One headline, one button, one accent. |
+| How a component demo is framed: background, border, padding, label | Component pages (e.g. /components/buttons) open with two equal 24px-radius panels: the title (96px) and one-line description on a lilac tint at left; at right, the component shown in a real screen (a payment confirmation with its button), on a 1px-bordered panel with bright abstract shapes behind. Then a row of pill tabs (Overview, Specs, Guidelines, Accessibility), 79px tall, 40px radius. The component is shown in use, not isolated. |
+| Active state in the nav | Vertical icon rail: each item is an icon over a 12px label. Active = the filled version of the icon (inactive ones are outlined) with a darker label (`#21182B`, weight 500). Search sits in a lilac rounded square at the top. |
 | One thing to take | |
-| One thing to leave | |
+| One thing to leave | Showing each component inside a real screen (Button inside a payment confirmation). Bespoke mock-up work for every component, and it half-hides the component itself. For 35 components and one maintainer, the plain Astryx tile serves better. Take Material's restraint, not its staging. |
 
 ### design.amezquita.dk today — same questions, for the baseline
 
@@ -113,6 +114,13 @@ Two hours. Fill these sections of `docs/brand.md`, nothing else yet:
 
 That brief is the input for Day 2: it gets pasted into Claude Design as the starting prompt.
 
+## Later, out of scope this week
+
+- **Stripe-grade motion, as its own track after the site ships.** Stripe's premium feel comes from bespoke animated graphics: the hero wave, and a WebGL2 canvas per card ("Monetise through agentic commerce", "Create a card issuing programme", the globe, the "squeezy" carousel). That layer sits on top of a design system; tokens and Figma don't produce it. Learn it separately, starting with three.js. This week builds the foundation it will sit on: the motion only reads as premium because the type, spacing and restraint underneath are already right.
+
 ## Open questions
+
+- Interaction states as overlays? In the library today they are solid colours: nav hover and selected share one fill (`color-surface-secondary`, neutral-100), so they look the same, and the secondary Button jumps to the accent on hover. Astryx stacks a 5% / 10% overlay that works over any surface and any brand. A library change, so it would ship with the new brand under ADR 0022, or not at all this week.
+- Hero theme carousel: at most three themes, and only brands the library actually ships (`base`, `portfolio`, the new site brand), no demo skins. Get each one right before adding more. Still open: the 0017 amendment keeps the landing composite in `base`, so the carousel is an exception for the hero, labelled with each theme's name. Confirm on Day 3.
 
 - The brand's name. It becomes the folder under `tokens/brands/` and the `ThemeScope` value.
