@@ -93,7 +93,7 @@ Two hours. For each reference, look at the landing page and one docs page. Write
 | What fills the first screen | Package name and version as an eyebrow, the 64px headline, one lead sentence, two pill buttons (filled near-black, 2px outlined), then a row of four stats (35 components, 373 tokens, 2 themes, 1.3.3). The right half of the hero is empty. No component is shown working above the fold. |
 | The one signature element you'd recognise it by | |
 | How a component preview is framed: background, border, padding, label | Two columns of cards, 336px wide, 16px apart. Each card: 1px `#E5E5E5` border, 8px radius, no shadow; preview area on top in flat `#F5F5F5`, 176px tall, square corners; then an 18px / 600 title and a two-line description inside the card. |
-| Active state in the nav | Side nav: `#F5F5F5` fill, 4px radius, weight 500. The same grey as the preview areas. Top nav: the current section gets no active style; a thick black outline appears there after a click (the focus ring). |
+| Active state in the nav | Top nav and side nav alike: `#F5F5F5` fill, 4px radius, weight 500. The same grey as the preview areas and as hover, so active, hover and preview all look the same. The thick black outline seen after a click is the focus ring. |
 
 Already spotted: the hero's left edge doesn't line up with the stats row and "What's here" below it; the hero's right half is empty; the active nav item gets a thick black outline.
 
