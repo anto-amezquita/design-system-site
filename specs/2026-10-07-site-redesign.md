@@ -78,7 +78,7 @@ Two hours. For each reference, look at the landing page and one docs page. Write
 | The one signature element you'd recognise it by | Openness through restraint. The narrow 88px icon rail on the left clears the width for the content, so the hero has room: a very large headline (96px), one sentence, and one big pill button (224 × 80px). Few buttons, nothing competing. One headline, one button, one accent. |
 | How a component demo is framed: background, border, padding, label | Component pages (e.g. /components/buttons) open with two equal 24px-radius panels: the title (96px) and one-line description on a lilac tint at left; at right, the component shown in a real screen (a payment confirmation with its button), on a 1px-bordered panel with bright abstract shapes behind. Then a row of pill tabs (Overview, Specs, Guidelines, Accessibility), 79px tall, 40px radius. The component is shown in use, not isolated. |
 | Active state in the nav | Vertical icon rail: each item is an icon over a 12px label. Active = the filled version of the icon (inactive ones are outlined) with a darker label (`#21182B`, weight 500). Search sits in a lilac rounded square at the top. |
-| One thing to take | |
+| One thing to take | Nothing, deliberately. The icon rail is a personal favourite but a Material device, not a web convention; borrowing it would read as borrowing their identity. Material mainly confirms the restraint lesson from Astryx and Stripe (one headline, one button, one accent) instead of handing over a pattern. The left icon rail is parked as an idea for a later round. |
 | One thing to leave | Showing each component inside a real screen (Button inside a payment confirmation). Bespoke mock-up work for every component, and it half-hides the component itself. For 35 components and one maintainer, the plain Astryx tile serves better. Take Material's restraint, not its staging. |
 
 ### design.amezquita.dk today — same questions, for the baseline
@@ -117,6 +117,8 @@ That brief is the input for Day 2: it gets pasted into Claude Design as the star
 ## Later, out of scope this week
 
 - **Stripe-grade motion, as its own track after the site ships.** Stripe's premium feel comes from bespoke animated graphics: the hero wave, and a WebGL2 canvas per card ("Monetise through agentic commerce", "Create a card issuing programme", the globe, the "squeezy" carousel). That layer sits on top of a design system; tokens and Figma don't produce it. Learn it separately, starting with three.js. This week builds the foundation it will sit on: the motion only reads as premium because the type, spacing and restraint underneath are already right.
+
+- **A left icon rail for navigation**, as on Material. A personal favourite; parked for a later round, after the site ships.
 
 ## Open questions
 
