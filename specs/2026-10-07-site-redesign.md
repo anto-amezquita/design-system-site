@@ -124,6 +124,8 @@ That brief is the input for Day 2: it gets pasted into Claude Design as the star
 
 - **A left icon rail for navigation**, as on Material. A personal favourite; parked for a later round, after the site ships.
 
+- **Best practices: the system's language, written down.** Astryx gives every component page a Do / Don't table ("Do reserve primary for the single most important action in the view"; "Don't use a button for navigation"). Our 58 component docs (`docs/components/*.md` in the library) cover Usage example, Props, Tokens and Accessibility, but not when to use a component. Add a `## Best practices` section to those docs, so one source reaches developers (the site renders it) and AI agents (`llms.txt`, the skill). Lift the four fundamentals into the Foundations overview as the principles underneath. Library work, shipped in a release under ADR 0022; start with Button, Link, Input, Card and Dialog.
+
 ## Open questions
 
 - Interaction states as overlays? In the library today they are solid colours: nav hover and selected share one fill (`color-surface-secondary`, neutral-100), so they look the same, and the secondary Button jumps to the accent on hover. Astryx stacks a 5% / 10% overlay that works over any surface and any brand. A library change, so it would ship with the new brand under ADR 0022, or not at all this week.
