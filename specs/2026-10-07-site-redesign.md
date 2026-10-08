@@ -122,6 +122,13 @@ That brief is the input for Day 2: it gets pasted into Claude Design as the star
 
 Input: `docs/brand.md` (§1, §4, §5, §9) and the Day 1 teardown. Output: one chosen direction, with its typeface, accent, neutral tint, radius and spacing feel written down here.
 
+### Before the prompt (from the official guide, support.claude.com article 14604416)
+
+1. **Import the design system.** In Claude Code, from the `design-system` repo, run `/design-sync` to bring `@amezquita/design-system` into Claude Design: tokens, fonts, components. Claude then checks its output against the system. Messy sources show up in the output, so import the published state, not work in progress.
+2. **Treat the import as the `base` layer.** The new brand is proposed on top of it; components keep their `base` contract.
+3. **Save between directions.** There is no version history yet: save direction 1 before asking for direction 2, and so on.
+4. **Give feedback in numbers** ("tighten the gap above the buttons to 24px"), in chat for broad changes, inline comments for one component.
+
 ### Prompt (paste into Claude Design)
 
 > I'm designing the brand for the documentation site of a token-first React design system, @amezquita/design-system (design.amezquita.dk). The site's job: show developers and design reviewers that the system is built on the fundamentals, done properly.
@@ -135,9 +142,9 @@ Input: `docs/brand.md` (§1, §4, §5, §9) and the Day 1 teardown. Output: one 
 > 1. A typeface for headings and one for body (Google Fonts only), with a type scale.
 > 2. One accent colour with a single job, and a cool neutral scale tinted toward the accent's hue (no flat grey).
 > 3. A corner radius and a spacing feel, on a 4px base.
-> 4. The landing hero rendered with it: top nav (logo left, menu centred, actions right), a headline, one sentence, one primary and one secondary button, and real UI components (a card, an input, a button group) placed around the headline.
+> 4. The landing hero rendered with it, at desktop (1440px) and mobile (375px): top nav (logo left, menu centred, actions right), a headline, one sentence, one primary and one secondary Button, and real components from the imported system placed around the headline: a Card with an Input and a Button inside, a Tabs row, a Badge, an Avatar and a Switch. Use the imported components as they are, in their base theme; the brand goes on the page around them (nav, headline, surfaces, the frames around the components).
 >
-> Rules: one left edge for the whole page; spacing only from the 4px scale; the accent never on body text or headlines; no logo strips, no stock imagery, no gradients for their own sake. Show each direction in light and dark.
+> Rules: one left edge for the whole page; spacing only from the 4px scale; the accent never on body text or headlines; no logo strips, no stock imagery, no gradients for their own sake. Show each direction in light and dark, desktop and mobile. Present one direction at a time; I will save each before asking for the next.
 
 ### Decision
 
