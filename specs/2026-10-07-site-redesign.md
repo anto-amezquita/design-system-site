@@ -101,7 +101,11 @@ Already spotted: the hero's left edge doesn't line up with the stats row and "Wh
 
 After the tables, write three to five lines: what all three do that the site doesn't.
 
--
+- All three are disciplined on the same four fundamentals at once: **alignment, spacing, colour and typography**. None of them relies on one trick.
+- **Alignment** holds one edge. Stripe runs every section down one column; Material lines everything up to its panels. Ours breaks its own left edge on the first screen (hero at x=129, everything below at x=97).
+- **Spacing** follows a scale. Astryx's spacing tokens step in 4px (`--spacing-1` = 4px … `--spacing-12` = 48px); Material keeps an even 8px between panels. We have spacing tokens too, but the double padding shows they aren't applied evenly.
+- **Colour and type** are chosen, not defaulted: one accent each (Astryx navy, Stripe indigo, Material purple) and a typeface of their own (Figtree, Söhne, Google Sans). Ours is five greys and the system font stack.
+- The four agree with each other, and that coherence is the signal: it reads as command of the craft, built on decades of web design and, before that, print. Our site handles each loosely and in isolation, so it reads as default.
 
 ## Day 1 — Brand brief
 
