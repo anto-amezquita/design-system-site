@@ -118,6 +118,33 @@ Two hours. Fill these sections of `docs/brand.md`, nothing else yet:
 
 That brief is the input for Day 2: it gets pasted into Claude Design as the starting prompt.
 
+## Day 2 — Three brand directions in Claude Design
+
+Input: `docs/brand.md` (§1, §4, §5, §9) and the Day 1 teardown. Output: one chosen direction, with its typeface, accent, neutral tint, radius and spacing feel written down here.
+
+### Prompt (paste into Claude Design)
+
+> I'm designing the brand for the documentation site of a token-first React design system, @amezquita/design-system (design.amezquita.dk). The site's job: show developers and design reviewers that the system is built on the fundamentals, done properly.
+>
+> Brand essence: "The fundamentals, done properly, ready for any brand and any agent."
+> Feel: professional, cohesive, calm. Attributes: open, crafted, precise.
+> Not: the shadcn/Vercel default, templated, loud.
+> Leans: serious, minimal, cool, classic, quiet, expert, productive, refined.
+>
+> Give me three distinct directions. For each one:
+> 1. A typeface for headings and one for body (Google Fonts only), with a type scale.
+> 2. One accent colour with a single job, and a cool neutral scale tinted toward the accent's hue (no flat grey).
+> 3. A corner radius and a spacing feel, on a 4px base.
+> 4. The landing hero rendered with it: top nav (logo left, menu centred, actions right), a headline, one sentence, one primary and one secondary button, and real UI components (a card, an input, a button group) placed around the headline.
+>
+> Rules: one left edge for the whole page; spacing only from the 4px scale; the accent never on body text or headlines; no logo strips, no stock imagery, no gradients for their own sake. Show each direction in light and dark.
+
+### Decision
+
+| | Direction chosen | Typeface (heading / body) | Accent | Neutral tint | Radius | Spacing feel |
+|---|---|---|---|---|---|---|
+| Result | | | | | | |
+
 ## Later, out of scope this week
 
 - **Stripe-grade motion, as its own track after the site ships.** Stripe's premium feel comes from bespoke animated graphics: the hero wave, and a WebGL2 canvas per card ("Monetise through agentic commerce", "Create a card issuing programme", the globe, the "squeezy" carousel). That layer sits on top of a design system; tokens and Figma don't produce it. Learn it separately, starting with three.js. This week builds the foundation it will sit on: the motion only reads as premium because the type, spacing and restraint underneath are already right.
