@@ -85,15 +85,15 @@ Two hours. For each reference, look at the landing page and one docs page. Write
 
 | Question | Answer |
 |---|---|
-| Content max width, and gutter | |
-| Headline font, size and weight at desktop | |
-| Body font and size | |
-| Colours on the landing first screen (count them) | |
-| Where the accent colour is used, and where it isn't | |
-| What fills the first screen | |
+| Content max width, and gutter | One column, 1296px max with 32px padding (content from x=97 at 1440). The hero adds its own 32px padding inside that, so the hero text starts at x=129 while the stats row and "What's here" start at x=97: the misaligned left edge, caused by double padding. Hero text capped at 800px. |
+| Headline font, size and weight at desktop | The system font stack (`-apple-system, system-ui, Segoe UI, Roboto…`), 64px / 72px, weight 800, tracking -1.28px (-2%). No typeface of its own: it renders as San Francisco on a Mac and as something else on every other platform. |
+| Body font and size | Same system stack. Lead paragraph 20px / 28px in `#525252`; small text 14px / 20px. |
+| Colours on the landing first screen (count them) | Five, all neutral greys: `#FAFAFA` background, `#FFFFFF`, `#262626` buttons, `#0A0A0A` headline, `#525252` text. No accent, no tint. |
+| Where the accent colour is used, and where it isn't | There is no accent. Near-black (`#262626`) does the accent's job on the primary button and the outlined secondary. |
+| What fills the first screen | Package name and version as an eyebrow, the 64px headline, one lead sentence, two pill buttons (filled near-black, 2px outlined), then a row of four stats (35 components, 373 tokens, 2 themes, 1.3.3). The right half of the hero is empty. No component is shown working above the fold. |
 | The one signature element you'd recognise it by | |
-| How a component preview is framed: background, border, padding, label | |
-| Active state in the nav | |
+| How a component preview is framed: background, border, padding, label | Two columns of cards, 336px wide, 16px apart. Each card: 1px `#E5E5E5` border, 8px radius, no shadow; preview area on top in flat `#F5F5F5`, 176px tall, square corners; then an 18px / 600 title and a two-line description inside the card. |
+| Active state in the nav | Side nav: `#F5F5F5` fill, 4px radius, weight 500. The same grey as the preview areas. Top nav: the current section gets no active style; a thick black outline appears there after a click (the focus ring). |
 
 Already spotted: the hero's left edge doesn't line up with the stats row and "What's here" below it; the hero's right half is empty; the active nav item gets a thick black outline.
 
