@@ -25,19 +25,19 @@ This document exists to keep brand expression coherent across product design, co
 
 ### One-line essence
 
-[Write one compact sentence that captures the product at its deepest level.]
+The fundamentals, done properly, ready for any brand and any agent.
 
 ### What we want people to feel
 
-- [Feeling]
-- [Feeling]
-- [Feeling]
+- Professional
+- Cohesive
+- Calm
 
 ### What we are not
 
-- not [undesired quality]
-- not [undesired quality]
-- not [undesired quality]
+- not the shadcn/Vercel default
+- not templated: nothing that looks like it came from a starter kit
+- not loud: no trend-chasing, no decoration for its own sake
 
 ---
 
@@ -75,32 +75,58 @@ The product should make users feel:
 
 Choose 3–5 core attributes that define the brand character.
 
-### [Attribute]
+### Open
 
 **Meaning**  
-[What this means.]
+The system carries no brand of its own in its components. Any brand fits on top, and the site shows that working rather than claiming it.
 
 **In practice**
-- [How it appears]
-- [How it appears]
+- Component previews render in `base`, exactly what `npm install` gives.
+- Brands are token files (`base`, `portfolio`, the site brand), switched per page or per region with `ThemeScope`.
 
 **Not**
-- [What it should not become]
+- Bland. Open means a neutral core with a confident frame, not an absence of character.
+
+### Crafted
+
+**Meaning**  
+The details show care: every state is designed, nothing is left at the browser default.
+
+**In practice**
+- Hover, pressed, focus, disabled, loading and error exist for every interactive component, in light and dark.
+- Focus rings, motion and empty states are designed, not inherited.
+
+**Not**
+- Ornamental. Craft goes into how things work and settle, not into decoration.
+
+### Precise
+
+**Meaning**  
+Alignment, spacing, colour and type follow rules, and the rules are visible in the result.
+
+**In practice**
+- One left edge per page; spacing comes from the token scale, never a one-off value.
+- One accent with a defined job; one typeface family with a defined scale.
+
+**Not**
+- Rigid. The rules serve readability; a deliberate exception is documented, not hidden.
 
 ---
 
 ## 5. Personality sliders
 
-| Dimension | Lean |
-|---|---|
-| Serious ↔ Playful | [ ] |
-| Minimal ↔ Expressive | [ ] |
-| Warm ↔ Cool | [ ] |
-| Classic ↔ Contemporary | [ ] |
-| Quiet ↔ Bold | [ ] |
-| Expert ↔ Approachable | [ ] |
-| Editorial ↔ Productive | [ ] |
-| Refined ↔ Raw | [ ] |
+1 = fully the left word, 5 = fully the right word.
+
+| Dimension | Lean | Why |
+|---|---|---|
+| Serious ↔ Playful | 2 | Professional and calm, but not cold. |
+| Minimal ↔ Expressive | 2 | Restrained core; the confident frame keeps it from 1. |
+| Warm ↔ Cool | 4 | Calm reads cool: a cool tinted neutral, like the navy tint admired on Astryx. |
+| Classic ↔ Contemporary | 2 | Built on decades of web and print conventions, not on this year's trends. |
+| Quiet ↔ Bold | 2 | Not loud; one bold moment (the hero) on a quiet page. |
+| Expert ↔ Approachable | 2 | Written for people who build, but legible to anyone. |
+| Editorial ↔ Productive | 4 | It is a tool and its docs; editorial care shows in the type, not the layout. |
+| Refined ↔ Raw | 1 | Crafted: every state and detail finished. |
 
 ---
 
@@ -179,21 +205,23 @@ Choose 3–5 core attributes that define the brand character.
 
 ### The product should feel
 
-- [Quality]
-- [Quality]
-- [Quality]
+- Calm: one bold moment per page, everything else at rest
+- Precise: one left edge, spacing from the scale, nothing approximate
+- Considered: a typeface and an accent chosen on purpose, every state finished
 
 ### The product should avoid feeling
 
-- [Quality]
-- [Quality]
-- [Quality]
+- Generic: the system font and five greys
+- Busy: competing buttons, decoration, motion nobody asked for
+- Cold: cool does not mean clinical; tinted neutrals, not dead grey
 
 ### Visual keywords
 
-- [Keyword]
-- [Keyword]
-- [Keyword]
+- Cool tinted neutrals (a hint of the accent's hue, as on Astryx and Material)
+- One accent with one job
+- A typeface of its own, with a clear scale
+- Generous space on a strict grid
+- Surfaces that frame, components that stay `base`
 
 ---
 
