@@ -168,7 +168,7 @@ Every project that uses the design system should get its own brand the same way.
 - **The starter kit's Stage 3 (`guide/stages/03-brand-character.md`):** add the teardown worksheet, make `brand.md` §1, §4, §5 and §9 required, add the Claude Design prompt with placeholders and the decision table, and end with the hand-off: a new `tokens/brands/<project>/` in the design system, applied with `ThemeScope`. Stage 3 can't be skipped (this site skipped it and looked default).
 - **A Claude skill** that runs the same five steps from any chat: teardown, brief, explore, decide, hand off.
 
-Needs the starter kit's folder connected.
+Done 2026-10-09: the kit's Stage 3 now requires §1, §4, §5 and §9 and hands the visual half to a new `skills/brand-direction/SKILL.md` (kit branch `docs/brand-direction`). The same skill was proposed as a Claude skill for use from any chat.
 
 ## Later, out of scope this week
 
