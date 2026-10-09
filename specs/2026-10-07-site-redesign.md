@@ -183,4 +183,4 @@ Needs the starter kit's folder connected.
 - Interaction states as overlays? In the library today they are solid colours: nav hover and selected share one fill (`color-surface-secondary`, neutral-100), so they look the same, and the secondary Button jumps to the accent on hover. Astryx stacks a 5% / 10% overlay that works over any surface and any brand. A library change, so it would ship with the new brand under ADR 0022, or not at all this week.
 - Hero theme carousel: at most three themes, and only brands the library actually ships (`base`, `portfolio`, the new site brand), no demo skins. Get each one right before adding more. Still open: the 0017 amendment keeps the landing composite in `base`, so the carousel is an exception for the hero, labelled with each theme's name. Confirm on Day 3.
 
-- The brand's name. It becomes the folder under `tokens/brands/` and the `ThemeScope` value.
+- ~~The brand's name.~~ Decided 2026-10-09: `site`, named for its job like `base` and `portfolio`. It is the folder `tokens/brands/site/` and the `ThemeScope` value (`brand="site"`). "Resolution" stays the direction's name in the case study.
