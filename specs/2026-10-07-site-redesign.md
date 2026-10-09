@@ -152,6 +152,13 @@ Input: `docs/brand.md` (§1, §4, §5, §9) and the Day 1 teardown. Output: one 
 |---|---|---|---|---|---|---|
 | Result | | | | | | |
 
+### Day 2 follow-ups from the first `/design-sync` (2026-10-09)
+
+All 35 components were uploaded to Claude Design and checked against Storybook, with `base` as the default and `portfolio` opt-in through `ThemeScope`. The sync inputs live in `.design-sync/` in the library repo (branch `chore/design-sync`). Two things it found, both in the library repo:
+
+- **Storybook never loads its own font.** `.storybook/storybook.css` sets Schibsted Grotesk, but `.storybook/preview-head.html` loads DM Sans, DM Serif Display, Inter and JetBrains Mono, never Schibsted. So Storybook and every Chromatic snapshot render a fallback font today. Fix `preview-head.html` in its own PR and accept the new Chromatic baselines in one go; they will then show what users actually see. The sync patched only its local reference copy.
+- **Open states not visually verified.** Dialog, AlertDialog, Drawer, Toast and Tooltip open on click or hover in their stories, so the sync only compared the trigger. SideNav's mobile drawer wasn't captured either (checked at 1280px). Add previews that render them open, as the sync did for SkipLink, Menu and NavigationMenu in `.design-sync/previews/`, then re-sync.
+
 ### After Day 2: make the brand process reusable
 
 Every project that uses the design system should get its own brand the same way. Once Day 2 has tested the exploration step, codify the process in two places:
