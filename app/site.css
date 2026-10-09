@@ -57,17 +57,7 @@ body {
   display: flex;
   align-items: center;
   gap: var(--space-inline-gap);
-  max-width: var(--size-container-page);
-  margin-inline: auto;
   padding: var(--space-compact-padding-y) var(--space-layout-margin);
-}
-
-/* The token is 90vw, meant for 1024px and up: below that the header stays
-   full width with its gutters (decisions/0014, 0018). */
-@media (min-width: 1024px) {
-  .site-header__inner {
-    max-width: var(--size-container-site);
-  }
 }
 
 .site-header__brand {
@@ -92,19 +82,13 @@ body {
 
 /* ─── Body: section tree + content ──────────────────────── */
 
+/* The header, body and footer run the full width of the window, with the
+   layout margin as gutters. Prose inside keeps its own measure
+   (--size-container-text), so only tables, demos and the frame get wider. */
 .site-body {
   display: flex;
   gap: var(--space-container-padding);
-  max-width: var(--size-container-page);
-  margin-inline: auto;
   padding-inline: var(--space-layout-margin);
-}
-
-/* Same as the header and footer: the 90vw token applies from 1024px up. */
-@media (min-width: 1024px) {
-  .site-body {
-    max-width: var(--size-container-site);
-  }
 }
 
 .site-sidenav {
@@ -141,16 +125,7 @@ body {
   flex-wrap: wrap;
   justify-content: space-between;
   gap: var(--space-inline-gap) var(--space-component-gap);
-  max-width: var(--size-container-page);
-  margin-inline: auto;
   padding: var(--space-component-gap) var(--space-layout-margin);
-}
-
-/* Same as the header: the 90vw token applies from 1024px up. */
-@media (min-width: 1024px) {
-  .site-footer__inner {
-    max-width: var(--size-container-site);
-  }
 }
 
 /* ─── Docs page shell ────────────────────────────────────── */
