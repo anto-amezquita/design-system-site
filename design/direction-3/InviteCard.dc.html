@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/amezquita-design-system-1e0334f3-9863-4797-9d75-adb8e9f3516e/fonts/fonts.css">
+<link rel="stylesheet" href="_ds/amezquita-design-system-1e0334f3-9863-4797-9d75-adb8e9f3516e/_ds_bundle.css">
+<link rel="stylesheet" href="_ds/amezquita-design-system-1e0334f3-9863-4797-9d75-adb8e9f3516e/styles.css">
+<script src="_ds/amezquita-design-system-1e0334f3-9863-4797-9d75-adb8e9f3516e/_ds_bundle.js"></script>
+</helmet>
+<x-import component-from-global-scope="AmezquitaDesignSystem.Card" hint-size="100%,400px">
+  <x-import component-from-global-scope="AmezquitaDesignSystem.CardHeader" hint-size="100%,56px">
+    <x-import component-from-global-scope="AmezquitaDesignSystem.CardTitle" as="h3" hint-size="100%,24px">Invite a teammate</x-import>
+  </x-import>
+  <div style="padding:16px var(--space-container-padding) 0;display:flex;flex-direction:column;gap:24px">
+    <div style="display:flex;align-items:center;gap:12px">
+      <x-import component-from-global-scope="AmezquitaDesignSystem.Avatar" fallback="C" size="md" alt="Claude" hint-size="32px,32px"></x-import>
+      <span style="flex:1;font-family:var(--font-family-base);font-size:14px;line-height:20px;font-weight:500;color:var(--color-text-primary)">Claude</span>
+      <x-import component-from-global-scope="AmezquitaDesignSystem.Badge" variant="neutral" hint-size="56px,24px">Editor</x-import>
+    </div>
+    <x-import component-from-global-scope="AmezquitaDesignSystem.Input" type="email" label="Email" default-value="claude@amezquita.dk" hint-size="100%,72px"></x-import>
+    <x-import component-from-global-scope="AmezquitaDesignSystem.Switch" label="Can publish" default-checked="{{ true }}" hint-size="160px,24px"></x-import>
+  </div>
+  <x-import component-from-global-scope="AmezquitaDesignSystem.CardFooter" hint-size="100%,96px">
+    <x-import component-from-global-scope="AmezquitaDesignSystem.Button" variant="primary" hint-size="130px,48px">Send invite</x-import>
+    <x-import component-from-global-scope="AmezquitaDesignSystem.Button" variant="secondary" hint-size="100px,48px">Cancel</x-import>
+  </x-import>
+</x-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:416,&quot;height&quot;:420}}"></script>
+</body>
+</html>
