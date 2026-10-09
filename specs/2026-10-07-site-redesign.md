@@ -150,7 +150,9 @@ Input: `docs/brand.md` (§1, §4, §5, §9) and the Day 1 teardown. Output: one 
 
 | | Direction chosen | Typeface (heading / body) | Accent | Neutral tint | Radius | Spacing feel |
 |---|---|---|---|---|---|---|
-| Result | | | | | | |
+| Result | Direction 3, "Resolution" (`design/direction-3/`) | Archivo 600, width 112.5%, −3% at display / Atkinson Hyperlegible Next 400 / 700; Atkinson Hyperlegible Mono for tokens | Viridian, `oklch(0.50 0.10 165)` light (5.65:1) / `oklch(0.76 0.12 165)` dark (9.36:1); one job: the primary action | Sage, hue 170 | 12px on layers, controls and buttons | 12px module; margins 72 / 24; sections 144 apart |
+
+Chosen 2026-10-09 over Direction 1 "Specification" and Direction 2 "Index" (both in `design/`). It fits the brief best: calm and cool without going cold (§5 Cool 4), a typeface pairing of its own (§9), and a hero that shows what the system does, one value resolving from component to primitive. The accent passes contrast in both modes, which Direction 2's did not in dark.
 
 ### Day 2 follow-ups from the first `/design-sync` (2026-10-09)
 
