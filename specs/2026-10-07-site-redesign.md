@@ -21,10 +21,12 @@ Decided in the 2026-10-07 amendment to `decisions/0017` in the design-system rep
 | 1 | Teardown and brand brief | Browser, this file, `docs/brand.md` | Worksheet below filled; `brand.md` §1, §4, §5, §9 filled |
 | 2 | Three brand directions, pick one | Claude Design | One direction chosen, with type pairing, accent colour, radius and spacing feel written down |
 | 3 | Landing hero | Claude Design | Hero shows the system working in the first screen; no empty half |
-| 4 | Docs page template | Figma, variables from the token files | Foundations and Components layouts; active-nav state; previews as siblings of branded frames |
-| 5 | Preview frames | Figma | One frame treatment that works for all 35 components, light and dark |
-| 6 | Ship | Claude Code | New brand released from the library (one minor, ADR 0022); site bumps and applies it |
-| 7 | Polish and case study | — | Motion, spacing, dark mode checked; before/after written up. Nice to have: the hero's scroll parallax (content below slides up over it, as on Astryx) |
+| 4–5 | One component in depth: the Button page | Figma, variables from the token files | One Button page, complete: the component live; every state (rest, hover, focus, pressed, disabled); light and dark side by side; the three demo brands; props and the tokens it uses; Do / Don't |
+| 6 | Ship | Claude Code | `demo-cool`, `demo-warm` and `demo-soft` released as tokens from the library (one minor, ADR 0022), including Button's pressed state; site bumps and applies them, so the hero and the Button page run on tokens, not hand styling |
+| 7 | Polish and case study | — | Footer; the other pages consistent enough not to look broken; motion, spacing, dark mode checked; before/after written up. Nice to have: the hero's scroll parallax (content below slides up over it, as on Astryx) |
+
+
+**Scope, revised 2026-10-12 (end of Day 3): depth over breadth.** Four hours a day isn't enough to bring every page and all 35 component previews up to the hero's standard, so the week goes deep on a few things instead of thin on everything: the hero (done), one component documented completely (Button, Days 4–5), the brands shipped as tokens (Day 6), and just-enough consistency elsewhere (Day 7). Button was chosen because it has the most states and already appears in the hero in all three demo brands. The original Days 4–5 (docs page template for Foundations and Components, one preview frame for all 35 components) move to after this week.
 
 ---
 
