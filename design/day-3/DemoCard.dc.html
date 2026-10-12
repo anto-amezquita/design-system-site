@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..700&family=Atkinson+Hyperlegible+Next:wght@400;500;700&family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Instrument+Sans:wght@400;600&family=Fraunces:opsz,wght,SOFT,WONK@9..144,500,100,0&family=Nunito:wght@400;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="_ds/amezquita-design-system-1e0334f3-9863-4797-9d75-adb8e9f3516e/fonts/fonts.css">
+<link rel="stylesheet" href="_ds/amezquita-design-system-1e0334f3-9863-4797-9d75-adb8e9f3516e/_ds_bundle.css">
+<link rel="stylesheet" href="_ds/amezquita-design-system-1e0334f3-9863-4797-9d75-adb8e9f3516e/styles.css">
+<script src="_ds/amezquita-design-system-1e0334f3-9863-4797-9d75-adb8e9f3516e/_ds_bundle.js"></script>
+</helmet>
+<sc-if value="{{ siteLight }}" hint-placeholder-val="{{ false }}"><x-import component-from-global-scope="AmezquitaDesignSystem.ThemeScope" mode="light" hint-size="100%,300px"><div style="--font-family-base:'Atkinson Hyperlegible Next',sans-serif;--font-family-heading:'Archivo',sans-serif;--color-surface-primary:oklch(0.997 0.002 170);--color-surface-secondary:color-mix(in oklch, oklch(0.997 0.002 170), oklch(0.17 0.012 170) 4%);--color-text-primary:oklch(0.17 0.012 170);--color-text-secondary:oklch(0.47 0.02 170);--color-border-default:oklch(0.924 0.01 170);--color-border-strong:color-mix(in oklch, oklch(0.924 0.01 170), oklch(0.17 0.012 170) 45%);--color-border-focus:oklch(0.17 0.012 170);--color-accent-default:oklch(0.50 0.10 165);--color-accent-hover:oklch(0.46 0.10 165);--color-accent-foreground:oklch(0.997 0.002 170);--button-secondary-foreground:oklch(0.17 0.012 170);--button-secondary-border:oklch(0.17 0.012 170);--button-secondary-background-hover:oklch(0.17 0.012 170);--border-radius-component:12px;--border-radius-interactive:12px;--border-radius-sm:12px;--border-radius-md:12px;--border-radius-pill:12px;--border-radius-image:0px">
+    <div style="--space-container-padding:24px;--space-element-gap:16px;--button-padding-y:8px;--button-padding-x:16px"><x-import component-from-global-scope="AmezquitaDesignSystem.Card" hint-size="100%,300px">
+      <x-import component-from-global-scope="AmezquitaDesignSystem.CardMedia" hint-size="100%,190px"><div style="aspect-ratio:21/9;background:#d6d6d6"><img src="assets/demo-cool.jpg" alt="Grass dunes above a grey sea" style="display:block;width:100%;height:100%;object-fit:cover"></div></x-import>
+      <x-import component-from-global-scope="AmezquitaDesignSystem.CardHeader" hint-size="100%,72px">
+        <div style="display:flex;flex-direction:column;gap:4px;min-width:0">
+          <x-import component-from-global-scope="AmezquitaDesignSystem.Heading" level="{{ 5 }}" as="h2" weight="title" hint-size="100%,24px">Quiet days on the west coast</x-import>
+          <span style="font-family:var(--font-family-base);font-size:var(--font-size-small);line-height:var(--line-height-small);color:var(--color-text-secondary)">Updated 2 days ago</span>
+        </div>
+      </x-import>
+      <x-import component-from-global-scope="AmezquitaDesignSystem.CardFooter" hint-size="100%,76px">
+        <x-import component-from-global-scope="AmezquitaDesignSystem.Button" variant="primary" hint-size="120px,36px">Read more</x-import>
+      </x-import>
+    </x-import></div>
+  </div></x-import></sc-if>
+<sc-if value="{{ siteDark }}" hint-placeholder-val="{{ false }}"><x-import component-from-global-scope="AmezquitaDesignSystem.ThemeScope" mode="dark" hint-size="100%,300px"><div style="--font-family-base:'Atkinson Hyperlegible Next',sans-serif;--font-family-heading:'Archivo',sans-serif;--color-surface-primary:oklch(0.21 0.014 170);--color-surface-secondary:color-mix(in oklch, oklch(0.21 0.014 170), oklch(0.985 0.004 170) 4%);--color-text-primary:oklch(0.985 0.004 170);--color-text-secondary:oklch(0.74 0.02 170);--color-border-default:oklch(0.28 0.016 170);--color-border-strong:color-mix(in oklch, oklch(0.28 0.016 170), oklch(0.985 0.004 170) 45%);--color-border-focus:oklch(0.985 0.004 170);--color-accent-default:oklch(0.76 0.12 165);--color-accent-hover:oklch(0.80 0.12 165);--color-accent-foreground:oklch(0.17 0.012 170);--button-secondary-foreground:oklch(0.985 0.004 170);--button-secondary-border:oklch(0.985 0.004 170);--button-secondary-background-hover:oklch(0.985 0.004 170);--border-radius-component:12px;--border-radius-interactive:12px;--border-radius-sm:12px;--border-radius-md:12px;--border-radius-pill:12px;--border-radius-image:0px">
+    <div style="--space-container-padding:24px;--space-element-gap:16px;--button-padding-y:8px;--button-padding-x:16px"><x-import component-from-global-scope="AmezquitaDesignSystem.Card" hint-size="100%,300px">
+      <x-import component-from-global-scope="AmezquitaDesignSystem.CardMedia" hint-size="100%,190px"><div style="aspect-ratio:21/9;background:oklch(0.28 0.016 170)"><img src="assets/demo-cool.jpg" alt="Grass dunes above a grey sea" style="display:block;width:100%;height:100%;object-fit:cover"></div></x-import>
+      <x-import component-from-global-scope="AmezquitaDesignSystem.CardHeader" hint-size="100%,72px">
+        <div style="display:flex;flex-direction:column;gap:4px;min-width:0">
+          <x-import component-from-global-scope="AmezquitaDesignSystem.Heading" level="{{ 5 }}" as="h2" weight="title" hint-size="100%,24px">Quiet days on the west coast</x-import>
+          <span style="font-family:var(--font-family-base);font-size:var(--font-size-small);line-height:var(--line-height-small);color:var(--color-text-secondary)">Updated 2 days ago</span>
+        </div>
+      </x-import>
+      <x-import component-from-global-scope="AmezquitaDesignSystem.CardFooter" hint-size="100%,76px">
+        <x-import component-from-global-scope="AmezquitaDesignSystem.Button" variant="primary" hint-size="120px,36px">Read more</x-import>
+      </x-import>
+    </x-import></div>
+  </div></x-import></sc-if>
+<sc-if value="{{ warmLight }}" hint-placeholder-val="{{ false }}"><x-import component-from-global-scope="AmezquitaDesignSystem.ThemeScope" mode="light" hint-size="100%,300px"><div style="--font-family-base:'Instrument Sans',sans-serif;--font-family-heading:'Bricolage Grotesque',sans-serif;--font-family-mono:'JetBrains Mono',monospace;--font-weight-title:800;--font-size-h5:28px;--line-height-h5:1.15;--letter-spacing-heading:-0.02em;--font-weight-heading:800;--font-weight-display:800;--font-weight-control:600;--font-weight-label:600;--color-surface-primary:oklch(0.995 0.004 75);--color-surface-secondary:color-mix(in oklch, oklch(0.995 0.004 75), oklch(0.20 0.02 45) 4%);--color-text-primary:oklch(0.20 0.02 45);--color-text-secondary:oklch(0.45 0.03 50);--color-border-default:oklch(0.20 0.02 45);--color-border-strong:oklch(0.20 0.02 45);--color-border-focus:oklch(0.20 0.02 45);--color-accent-default:oklch(0.55 0.20 38);--color-accent-hover:oklch(0.50 0.20 38);--color-accent-foreground:#ffffff;--button-secondary-foreground:oklch(0.20 0.02 45);--button-secondary-border:oklch(0.20 0.02 45);--button-secondary-background-hover:oklch(0.20 0.02 45);--button-outline-border-width:2px;--border-width-default:2px;--border-radius-component:0px;--border-radius-image:0px;--border-radius-interactive:2px;--border-radius-sm:2px;--border-radius-md:2px;--border-radius-pill:2px;--shadow-card:none;--shadow-card-hover:none">
+    <div style="--space-container-padding:24px;--space-element-gap:16px;--button-padding-y:8px;--button-padding-x:16px"><x-import component-from-global-scope="AmezquitaDesignSystem.Card" hint-size="100%,300px">
+      <x-import component-from-global-scope="AmezquitaDesignSystem.CardMedia" hint-size="100%,190px"><div style="aspect-ratio:21/9;background:#d6d6d6"><img src="assets/demo-warm.jpg" alt="Terracotta wall with an arched wooden door" style="display:block;width:100%;height:100%;object-fit:cover"></div></x-import>
+      <x-import component-from-global-scope="AmezquitaDesignSystem.CardHeader" hint-size="100%,72px">
+        <div style="display:flex;flex-direction:column;gap:4px;min-width:0">
+          <x-import component-from-global-scope="AmezquitaDesignSystem.Heading" level="{{ 5 }}" as="h2" weight="title" hint-size="100%,24px">Sun-baked doorways</x-import>
+          <span style="font-family:var(--font-family-base);font-size:var(--font-size-small);line-height:var(--line-height-small);color:var(--color-text-secondary)">Updated 2 days ago</span>
+        </div>
+      </x-import>
+      <x-import component-from-global-scope="AmezquitaDesignSystem.CardFooter" hint-size="100%,76px">
+        <x-import component-from-global-scope="AmezquitaDesignSystem.Button" variant="primary" hint-size="120px,36px">Read more</x-import>
+      </x-import>
+    </x-import></div>
+  </div></x-import></sc-if>
+<sc-if value="{{ warmDark }}" hint-placeholder-val="{{ false }}"><x-import component-from-global-scope="AmezquitaDesignSystem.ThemeScope" mode="dark" hint-size="100%,300px"><div style="--font-family-base:'Instrument Sans',sans-serif;--font-family-heading:'Bricolage Grotesque',sans-serif;--font-family-mono:'JetBrains Mono',monospace;--font-weight-title:800;--font-size-h5:28px;--line-height-h5:1.15;--letter-spacing-heading:-0.02em;--font-weight-heading:800;--font-weight-display:800;--font-weight-control:600;--font-weight-label:600;--color-surface-primary:oklch(0.22 0.014 50);--color-surface-secondary:color-mix(in oklch, oklch(0.22 0.014 50), oklch(0.975 0.012 75) 4%);--color-text-primary:oklch(0.975 0.012 75);--color-text-secondary:oklch(0.76 0.025 65);--color-border-default:oklch(0.975 0.012 75);--color-border-strong:oklch(0.975 0.012 75);--color-border-focus:oklch(0.975 0.012 75);--color-accent-default:oklch(0.74 0.16 50);--color-accent-hover:oklch(0.78 0.15 52);--color-accent-foreground:oklch(0.18 0.012 50);--button-secondary-foreground:oklch(0.975 0.012 75);--button-secondary-border:oklch(0.975 0.012 75);--button-secondary-background-hover:oklch(0.975 0.012 75);--button-outline-border-width:2px;--border-width-default:2px;--border-radius-component:0px;--border-radius-image:0px;--border-radius-interactive:2px;--border-radius-sm:2px;--border-radius-md:2px;--border-radius-pill:2px;--shadow-card:none;--shadow-card-hover:none">
+    <div style="--space-container-padding:24px;--space-element-gap:16px;--button-padding-y:8px;--button-padding-x:16px"><x-import component-from-global-scope="AmezquitaDesignSystem.Card" hint-size="100%,300px">
+      <x-import component-from-global-scope="AmezquitaDesignSystem.CardMedia" hint-size="100%,190px"><div style="aspect-ratio:21/9;background:oklch(0.27 0.022 46)"><img src="assets/demo-warm.jpg" alt="Terracotta wall with an arched wooden door" style="display:block;width:100%;height:100%;object-fit:cover"></div></x-import>
+      <x-import component-from-global-scope="AmezquitaDesignSystem.CardHeader" hint-size="100%,72px">
+        <div style="display:flex;flex-direction:column;gap:4px;min-width:0">
+          <x-import component-from-global-scope="AmezquitaDesignSystem.Heading" level="{{ 5 }}" as="h2" weight="title" hint-size="100%,24px">Sun-baked doorways</x-import>
+          <span style="font-family:var(--font-family-base);font-size:var(--font-size-small);line-height:var(--line-height-small);color:var(--color-text-secondary)">Updated 2 days ago</span>
+        </div>
+      </x-import>
+      <x-import component-from-global-scope="AmezquitaDesignSystem.CardFooter" hint-size="100%,76px">
+        <x-import component-from-global-scope="AmezquitaDesignSystem.Button" variant="primary" hint-size="120px,36px">Read more</x-import>
+      </x-import>
+    </x-import></div>
+  </div></x-import></sc-if>
+<sc-if value="{{ softLight }}" hint-placeholder-val="{{ false }}"><x-import component-from-global-scope="AmezquitaDesignSystem.ThemeScope" mode="light" hint-size="100%,300px"><div style="--font-family-base:'Nunito',sans-serif;--font-family-heading:'Fraunces',serif;--font-family-mono:'JetBrains Mono',monospace;--font-weight-title:500;--font-weight-heading:500;--font-weight-display:500;--font-weight-control:600;--font-weight-label:600;--color-surface-primary:oklch(0.995 0.003 290);--color-surface-secondary:color-mix(in oklch, oklch(0.995 0.003 290), oklch(0.26 0.05 290) 4%);--color-text-primary:oklch(0.26 0.05 290);--color-text-secondary:oklch(0.48 0.04 290);--color-border-default:transparent;--color-border-strong:color-mix(in oklch, oklch(0.26 0.05 290) 32%, transparent);--color-border-focus:oklch(0.26 0.05 290);--color-accent-default:oklch(0.80 0.09 290);--color-accent-hover:color-mix(in oklch, oklch(0.80 0.09 290), oklch(0.26 0.05 290) 5%);--color-accent-foreground:oklch(0.26 0.05 290);--button-secondary-background:transparent;--button-secondary-border:color-mix(in oklch, oklch(0.26 0.05 290) 24%, transparent);--button-secondary-foreground:oklch(0.26 0.05 290);--button-secondary-background-hover:color-mix(in oklch, oklch(0.26 0.05 290) 5%, transparent);--button-outline-border-width:1px;--border-width-default:0px;--border-radius-component:24px;--border-radius-image:0px;--border-radius-interactive:9999px;--border-radius-sm:9999px;--border-radius-md:9999px;--border-radius-pill:9999px;--focus-ring-width:2px;--focus-ring-offset:2px;--shadow-card:none;--shadow-card-hover:none">
+    <div style="--space-container-padding:24px;--space-element-gap:16px;--button-padding-y:8px;--button-padding-x:16px;border-radius:24px;box-shadow:0 1px 2px color-mix(in oklch, oklch(0.26 0.05 290) 6%, transparent),0 8px 24px color-mix(in oklch, oklch(0.26 0.05 290) 8%, transparent)"><x-import component-from-global-scope="AmezquitaDesignSystem.Card" hint-size="100%,300px">
+      <x-import component-from-global-scope="AmezquitaDesignSystem.CardMedia" hint-size="100%,190px"><div style="aspect-ratio:21/9;background:#d6d6d6"><img src="assets/demo-soft.jpg" alt="Lavender field in morning mist" style="display:block;width:100%;height:100%;object-fit:cover"></div></x-import>
+      <x-import component-from-global-scope="AmezquitaDesignSystem.CardHeader" hint-size="100%,72px">
+        <div style="display:flex;flex-direction:column;gap:4px;min-width:0">
+          <x-import component-from-global-scope="AmezquitaDesignSystem.Heading" level="{{ 5 }}" as="h2" weight="title" hint-size="100%,24px">Lavender at first light</x-import>
+          <span style="font-family:var(--font-family-base);font-size:var(--font-size-small);line-height:var(--line-height-small);color:var(--color-text-secondary)">Updated 2 days ago</span>
+        </div>
+      </x-import>
+      <x-import component-from-global-scope="AmezquitaDesignSystem.CardFooter" hint-size="100%,76px">
+        <x-import component-from-global-scope="AmezquitaDesignSystem.Button" variant="primary" hint-size="120px,36px">Read more</x-import>
+      </x-import>
+    </x-import></div>
+  </div></x-import></sc-if>
+<sc-if value="{{ softDark }}" hint-placeholder-val="{{ false }}"><x-import component-from-global-scope="AmezquitaDesignSystem.ThemeScope" mode="dark" hint-size="100%,300px"><div style="--font-family-base:'Nunito',sans-serif;--font-family-heading:'Fraunces',serif;--font-family-mono:'JetBrains Mono',monospace;--font-weight-title:500;--font-weight-heading:500;--font-weight-display:500;--font-weight-control:600;--font-weight-label:600;--color-surface-primary:oklch(0.25 0.022 290);--color-surface-secondary:color-mix(in oklch, oklch(0.25 0.022 290), oklch(0.93 0.01 290) 4%);--color-text-primary:oklch(0.93 0.01 290);--color-text-secondary:oklch(0.76 0.03 290);--color-border-default:rgba(255,255,255,0.08);--color-border-strong:color-mix(in oklch, oklch(0.93 0.01 290) 32%, transparent);--color-border-focus:oklch(0.93 0.01 290);--color-accent-default:oklch(0.78 0.09 290);--color-accent-hover:color-mix(in oklch, oklch(0.78 0.09 290), oklch(0.26 0.05 290) 5%);--color-accent-foreground:oklch(0.26 0.05 290);--button-secondary-background:transparent;--button-secondary-border:color-mix(in oklch, oklch(0.93 0.01 290) 32%, transparent);--button-secondary-foreground:oklch(0.93 0.01 290);--button-secondary-background-hover:oklch(0.93 0.01 290);--button-outline-border-width:1px;--border-width-default:1px;--border-radius-component:24px;--border-radius-image:0px;--border-radius-interactive:9999px;--border-radius-sm:9999px;--border-radius-md:9999px;--border-radius-pill:9999px;--focus-ring-width:2px;--focus-ring-offset:2px;--shadow-card:none;--shadow-card-hover:none">
+    <div style="--space-container-padding:24px;--space-element-gap:16px;--button-padding-y:8px;--button-padding-x:16px"><x-import component-from-global-scope="AmezquitaDesignSystem.Card" hint-size="100%,300px">
+      <x-import component-from-global-scope="AmezquitaDesignSystem.CardMedia" hint-size="100%,190px"><div style="aspect-ratio:21/9;background:oklch(0.30 0.048 290)"><img src="assets/demo-soft.jpg" alt="Lavender field in morning mist" style="display:block;width:100%;height:100%;object-fit:cover"></div></x-import>
+      <x-import component-from-global-scope="AmezquitaDesignSystem.CardHeader" hint-size="100%,72px">
+        <div style="display:flex;flex-direction:column;gap:4px;min-width:0">
+          <x-import component-from-global-scope="AmezquitaDesignSystem.Heading" level="{{ 5 }}" as="h2" weight="title" hint-size="100%,24px">Lavender at first light</x-import>
+          <span style="font-family:var(--font-family-base);font-size:var(--font-size-small);line-height:var(--line-height-small);color:var(--color-text-secondary)">Updated 2 days ago</span>
+        </div>
+      </x-import>
+      <x-import component-from-global-scope="AmezquitaDesignSystem.CardFooter" hint-size="100%,76px">
+        <x-import component-from-global-scope="AmezquitaDesignSystem.Button" variant="primary" hint-size="120px,36px">Read more</x-import>
+      </x-import>
+    </x-import></div>
+  </div></x-import></sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:440,&quot;height&quot;:320},&quot;brand&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;site&quot;,&quot;demo-warm&quot;,&quot;demo-soft&quot;],&quot;default&quot;:&quot;site&quot;,&quot;tsType&quot;:&quot;'site'|'demo-warm'|'demo-soft'&quot;},&quot;mode&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;light&quot;,&quot;dark&quot;],&quot;default&quot;:&quot;light&quot;,&quot;tsType&quot;:&quot;'light'|'dark'&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const w = this.props.brand === 'demo-warm', s = this.props.brand === 'demo-soft', d = this.props.mode === 'dark';
+    const c = !w && !s;
+    return { siteLight: c && !d, siteDark: c && d, warmLight: w && !d, warmDark: w && d, softLight: s && !d, softDark: s && d };
+  }
+}
+</script>
+</body>
+</html>
