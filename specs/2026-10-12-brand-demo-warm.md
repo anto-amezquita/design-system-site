@@ -42,6 +42,12 @@ Contrast checked (coloraide, WCAG 2.x): secondary text `oklch(0.45 0.03 50)` `#6
 
 The accent's one job, as in `demo-cool`: the primary action. Never body text.
 
+## Notes from the first render (2026-10-12)
+
+- Bricolage Grotesque loads (Rendered Fonts: "Bricolage Grotesque 96pt ExtraBold"). The card title takes weight and size from tokens (`--font-weight-title`, `--font-size-h5`), so `demo-warm` overrides those: 800 and 28px, line-height 1.15, −0.02em. At 20px the typeface barely differs from Archivo.
+- Claude Design filled in the sand ramp's middle steps, the hover/pressed accents, the dark card surface and the dark secondary text itself. Check them against the brief before they become tokens.
+- The 2px border is a shared border token, so it reaches inputs too.
+
 ## Status
 
 - [ ] Rendered in Claude Design (hero card + brand sheet, light/dark, 1440/375)

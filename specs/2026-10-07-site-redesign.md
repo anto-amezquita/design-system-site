@@ -208,6 +208,7 @@ Checking the token files showed why `portfolio` looked like `base`: it overrides
 ## Open questions
 
 - Interaction states as overlays? In the library today they are solid colours: nav hover and selected share one fill (`color-surface-secondary`, neutral-100), so they look the same, and the secondary Button jumps to the accent on hover. Astryx stacks a 5% / 10% overlay that works over any surface and any brand. A library change, so it would ship with the new brand under ADR 0022, or not at all this week.
+- **Button has no pressed state** (found 2026-10-12 while rendering `demo-warm` and `demo-soft` in Claude Design: it had to draw the pressed swatches by hand). Library work: add a pressed state to Button, ideally as the 10% overlay from the question above, so every brand gets it from tokens. Ships under ADR 0022.
 - ~~Hero theme carousel~~ Decided 2026-10-12 (Day 3): no carousel. A brand switch with three demo brands (`demo-cool` · `demo-warm` · `demo-soft`, `demo-cool` first) re-skins one real Card in the hero. `base` and `portfolio` are not on it. It is the hero's labelled exception to the 0017 amendment, which keeps component previews in `base` elsewhere.
 
 - ~~The brand's name.~~ Decided 2026-10-09 as `site`; renamed 2026-10-12 to `demo-cool`, one of three demo brands named by character (see Day 3). It is the folder `tokens/brands/demo-cool/` and the `ThemeScope` value (`brand="demo-cool"`). "Resolution" stays the direction's name in the case study.
