@@ -170,6 +170,29 @@ Every project that uses the design system should get its own brand the same way.
 
 Done 2026-10-09: the kit's Stage 3 now requires §1, §4, §5 and §9 and hands the visual half to a new `skills/brand-direction/SKILL.md` (kit branch `docs/brand-direction`). The same skill was proposed as a Claude skill for use from any chat.
 
+## Day 3 — Landing hero (2026-10-12)
+
+Started from Direction 3's hero: the "How one value resolves" chain on the right, and a "One system, any brand" section below with three Invite cards.
+
+### Decisions
+
+- **One object, not two.** The chain and the three-card section explained the same idea twice. The section is removed; the hero's right column carries the whole idea.
+- **A real component, not a token readout.** Showing a token's value changing read as academic. The hero shows one real Card instead, built only from system components, and a brand switch re-skins it the way Astryx's theme carousel does: font, accent, neutrals, radius, button style.
+- **Few elements, for realism:** a 21:9 image, a title, one line of meta text, one primary Button. At most 440px wide, aligned to the right page edge, about the height of the left column so both centre against each other.
+- **The image stays the same in every brand.** One neutral image (to be supplied); the brand changes the frame around it. No stock imagery.
+- **Under the card, one mono line** with the active brand's real values: `accent <hex> · radius <value> · <heading font>`. It keeps "token-first" visible without taking over.
+- **Everything comes from tokens.** No brand is styled by hand in the scene. If two brands look alike, the fix belongs in their tokens, not in the page.
+- The hero's secondary buttons use a 1px outline (set inline in Claude Design for now; it becomes a `site` brand token on Day 6).
+
+### Brand work this creates
+
+Checking the token files showed why `portfolio` looked like `base`: it overrides 16 tokens, namely the neutral scale (warm instead of grey), the font (Schibsted Grotesk) and one glow colour. No accent, no radius. The portfolio site's live accent is warm near-black (`#292524`). Its old teal (`#15616D`, ADR 0001) is close to the site's viridian, so restoring it wouldn't make the switch convincing.
+
+- Antonio gives `base`, `portfolio` and `site` visibly different personalities, so every option on the switch makes a noticeable change. Use the `brand-direction` skill.
+- `base` stays the white-label default (ADR 0001): more distinct is fine, but neutral enough to build any brand on.
+- Changing `portfolio` changes the live portfolio site once it bumps the library version.
+- Order: brand tokens in the library → release (ADR 0022) → `/design-sync` → the hero scene picks the changes up with no page edits.
+
 ## Later, out of scope this week
 
 - **Stripe-grade motion, as its own track after the site ships.** Stripe's premium feel comes from bespoke animated graphics: the hero wave, and a WebGL2 canvas per card ("Monetise through agentic commerce", "Create a card issuing programme", the globe, the "squeezy" carousel). That layer sits on top of a design system; tokens and Figma don't produce it. Learn it separately, starting with three.js. This week builds the foundation it will sit on: the motion only reads as premium because the type, spacing and restraint underneath are already right.
@@ -181,6 +204,6 @@ Done 2026-10-09: the kit's Stage 3 now requires §1, §4, §5 and §9 and hands 
 ## Open questions
 
 - Interaction states as overlays? In the library today they are solid colours: nav hover and selected share one fill (`color-surface-secondary`, neutral-100), so they look the same, and the secondary Button jumps to the accent on hover. Astryx stacks a 5% / 10% overlay that works over any surface and any brand. A library change, so it would ship with the new brand under ADR 0022, or not at all this week.
-- Hero theme carousel: at most three themes, and only brands the library actually ships (`base`, `portfolio`, the new site brand), no demo skins. Get each one right before adding more. Still open: the 0017 amendment keeps the landing composite in `base`, so the carousel is an exception for the hero, labelled with each theme's name. Confirm on Day 3.
+- ~~Hero theme carousel~~ Decided 2026-10-12 (Day 3): no carousel. A brand switch with the three shipped brands (`site` · `portfolio` · `base`, `site` first) re-skins one real Card in the hero. It is the hero's labelled exception to the 0017 amendment, which keeps component previews in `base` elsewhere.
 
 - ~~The brand's name.~~ Decided 2026-10-09: `site`, named for its job like `base` and `portfolio`. It is the folder `tokens/brands/site/` and the `ThemeScope` value (`brand="site"`). "Resolution" stays the direction's name in the case study.
