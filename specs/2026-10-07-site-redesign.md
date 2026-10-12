@@ -182,15 +182,19 @@ Started from Direction 3's hero: the "How one value resolves" chain on the right
 - **The image stays the same in every brand.** One neutral image (to be supplied); the brand changes the frame around it. No stock imagery.
 - **Under the card, one mono line** with the active brand's real values: `accent <hex> · radius <value> · <heading font>`. It keeps "token-first" visible without taking over.
 - **Everything comes from tokens.** No brand is styled by hand in the scene. If two brands look alike, the fix belongs in their tokens, not in the page.
-- The hero's secondary buttons use a 1px outline (set inline in Claude Design for now; it becomes a `site` brand token on Day 6).
+- The hero's secondary buttons use a 1px outline (set inline in Claude Design for now; it becomes a `demo-cool` brand token on Day 6).
 
-### Brand work this creates
+### The switch shows three demo brands (decided later on Day 3)
 
-Checking the token files showed why `portfolio` looked like `base`: it overrides 16 tokens, namely the neutral scale (warm instead of grey), the font (Schibsted Grotesk) and one glow colour. No accent, no radius. The portfolio site's live accent is warm near-black (`#292524`). Its old teal (`#15616D`, ADR 0001) is close to the site's viridian, so restoring it wouldn't make the switch convincing.
+Checking the token files showed why `portfolio` looked like `base`: it overrides 16 tokens, namely the neutral scale (warm instead of grey), the font (Schibsted Grotesk) and one glow colour. No accent, no radius. Giving it more character would change the live portfolio site, so the switch doesn't use the shipped brands at all.
 
-- Antonio gives `base`, `portfolio` and `site` visibly different personalities, so every option on the switch makes a noticeable change. Use the `brand-direction` skill.
-- `base` stays the white-label default (ADR 0001): more distinct is fine, but neutral enough to build any brand on.
-- Changing `portfolio` changes the live portfolio site once it bumps the library version.
+- **`base` and `portfolio` stay as they are and leave the switch.** `base` is the white-label default (ADR 0001); `portfolio` belongs to the portfolio site.
+- **The switch shows three demo brands, named by character:** `demo-cool` · `demo-warm` · `demo-soft`, `demo-cool` first. Descriptive names, so the label says what kind of change a click makes.
+  - `demo-cool`: Direction 3 "Resolution", renamed from `site`. Archivo and Atkinson Hyperlegible, viridian on sage, 12px radius. Calm and precise. The site's own frame wears it too.
+  - `demo-warm`: the deliberate opposite of `demo-cool`. Warm accent (amber or coral) and warm neutrals, sharp (0–2px) or pill corners, a different typeface voice. High contrast, bold.
+  - `demo-soft`: gentle and rounded. Soft neutrals, generous radius, a friendly typeface, a muted accent. Low contrast and calm, so it never reads like `demo-warm`.
+- **How far to push:** flip accent, neutrals, radius and typeface hard; keep structure, spacing and the grid identical. The components stay recognisable; only the character changes.
+- `demo-warm` and `demo-soft` are each a small `brand-direction` run (Antonio designs them). Until they exist, the switch can ship with `demo-cool` alone or with the brands that are ready.
 - Order: brand tokens in the library → release (ADR 0022) → `/design-sync` → the hero scene picks the changes up with no page edits.
 
 ## Later, out of scope this week
@@ -204,6 +208,6 @@ Checking the token files showed why `portfolio` looked like `base`: it overrides
 ## Open questions
 
 - Interaction states as overlays? In the library today they are solid colours: nav hover and selected share one fill (`color-surface-secondary`, neutral-100), so they look the same, and the secondary Button jumps to the accent on hover. Astryx stacks a 5% / 10% overlay that works over any surface and any brand. A library change, so it would ship with the new brand under ADR 0022, or not at all this week.
-- ~~Hero theme carousel~~ Decided 2026-10-12 (Day 3): no carousel. A brand switch with the three shipped brands (`site` · `portfolio` · `base`, `site` first) re-skins one real Card in the hero. It is the hero's labelled exception to the 0017 amendment, which keeps component previews in `base` elsewhere.
+- ~~Hero theme carousel~~ Decided 2026-10-12 (Day 3): no carousel. A brand switch with three demo brands (`demo-cool` · `demo-warm` · `demo-soft`, `demo-cool` first) re-skins one real Card in the hero. `base` and `portfolio` are not on it. It is the hero's labelled exception to the 0017 amendment, which keeps component previews in `base` elsewhere.
 
-- ~~The brand's name.~~ Decided 2026-10-09: `site`, named for its job like `base` and `portfolio`. It is the folder `tokens/brands/site/` and the `ThemeScope` value (`brand="site"`). "Resolution" stays the direction's name in the case study.
+- ~~The brand's name.~~ Decided 2026-10-09 as `site`; renamed 2026-10-12 to `demo-cool`, one of three demo brands named by character (see Day 3). It is the folder `tokens/brands/demo-cool/` and the `ThemeScope` value (`brand="demo-cool"`). "Resolution" stays the direction's name in the case study.
