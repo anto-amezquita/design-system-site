@@ -179,7 +179,7 @@ Started from Direction 3's hero: the "How one value resolves" chain on the right
 - **One object, not two.** The chain and the three-card section explained the same idea twice. The section is removed; the hero's right column carries the whole idea.
 - **A real component, not a token readout.** Showing a token's value changing read as academic. The hero shows one real Card instead, built only from system components, and a brand switch re-skins it the way Astryx's theme carousel does: font, accent, neutrals, radius, button style.
 - **Few elements, for realism:** a 21:9 image, a title, one line of meta text, one primary Button. At most 440px wide, aligned to the right page edge, about the height of the left column so both centre against each other.
-- **The image stays the same in every brand.** One neutral image (to be supplied); the brand changes the frame around it. No stock imagery.
+- **Each brand has its own image** (changed 2026-10-12; first decided as one neutral image). The image is the largest area of the card, so it carries the mood too: cool dunes, a hot terracotta wall, a hazy lavender field. Generated with Figma's image tool, no stock imagery; files and prompts in `design/images/`. The image changes with the brand switch.
 - **Under the card, one mono line** with the active brand's real values: `accent <hex> · radius <value> · <heading font>`. It keeps "token-first" visible without taking over.
 - **Everything comes from tokens.** No brand is styled by hand in the scene. If two brands look alike, the fix belongs in their tokens, not in the page.
 - The hero's secondary buttons use a 1px outline (set inline in Claude Design for now; it becomes a `demo-cool` brand token on Day 6).
