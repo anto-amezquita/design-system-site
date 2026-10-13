@@ -14,6 +14,8 @@ Decided in the 2026-10-07 amendment to `decisions/0017` in the design-system rep
 - Component previews stay in `base`. They sit outside the branded parts as siblings, never inside them. Cohesion comes from their setting, the way Material's site does it.
 - The site defines no colours, type or spacing of its own. Figma variables come from the same token files.
 
+**Changed 2026-10-13:** the second point no longer holds. The whole site, component previews included, now wears the brand picked in the hero (see "The site wears the brand" below). The 0017 amendment needs a note saying so.
+
 ## The week (4 hours a day)
 
 | Day | Focus | Tool | Done when |
@@ -204,7 +206,30 @@ Checking the token files showed why `portfolio` looked like `base`: it overrides
 Built in code, not Figma: the component already exists, so redrawing it would be copying, not designing.
 
 - **Library** (`docs/button-in-depth`, merged): every Button prop described (12 of 15 had none); Do / Don't, with the twin generator now rendering a Best practices section for any component that has `**Do**` / `**Don't**` blocks in `docs/components.md`; a pressed state; ghost's hover border fixed. Reaches the site with the next release.
-- **Site** (`feat/button-page`, not pushed): the Live render becomes a states table, every variant against rest, disabled and loading, plus a column to try hover, focus and press, once in light and once in dark, stacked. Held back until the release, so the page ships complete.
+- **Site** (`feat/button-page`, merged as #15 after 1.4.0): the Live render becomes a states table, every variant against rest, disabled and loading, plus a column to try hover, focus and press, once in light and once in dark, stacked. Held back until the release, so the page ships complete. A brand row under it shows Save / Share / Skip in the three demo brands.
+
+## Day 6 — Ship (2026-10-13)
+
+- **Library 1.4.0 on npm.** The library builds any number of brands now (ADR 0023): every folder in `tokens/brands/` other than `base` is a brand, and the build, contrast check, linters, token reference and font links loop over them. `demo-cool`, `demo-warm` and `demo-soft` shipped as tokens, with four tokens any brand can use: `font-variation-heading`, `button-border-radius`, `color-accent-text` / `-hover` and `color-accent-pressed`. Contrast passes in all 10 modes.
+- **Site on 1.4.0** (#13), with Next.js 16.4.0 for the security fixes (#14).
+
+## The hero, built; the site wears the brand (2026-10-13)
+
+Built in code on `feat/landing-hero` (pushed), from the Day 3 design.
+
+- **The hero:** copy on the left (Stable badge, "The fundamentals, / done properly.", lead, Get started and Browse components); on the right, the brand switch over one real Card with its brand's image and title, and the mono line `accent · radius · heading font`, read from the token reference. The card is 520px wide, not 440: the Claude Design export used 520. The headline stays on two lines and shrinks with its column rather than wrap.
+- **Decided: the whole site wears the brand, not only the card.** A switch that changes one card looked like a demo; one that changes the whole site shows what a brand is. `demo-cool` by default.
+  - The pick is remembered in the browser and applied before first paint, so a returning visitor never sees a flash of `demo-cool`. Switching crossfades the page (View Transitions), with no fade under reduced motion.
+  - The switch is a radio group, not Tabs: it's a setting and owns no panel.
+  - **Foundations follows the brand** too, printing each token's values for the current brand (`PerBrand`). First built with Foundations and Themes staying in base; the jump back to base on navigation felt like a break, so it was reversed the same day.
+  - **Themes keeps a true base panel** next to portfolio. That needed base scoped to `[data-brand="base"]`, which the library didn't have: the site derives it for now (`scripts/build-base-scoped.mjs`), and the library adds `base-scoped.css` (`feat/base-scoped`, pushed; ADR 0023 amendment). `check:themes` was updated and passes in light and dark.
+- **Fixed on the way:** "Slot failed to slot onto its Slottable" on /components. Server pages passed NextLink into Link's `asChild`; `SiteLink` builds the pair on the client.
+
+### Follow-ups
+
+- When a release ships `base-scoped.css`: import it in `app/layout.tsx`, drop the `as ThemeBrand` cast in `ThemeExplorer`, delete `scripts/build-base-scoped.mjs` and its predev / prebuild steps. `check-workarounds` warns when it's time.
+- Note in the library's 0017 amendment that previews now wear the site's brand.
+- The two inline scripts in the root layout log "Encountered a script tag" in dev; consider `next/script`.
 
 ## Later, out of scope this week
 
@@ -219,6 +244,6 @@ Built in code, not Figma: the component already exists, so redrawing it would be
 - Interaction states as overlays? In the library today they are solid colours: nav hover and selected share one fill (`color-surface-secondary`, neutral-100), so they look the same, and the secondary Button jumps to the accent on hover. Astryx stacks a 5% / 10% overlay that works over any surface and any brand. A library change, so it would ship with the new brand under ADR 0022, or not at all this week.
 - ~~**Button has no pressed state**~~ Done 2026-10-13 (library PR `docs/button-in-depth`, merged): a `color-accent-pressed` token per brand and mode, `:active` for mouse and touch. Ghost's stray hover border fixed in the same PR.
 - **Loading looks almost like disabled** (seen 2026-10-13 on the Button page's states table). Loading uses the same reduced opacity as disabled, so on light `primary` the fill goes pale grey and the spinner is barely visible. Loading says "busy, wait", not "unavailable", so it should keep the variant's colours with only the label hidden. Library follow-up, after this week.
-- ~~Hero theme carousel~~ Decided 2026-10-12 (Day 3): no carousel. A brand switch with three demo brands (`demo-cool` · `demo-warm` · `demo-soft`, `demo-cool` first) re-skins one real Card in the hero. `base` and `portfolio` are not on it. It is the hero's labelled exception to the 0017 amendment, which keeps component previews in `base` elsewhere.
+- ~~Hero theme carousel~~ Decided 2026-10-12 (Day 3): no carousel. A brand switch with three demo brands (`demo-cool` · `demo-warm` · `demo-soft`, `demo-cool` first) re-skins one real Card in the hero. `base` and `portfolio` are not on it. It was first the hero's labelled exception to the 0017 amendment; since 2026-10-13 it sets the brand for the whole site.
 
 - ~~The brand's name.~~ Decided 2026-10-09 as `site`; renamed 2026-10-12 to `demo-cool`, one of three demo brands named by character (see Day 3). It is the folder `tokens/brands/demo-cool/` and the `ThemeScope` value (`brand="demo-cool"`). "Resolution" stays the direction's name in the case study.
