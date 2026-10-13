@@ -69,6 +69,20 @@ body {
   min-width: 0;
 }
 
+/* The icons at either end sit on the page margin, in line with the content
+   below: their buttons stay full touch targets, pulled out by the space
+   around the icon. */
+.site-header .side-nav-trigger {
+  width: var(--size-touch-target);
+  padding: 0;
+  /* SideNav.css sizes the trigger icon with --size-icon-sm. */
+  margin-inline-start: calc((var(--size-icon-sm) - var(--size-touch-target)) / 2);
+}
+
+.site-header .mode-toggle {
+  margin-inline-end: calc((var(--size-icon-md) - var(--size-touch-target)) / 2);
+}
+
 .site-header__nav {
   grid-column: 2;
 }
@@ -121,7 +135,7 @@ body {
   justify-self: end;
   display: flex;
   align-items: center;
-  gap: var(--space-inline-gap);
+  gap: var(--space-tight-gap);
 }
 
 .brand-picker {
@@ -187,7 +201,9 @@ body {
 .brand-picker__option {
   display: grid;
   place-items: center;
-  width: var(--size-touch-target);
+  /* 32px wide, 44px tall: compact between the dots, still well over the
+     24px minimum target. */
+  width: calc(2 * var(--space-element-gap));
   height: var(--size-touch-target);
   padding: 0;
   border: none;
