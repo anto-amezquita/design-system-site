@@ -982,6 +982,58 @@ body {
 }
 
 .landing-hero__demo .hero-switch {
+  display: contents;
+}
+
+.landing-hero__copy {
+  grid-column: 1;
+  grid-row: 2;
+  container-type: inline-size;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-component-gap);
+}
+
+.landing-hero__title {
+  margin: 0;
+  font-family: var(--font-family-heading);
+  font-variation-settings: var(--font-variation-heading);
+  font-size: var(--font-size-h1-fluid);
+  font-weight: var(--hero-title-weight);
+  line-height: var(--line-height-display);
+  letter-spacing: var(--letter-spacing-heading);
+}
+
+.landing-hero__title span {
+  display: block;
+  white-space: nowrap;
+}
+
+/* Never break "The fundamentals," itself: past the column's width the
+   title scales with the column (Archivo at 112.5 width runs about 10.4em). */
+@supports (font-size: 1cqi) {
+  .landing-hero__title {
+    font-size: min(var(--font-size-h1-fluid), 9.4cqi);
+  }
+}
+
+.landing-hero__lead {
+  margin: 0;
+  max-width: var(--hero-lead-max-width);
+  font-size: var(--hero-lead-size);
+  line-height: var(--line-height-body);
+  color: var(--color-text-secondary);
+}
+
+.landing-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-inline-gap);
+  margin-top: var(--space-inline-gap);
+}
+
+.hero-switch {
   display: grid;
   gap: var(--space-element-gap);
 }
