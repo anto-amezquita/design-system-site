@@ -2,7 +2,7 @@ import { SiteLink } from '@/components/site/SiteLink'
 import { Badge } from '@amezquita/design-system/components/primitives/Badge'
 import { Heading } from '@amezquita/design-system/components/primitives/Heading'
 import { LandingActions } from '@/components/site/LandingActions'
-import { HeroBrandSwitch, type BrandSpec } from '@/components/site/HeroBrandSwitch'
+import { HeroCard, type BrandSpec } from '@/components/site/HeroCard'
 import { DEMO_BRANDS, type DemoBrand } from '@/lib/demo-brands'
 import { getBrandNames, getPackageVersion, getPublicComponents, getTokenReference } from '@/lib/ds'
 
@@ -61,7 +61,7 @@ export default function LandingPage() {
             <div className="landing-hero__actions"><LandingActions /></div>
           </div>
           <div className="landing-hero__demo">
-            <HeroBrandSwitch specs={brandSpecs()} />
+            <HeroCard specs={brandSpecs()} />
           </div>
         </section>
       </div>

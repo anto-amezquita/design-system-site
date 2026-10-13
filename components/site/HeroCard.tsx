@@ -3,7 +3,6 @@
 import { Button } from '@amezquita/design-system/components/primitives/Button'
 import { Card, CardFooter, CardHeader, CardMedia, CardTitle } from '@amezquita/design-system/components/composition/Card'
 import { DEMO_BRANDS, DEMO_BRAND_CARDS, DEFAULT_BRAND, type DemoBrand } from '@/lib/demo-brands'
-import { chooseBrand, useSiteBrand } from '@/lib/site-brand'
 
 /** A token value per mode, read from the package's token reference on the server. */
 type ModeValue = { light: string; dark: string }
@@ -21,42 +20,13 @@ function Value({ value }: { value: ModeValue }) {
 }
 
 /**
- * Picks the brand the whole site wears. It's a setting, not tabs: nothing
- * here owns a panel. Which option looks selected, and which card shows, come
- * from <html data-brand> in CSS, so a returning visitor's pick is right from
- * first paint; aria-checked follows it through useSiteBrand.
+ * The hero's card, once per demo brand; CSS shows the one matching
+ * <html data-brand>, so it follows the header's brand picker and a returning
+ * visitor's pick is right from first paint.
  */
-export function HeroBrandSwitch({ specs }: { specs: Record<DemoBrand, BrandSpec> }) {
-  const brand = useSiteBrand()
-  const pick = chooseBrand
-
+export function HeroCard({ specs }: { specs: Record<DemoBrand, BrandSpec> }) {
   return (
     <div className="hero-switch">
-      <div role="radiogroup" aria-label="Brand for this site" className="brand-switch">
-        {DEMO_BRANDS.map(b => (
-          <button
-            key={b}
-            type="button"
-            role="radio"
-            aria-checked={brand === b}
-            tabIndex={brand === b ? 0 : -1}
-            data-for={b}
-            className="brand-switch__option"
-            onClick={() => pick(b)}
-            onKeyDown={e => {
-              const step = e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : e.key === 'ArrowLeft' || e.key === 'ArrowUp' ? -1 : 0
-              if (!step) return
-              e.preventDefault()
-              const next = DEMO_BRANDS[(DEMO_BRANDS.indexOf(b) + step + DEMO_BRANDS.length) % DEMO_BRANDS.length]
-              pick(next)
-              const group = e.currentTarget.parentElement
-              group?.querySelector<HTMLButtonElement>(`[data-for="${next}"]`)?.focus()
-            }}
-          >
-            {b}
-          </button>
-        ))}
-      </div>
       <div className="hero-switch__cards">
         {DEMO_BRANDS.map(b => {
           const card = DEMO_BRAND_CARDS[b]
