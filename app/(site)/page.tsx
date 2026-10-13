@@ -4,7 +4,7 @@ import { Heading } from '@amezquita/design-system/components/primitives/Heading'
 import { LandingActions } from '@/components/site/LandingActions'
 import { HeroCard, type BrandSpec } from '@/components/site/HeroCard'
 import { DEMO_BRANDS, type DemoBrand } from '@/lib/demo-brands'
-import { getBrandNames, getPackageVersion, getPublicComponents, getTokenReference } from '@/lib/ds'
+import { getPublicComponents, getTokenReference } from '@/lib/ds'
 
 // The line under the hero card: values from the package's token reference,
 // so it can't drift from what the card renders.
@@ -40,10 +40,7 @@ const SECTIONS = [
 ]
 
 export default function LandingPage() {
-  const version = getPackageVersion()
   const components = getPublicComponents().length
-  const { meta } = getTokenReference()
-  const brands = getBrandNames().length
 
   return (
     <div className="landing">
@@ -66,14 +63,6 @@ export default function LandingPage() {
         </section>
       </div>
 
-      <section className="landing__stats" aria-label="The package in numbers">
-        <div className="stat-row">
-          <p className="stat"><span className="stat__value">{components}</span><span className="stat__label">components</span></p>
-          <p className="stat"><span className="stat__value">{meta.total}</span><span className="stat__label">tokens</span></p>
-          <p className="stat"><span className="stat__value">{brands}</span><span className="stat__label">brands, light and dark</span></p>
-          <p className="stat"><span className="stat__value">{version}</span><span className="stat__label">installed from npm</span></p>
-        </div>
-      </section>
 
       <section className="landing__sections" aria-labelledby="sections">
         <Heading level={5} as="h2" id="sections">What’s here</Heading>

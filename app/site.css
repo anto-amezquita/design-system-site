@@ -412,27 +412,9 @@ body {
 
 /* ─── Shared blocks ──────────────────────────────────────── */
 
-.stat-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-component-gap) var(--space-container-padding);
-}
 
-.stat {
-  display: grid;
-}
 
-.stat__value {
-  font-size: var(--font-size-h4);
-  font-weight: var(--font-weight-heading);
-  line-height: var(--line-height-h4);
-}
 
-.stat__label {
-  color: var(--color-text-secondary);
-  font-size: var(--font-size-small);
-  line-height: var(--line-height-small);
-}
 
 .link-grid {
   display: grid;
@@ -1019,12 +1001,6 @@ body {
   gap: var(--space-element-gap);
 }
 
-/* The numbers close the hero: a rule above them ties them to it, so they
-   don't float between the hero and "What's here". */
-.landing__stats {
-  padding-top: var(--space-component-gap);
-  border-top: var(--border-width-default) solid var(--color-border-default);
-}
 
 .table-prose {
   display: block;
