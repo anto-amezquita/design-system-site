@@ -954,3 +954,217 @@ body {
 .markdown li + li {
   margin-top: var(--space-inline-gap);
 }
+
+/* ─── Landing hero ───────────────────────────────────────── */
+/* Copy on the left, one real Card on the right. The switch above the card
+   sets the brand the whole site wears (lib/site-brand). */
+
+.landing-hero {
+  color: var(--color-text-primary);
+  font-family: var(--font-family-base);
+}
+
+.landing-hero__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 520px);
+  grid-template-rows: auto auto;
+  gap: var(--space-element-gap) var(--space-section-gap);
+  padding-block: var(--hero-padding-y);
+}
+
+/* The switch sits in row 1 on the right; the copy and the card both start
+   in row 2, so the badge lines up with the card's top edge. */
+.landing-hero__demo {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  display: grid;
+  grid-template-rows: subgrid;
+}
+
+.landing-hero__demo .hero-switch {
+  display: contents;
+}
+
+.landing-hero__copy {
+  grid-column: 1;
+  grid-row: 2;
+  container-type: inline-size;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-component-gap);
+}
+
+.landing-hero__title {
+  margin: 0;
+  font-family: var(--font-family-heading);
+  font-variation-settings: var(--font-variation-heading);
+  font-size: var(--font-size-h1-fluid);
+  font-weight: var(--hero-title-weight);
+  line-height: var(--line-height-display);
+  letter-spacing: var(--letter-spacing-heading);
+}
+
+.landing-hero__title span {
+  display: block;
+  white-space: nowrap;
+}
+
+/* Never break "The fundamentals," itself: past the column's width the
+   title scales with the column (Archivo at 112.5 width runs about 10.4em). */
+@supports (font-size: 1cqi) {
+  .landing-hero__title {
+    font-size: min(var(--font-size-h1-fluid), 9.4cqi);
+  }
+}
+
+.landing-hero__lead {
+  margin: 0;
+  max-width: var(--hero-lead-max-width);
+  font-size: var(--hero-lead-size);
+  line-height: var(--line-height-body);
+  color: var(--color-text-secondary);
+}
+
+.landing-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-inline-gap);
+  margin-top: var(--space-inline-gap);
+}
+
+.hero-switch {
+  display: grid;
+  gap: var(--space-element-gap);
+}
+
+/* The brand switch: a radio group drawn like the pill tabs. The selected
+   look comes from <html data-brand>, so it's right before React runs. */
+.brand-switch {
+  display: flex;
+  gap: var(--space-inline-gap);
+}
+
+.brand-switch__option {
+  padding: var(--space-compact-padding-y) var(--space-compact-padding-x);
+  border: none;
+  border-radius: var(--border-radius-interactive);
+  background: none;
+  color: var(--color-text-secondary);
+  font: inherit;
+  font-size: var(--font-size-control);
+  cursor: pointer;
+  transition: background-color var(--duration-interaction) var(--easing-default),
+    color var(--duration-interaction) var(--easing-default);
+}
+
+.brand-switch__option:hover {
+  color: var(--color-text-primary);
+}
+
+.brand-switch__option:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-border-focus);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* One card per brand; only the site's current brand shows. */
+.hero-switch__card {
+  display: none;
+}
+
+[data-brand='demo-cool'] .brand-switch__option[data-for='demo-cool'],
+[data-brand='demo-warm'] .brand-switch__option[data-for='demo-warm'],
+[data-brand='demo-soft'] .brand-switch__option[data-for='demo-soft'] {
+  background: var(--color-surface-secondary);
+  color: var(--color-text-primary);
+}
+
+[data-brand='demo-cool'] .hero-switch__card[data-for='demo-cool'],
+[data-brand='demo-warm'] .hero-switch__card[data-for='demo-warm'],
+[data-brand='demo-soft'] .hero-switch__card[data-for='demo-soft'] {
+  display: block;
+}
+
+.hero-switch__card .card__media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 21 / 9;
+  object-fit: cover;
+}
+
+.hero-switch__meta {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+
+.hero-switch__tokens {
+  margin: var(--space-element-gap) 0 0;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-small);
+}
+
+/* A caption, not inline code: no chip. */
+.hero-switch__tokens code {
+  padding: 0;
+  background: none;
+  color: inherit;
+}
+
+.hero-switch__value--dark {
+  display: none;
+}
+
+[data-mode='dark'] .hero-switch__value--light {
+  display: none;
+}
+
+[data-mode='dark'] .hero-switch__value--dark {
+  display: inline;
+}
+
+/* Switching brand re-skins the whole page as one crossfade (the View
+   Transitions API). lib/site-brand skips it under reduced motion. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: var(--duration-base);
+  animation-timing-function: var(--easing-out);
+}
+
+@media (max-width: 1023px) {
+  .landing-hero__inner {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: none;
+    row-gap: var(--space-section-gap);
+  }
+
+  .landing-hero__copy,
+  .landing-hero__demo {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .landing-hero__demo {
+    display: block;
+    max-width: 520px;
+  }
+
+  .landing-hero__demo .hero-switch {
+    display: grid;
+  }
+}
+
+/* ─── Per-brand values ───────────────────────────────────── */
+/* components/site/PerBrand: one copy per demo brand, the site's own shows. */
+
+.per-brand {
+  display: none;
+}
+
+[data-brand='demo-cool'] .per-brand[data-for='demo-cool'],
+[data-brand='demo-warm'] .per-brand[data-for='demo-warm'],
+[data-brand='demo-soft'] .per-brand[data-for='demo-soft'] {
+  display: inline;
+}

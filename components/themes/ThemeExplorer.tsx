@@ -2,6 +2,7 @@
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@amezquita/design-system/components/patterns/Tabs'
 import { ThemeScope } from '@amezquita/design-system/components/composition/ThemeScope'
+import type { ThemeBrand } from '@amezquita/design-system/lib/theme-brands'
 import { SampleScreen } from '@/components/demos/SampleScreen'
 
 const THEMES = [
@@ -11,8 +12,11 @@ const THEMES = [
 
 /**
  * The same sample screen, once per theme, side by side on this page. The
- * Themes page loads portfolio-scoped.css, and each panel is a ThemeScope:
- * the portfolio one sets the brand, both set the tab's mode, so the tabs work
+ * Themes page loads portfolio-scoped.css, and each panel is a ThemeScope
+ * that sets its brand. The site itself wears a demo
+ * brand, so the Base panel sets "base" too, from app/generated/base-scoped.css
+ * (the package has no base-scoped.css yet, so ThemeBrand doesn't list it).
+ * Both set the tab's mode, so the tabs work
  * whatever mode the page is in. Menus and selects opened in a panel follow
  * it, although they render at the end of the page (the library's
  * decisions/0021).
@@ -36,7 +40,7 @@ export function ThemeExplorer() {
                 <ThemeScope
                   className="theme-frame__panel"
                   mode={mode}
-                  brand={theme.id === 'portfolio' ? 'portfolio' : undefined}
+                  brand={theme.id as ThemeBrand}
                 >
                   {/* Two sample screens on one page: name each breadcrumb landmark. */}
                   <SampleScreen breadcrumbLabel={`Breadcrumb, ${theme.label.toLowerCase()} theme`} />

@@ -1,15 +1,16 @@
 import type { Metadata } from 'next'
-import NextLink from 'next/link'
+import { SiteLink } from '@/components/site/SiteLink'
 import { Link } from '@amezquita/design-system/components/primitives/Link'
 import { DocPage, DocSection } from '@/components/site/DocPage'
 import { TokenGroups } from '@/components/site/TokenGroups'
 import { getTokenReference, getTokensByCategory } from '@/lib/ds'
 import { FOUNDATION_PAGES } from '@/lib/nav'
 import { inBase } from '@/lib/token-groups'
+import { DEMO_BRANDS } from '@/lib/demo-brands'
 
 export const metadata: Metadata = {
   title: 'Foundations',
-  description: 'The design tokens in the base theme: colour, spacing, typography, motion and the rest.',
+  description: 'The design tokens: colour, spacing, typography, motion and the rest.',
 }
 
 const PAGE_CATEGORIES: Record<(typeof FOUNDATION_PAGES)[number]['slug'], { category: string; desc: string }> = {
@@ -41,7 +42,7 @@ export default function FoundationsPage() {
     description: c.description,
     tokens: inBase(getTokensByCategory(c.category)),
   })).filter(g => g.tokens.length > 0)
-  const sameInBothModes = others.every(g => g.tokens.every(t => t.resolved['base-light'] === t.resolved['base-dark']))
+  const sameInBothModes = others.every(g => g.tokens.every(t => DEMO_BRANDS.every(b => t.resolved[`${b}-light`] === t.resolved[`${b}-dark`])))
 
   return (
     <DocPage
@@ -51,7 +52,7 @@ export default function FoundationsPage() {
         <p>
           The package has {meta.total} tokens in three layers: {meta.primitiveCount} primitives,{' '}
           {meta.semanticCount} semantic tokens and {meta.componentCount} component tokens. These pages show
-          the semantic layer in the base theme, which is the one you write CSS against.
+          the semantic layer, the one you write CSS against, with values for the brand this site wears.
         </p>
       }
       sections={SECTIONS}
@@ -61,9 +62,7 @@ export default function FoundationsPage() {
           {FOUNDATION_PAGES.map(page => (
             <li key={page.slug} className="link-card">
               <span className="link-card__title">
-                <Link asChild variant="standalone">
-                  <NextLink href={`/foundations/${page.slug}`}>{page.label}</NextLink>
-                </Link>
+                <SiteLink href={`/foundations/${page.slug}`} variant="standalone">{page.label}</SiteLink>
               </span>
               <span className="link-card__desc">{PAGE_CATEGORIES[page.slug].desc}</span>
               <span className="link-card__desc">
@@ -94,7 +93,7 @@ export default function FoundationsPage() {
           like <code>--color-text-secondary</code> or <code>--space-element-gap</code>, and point at a
           primitive. A brand or dark mode changes what they point at. <strong>Component tokens</strong>{' '}
           name one component’s decisions, like <code>--button-padding-x</code>, and are listed on each{' '}
-          <Link asChild><NextLink href="/components">component’s page</NextLink></Link>.
+          <SiteLink href="/components">component’s page</SiteLink>.
         </p>
         <p>
           Every token, primitives included, with all four resolved values, is in{' '}

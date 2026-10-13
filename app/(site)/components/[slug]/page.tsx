@@ -2,13 +2,11 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { Link } from '@amezquita/design-system/components/primitives/Link'
 import { Demo, DemoProviders } from '@/components/demos/Demo'
-import { DEMO_BRANDS } from '@/lib/demo-brands'
 import { CodeBlock } from '@/components/site/CodeBlock'
 import { DocPage, DocSection } from '@/components/site/DocPage'
 import { Markdown } from '@/components/site/Markdown'
 import {
   TIER_LABELS,
-  getBrandFonts,
   getComponentDoc,
   getPublicComponents,
   getSubComponents,
@@ -75,12 +73,6 @@ export default async function ComponentPage({ params }: Props) {
       sections={sections}
     >
       {importStatement && <CodeBlock code={importStatement} language="tsx" title="Import" />}
-
-      {/* Button's live render shows the demo brands, which name their own fonts.
-          React hoists these links into <head>. */}
-      {slug === 'button' && DEMO_BRANDS.map(brand => (
-        <link key={brand} rel="stylesheet" href={getBrandFonts(brand).href} precedence="default" />
-      ))}
 
       <DocSection id="live" title="Live render">
         <DemoProviders>

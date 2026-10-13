@@ -8,7 +8,7 @@ import { groupTokens, inBase } from '@/lib/token-groups'
 
 export const metadata: Metadata = {
   title: 'Color',
-  description: 'Every colour token in the base theme, with light and dark values.',
+  description: 'Every colour token, with light and dark values.',
 }
 
 const GROUPS = [
@@ -29,7 +29,7 @@ const GROUPS = [
   },
   {
     title: 'Accent',
-    description: 'Primary actions and selected states. In base it’s near-black; a brand changes these three to put its own colour on actions.',
+    description: 'Primary actions and selected states. In base it’s near-black; a brand changes these to put its own colour on actions and links.',
     match: (n: string) => n.startsWith('color-accent-'),
   },
   {
@@ -78,7 +78,7 @@ export default function ColorPage() {
       title="Color"
       lead={
         <p>
-          {tokens.length} colour tokens in the base theme. Components only use these semantic roles, never
+          {tokens.length} colour tokens, with values for the brand this site wears. Components only use these semantic roles, never
           the raw palettes underneath, which is what lets a brand or dark mode change every component at once.
           The swatches are painted from the live CSS variables, light on the left and dark on the right.
         </p>

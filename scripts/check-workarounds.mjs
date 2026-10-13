@@ -16,7 +16,16 @@ const read = path => readFileSync(join(PKG, path), 'utf8')
 // When a fix lands and its workaround is removed, remove its entry here too.
 // (Spec §9 items 6, 1, 7 and 9 went this way: 6 in 1.1.2, 1 and 7 in 1.2.0,
 // 9 in 1.3.0.) Each entry: { workaround, fixed: () => boolean, todo }.
-const CHECKS = []
+const CHECKS = [
+  {
+    workaround: 'scripts/build-base-scoped.mjs',
+    fixed: () => existsSync(join(PKG, 'styles', 'brands', 'base-scoped.css')),
+    todo:
+      'the package ships styles/brands/base-scoped.css. Import it in app/layout.tsx instead of ' +
+      'app/generated/base-scoped.css, then delete scripts/build-base-scoped.mjs, its predev and ' +
+      'prebuild steps, and app/generated/ in .gitignore.',
+  },
+]
 
 const ci = process.env.GITHUB_ACTIONS === 'true'
 

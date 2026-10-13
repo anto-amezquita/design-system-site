@@ -7,6 +7,8 @@ import {
   TableRow,
 } from '@amezquita/design-system/components/patterns/Table'
 import type { Token } from '@/lib/ds'
+import { DEMO_BRANDS } from '@/lib/demo-brands'
+import { PerBrand } from '@/components/site/PerBrand'
 
 export type TokenPreview = 'color' | 'space' | 'none'
 
@@ -20,14 +22,15 @@ type TokenTableProps = {
 }
 
 /**
- * A token table in the base theme: light and dark values from the package's
- * token reference. When no token in the set changes between light and dark,
+ * A token table in the brand the site wears: light and dark values from the
+ * package's token reference, one set per demo brand (PerBrand shows the
+ * site's own). When no token in the set changes between light and dark,
  * one Value column replaces the two, rather than repeating every value.
  * Previews are painted from the live CSS variable, not the JSON value, so a
  * mismatch between the reference and the shipped CSS would show.
  */
 export function TokenTable({ tokens, preview = 'none', showUsedBy = false, label }: TokenTableProps) {
-  const modeAware = tokens.some(t => t.resolved['base-light'] !== t.resolved['base-dark'])
+  const modeAware = tokens.some(t => DEMO_BRANDS.some(b => t.resolved[`${b}-light`] !== t.resolved[`${b}-dark`]))
 
   return (
     <div className="table-scroll">
@@ -58,11 +61,11 @@ export function TokenTable({ tokens, preview = 'none', showUsedBy = false, label
               )}
               {modeAware ? (
                 <>
-                  <TableCell><code>{token.resolved['base-light'] ?? '—'}</code></TableCell>
-                  <TableCell><code>{token.resolved['base-dark'] ?? '—'}</code></TableCell>
+                  <TableCell><Value token={token} mode="light" /></TableCell>
+                  <TableCell><Value token={token} mode="dark" /></TableCell>
                 </>
               ) : (
-                <TableCell><code>{token.resolved['base-light'] ?? '—'}</code></TableCell>
+                <TableCell><Value token={token} mode="light" /></TableCell>
               )}
               {showUsedBy && <TableCell><UsedBy names={token.usedBy} /></TableCell>}
             </TableRow>
@@ -71,6 +74,10 @@ export function TokenTable({ tokens, preview = 'none', showUsedBy = false, label
       </Table>
     </div>
   )
+}
+
+function Value({ token, mode }: { token: Token; mode: 'light' | 'dark' }) {
+  return <PerBrand>{b => <code>{token.resolved[`${b}-${mode}`] ?? '—'}</code>}</PerBrand>
 }
 
 const MAX_BAR_PX = 160
@@ -86,8 +93,8 @@ function Preview({ token, kind }: { token: Token; kind: TokenPreview }) {
   }
   if (kind === 'space') {
     // A page-width value (the layout max width) would stretch the table; its value column says enough.
-    const px = parseFloat(token.resolved['base-light'] ?? '')
-    if (token.resolved['base-light']?.endsWith('px') && px > MAX_BAR_PX) return null
+    const px = parseFloat(token.resolved[`${DEMO_BRANDS[0]}-light`] ?? '')
+    if (token.resolved[`${DEMO_BRANDS[0]}-light`]?.endsWith('px') && px > MAX_BAR_PX) return null
     return <span className="space-bar" aria-hidden="true" style={{ width: `var(${token.cssVar})` }} />
   }
   return null

@@ -48,7 +48,8 @@ export type Token = {
   /** One line on what the token is for, from its $description. Null where the token has none. */
   description: string | null
   rawValue: string
-  resolved: Partial<Record<Axis, string>>
+  /** Keyed `<brand>-<mode>`, e.g. `base-light`, `demo-warm-dark`. */
+  resolved: Partial<Record<string, string>>
   axisAware: boolean
   usedBy: string[]
 }
@@ -84,6 +85,11 @@ export function getBrandFonts(brand: string): BrandFonts {
   const fonts = readJson<{ brands: Record<string, BrandFonts> }>('tokens/fonts.json').brands[brand]
   if (!fonts) throw new Error(`@amezquita/design-system's tokens/fonts.json has no "${brand}" brand.`)
   return fonts
+}
+
+/** Every brand the package ships, base included, from tokens/fonts.json. */
+export function getBrandNames(): string[] {
+  return Object.keys(readJson<{ brands: Record<string, BrandFonts> }>('tokens/fonts.json').brands)
 }
 
 // ─── Components ─────────────────────────────────────────────────────────
