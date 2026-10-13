@@ -1,7 +1,6 @@
-import NextLink from 'next/link'
+import { SiteLink } from '@/components/site/SiteLink'
 import { Badge } from '@amezquita/design-system/components/primitives/Badge'
 import { Heading } from '@amezquita/design-system/components/primitives/Heading'
-import { Link } from '@amezquita/design-system/components/primitives/Link'
 import { LandingActions } from '@/components/site/LandingActions'
 import { HeroBrandSwitch, type BrandSpec } from '@/components/site/HeroBrandSwitch'
 import { DEMO_BRANDS, type DemoBrand } from '@/lib/demo-brands'
@@ -82,7 +81,7 @@ export default function LandingPage() {
           {SECTIONS.map(s => (
             <li key={s.href} className="link-card">
               <span className="link-card__title">
-                <Link asChild variant="standalone"><NextLink href={s.href}>{s.title}</NextLink></Link>
+                <SiteLink href={s.href} variant="standalone">{s.title}</SiteLink>
               </span>
               <span className="link-card__desc">{s.desc}</span>
             </li>

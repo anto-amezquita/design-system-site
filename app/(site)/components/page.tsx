@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
-import NextLink from 'next/link'
-import { Link } from '@amezquita/design-system/components/primitives/Link'
+import { SiteLink } from '@/components/site/SiteLink'
 import { Demo, DemoProviders } from '@/components/demos/Demo'
 import { DocPage, DocSection } from '@/components/site/DocPage'
 import { TIERS, TIER_DESCRIPTIONS, TIER_LABELS, getPublicComponents, plainText } from '@/lib/ds'
@@ -37,9 +36,7 @@ export default function ComponentsPage() {
                     </div>
                     <div className="component-card__body">
                       <span className="component-card__name">
-                        <Link asChild variant="standalone">
-                          <NextLink href={`/components/${c.slug}`}>{c.name}</NextLink>
-                        </Link>
+                        <SiteLink href={`/components/${c.slug}`} variant="standalone">{c.name}</SiteLink>
                       </span>
                       <span className="component-card__purpose">{plainText(c.purpose)}</span>
                     </div>

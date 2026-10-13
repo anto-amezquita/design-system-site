@@ -1,4 +1,4 @@
-import NextLink from 'next/link'
+import { SiteLink } from '@/components/site/SiteLink'
 import { Lexer, type Token, type Tokens } from 'marked'
 import { Heading } from '@amezquita/design-system/components/primitives/Heading'
 import { Link } from '@amezquita/design-system/components/primitives/Link'
@@ -154,9 +154,7 @@ function renderInlineToken(token: Token, key: number): React.ReactNode {
 function MarkdownLink({ href, children }: { href: string; children: React.ReactNode }) {
   if (href.startsWith('/') || href.startsWith('#')) {
     return (
-      <Link asChild>
-        <NextLink href={href}>{children}</NextLink>
-      </Link>
+      <SiteLink href={href}>{children}</SiteLink>
     )
   }
   if (/^https?:\/\//.test(href)) {

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import NextLink from 'next/link'
+import { SiteLink } from '@/components/site/SiteLink'
 import { Link } from '@amezquita/design-system/components/primitives/Link'
 import { DocPage, DocSection } from '@/components/site/DocPage'
 import { TokenGroups } from '@/components/site/TokenGroups'
@@ -61,9 +61,7 @@ export default function FoundationsPage() {
           {FOUNDATION_PAGES.map(page => (
             <li key={page.slug} className="link-card">
               <span className="link-card__title">
-                <Link asChild variant="standalone">
-                  <NextLink href={`/foundations/${page.slug}`}>{page.label}</NextLink>
-                </Link>
+                <SiteLink href={`/foundations/${page.slug}`} variant="standalone">{page.label}</SiteLink>
               </span>
               <span className="link-card__desc">{PAGE_CATEGORIES[page.slug].desc}</span>
               <span className="link-card__desc">
@@ -94,7 +92,7 @@ export default function FoundationsPage() {
           like <code>--color-text-secondary</code> or <code>--space-element-gap</code>, and point at a
           primitive. A brand or dark mode changes what they point at. <strong>Component tokens</strong>{' '}
           name one component’s decisions, like <code>--button-padding-x</code>, and are listed on each{' '}
-          <Link asChild><NextLink href="/components">component’s page</NextLink></Link>.
+          <SiteLink href="/components">component’s page</SiteLink>.
         </p>
         <p>
           Every token, primitives included, with all four resolved values, is in{' '}
