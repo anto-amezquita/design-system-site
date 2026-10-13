@@ -954,3 +954,128 @@ body {
 .markdown li + li {
   margin-top: var(--space-inline-gap);
 }
+
+/* ─── Landing hero ───────────────────────────────────────── */
+/* Copy on the left, one real Card on the right, re-skinned by brand.
+   The hero wears demo-cool; the card wears whichever brand is picked. */
+
+.landing-hero {
+  background: var(--color-surface-primary);
+  color: var(--color-text-primary);
+  font-family: var(--font-family-base);
+}
+
+.landing-hero__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 520px);
+  align-items: center;
+  gap: var(--space-section-gap);
+  padding-block: var(--hero-padding-y);
+}
+
+.landing-hero__copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-component-gap);
+}
+
+.landing-hero__title {
+  margin: 0;
+  font-family: var(--font-family-heading);
+  font-variation-settings: var(--font-variation-heading);
+  font-size: var(--font-size-h1-fluid);
+  font-weight: var(--hero-title-weight);
+  line-height: var(--line-height-display);
+  letter-spacing: var(--letter-spacing-heading);
+}
+
+.landing-hero__title span {
+  display: block;
+}
+
+.landing-hero__lead {
+  margin: 0;
+  max-width: var(--hero-lead-max-width);
+  font-size: var(--hero-lead-size);
+  line-height: var(--line-height-body);
+  color: var(--color-text-secondary);
+}
+
+.landing-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-inline-gap);
+  margin-top: var(--space-inline-gap);
+}
+
+.hero-switch {
+  display: grid;
+  gap: var(--space-element-gap);
+}
+
+.hero-switch__scope {
+  /* The scope sets the brand's fonts; the card inherits them. */
+  font-family: var(--font-family-base);
+  color: var(--color-text-primary);
+}
+
+.hero-switch__scope .card__media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 21 / 9;
+  object-fit: cover;
+}
+
+.hero-switch__meta {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+
+.hero-switch__tokens {
+  margin: var(--space-element-gap) 0 0;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-small);
+}
+
+.hero-switch__value--dark {
+  display: none;
+}
+
+[data-mode='dark'] .hero-switch__value--light {
+  display: none;
+}
+
+[data-mode='dark'] .hero-switch__value--dark {
+  display: inline;
+}
+
+/* A short crossfade as the card changes brand. Radix mounts only the
+   selected panel, so the fade runs on each switch. */
+.hero-switch__panel[data-state='active'] {
+  animation: hero-switch-in var(--duration-base) var(--easing-out);
+}
+
+@keyframes hero-switch-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-switch__panel[data-state='active'] {
+    animation: none;
+  }
+}
+
+@media (max-width: 1023px) {
+  .landing-hero__inner {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .landing-hero__demo {
+    max-width: 520px;
+  }
+}

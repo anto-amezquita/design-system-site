@@ -86,6 +86,11 @@ export function getBrandFonts(brand: string): BrandFonts {
   return fonts
 }
 
+/** Every brand the package ships, base included, from tokens/fonts.json. */
+export function getBrandNames(): string[] {
+  return Object.keys(readJson<{ brands: Record<string, BrandFonts> }>('tokens/fonts.json').brands)
+}
+
 // ─── Components ─────────────────────────────────────────────────────────
 
 export const TIERS = ['primitives', 'composition', 'patterns'] as const
