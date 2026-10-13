@@ -96,6 +96,19 @@ body {
   flex-shrink: 0;
 }
 
+/* The nav shows from 1024px (NavigationMenu). Below that there's nothing
+   to centre, and equal side columns squeezed the logo into the controls on
+   a phone: two columns, the logo taking what the controls leave. */
+@media (max-width: 1023px) {
+  .site-header__inner {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .site-header__end {
+    grid-column: 2;
+  }
+}
+
 /* Below 768px the name shortens to "amezquita", as in the design. */
 @media (max-width: 767px) {
   .site-header__name-rest {
@@ -108,10 +121,72 @@ body {
    accent is that brand's. Solid and ringed when picked; a ring otherwise.
    The picked look comes from <html data-brand>, right before React runs. */
 
-.brand-picker {
+.site-header__end {
   grid-column: 3;
   justify-self: end;
   display: flex;
+  align-items: center;
+  gap: var(--space-inline-gap);
+}
+
+.brand-picker {
+  display: flex;
+}
+
+/* ─── Mode toggle (header) ───────────────────────────────── */
+/* components/site/ModeToggle, ported from amezquita.dk: a bare icon button,
+   sun and moon crossfading in one grid cell. The icon shown comes from
+   <html data-mode>, so it's right before React runs. */
+
+.mode-toggle {
+  display: inline-grid;
+  place-items: center;
+  width: var(--size-touch-target);
+  height: var(--size-touch-target);
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-text-primary);
+  cursor: pointer;
+}
+
+.mode-toggle:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-border-focus);
+  outline-offset: calc(-1 * var(--focus-ring-width));
+  border-radius: var(--border-radius-pill);
+}
+
+/* Both icons share one cell; the button stays the hit target, so the swap
+   under the pointer can't drop the hover. */
+.mode-toggle__icon {
+  grid-area: 1 / 1;
+  width: var(--size-icon-md);
+  height: var(--size-icon-md);
+  pointer-events: none;
+  transition:
+    opacity var(--duration-fast) var(--easing-default),
+    transform var(--duration-fast) var(--easing-default);
+}
+
+.mode-toggle__icon--sun { opacity: 1; transform: rotate(0deg) scale(1); }
+.mode-toggle__icon--moon { opacity: 0; transform: rotate(-20deg) scale(0.7); }
+
+[data-mode='dark'] .mode-toggle__icon--sun { opacity: 0; transform: rotate(20deg) scale(0.7); }
+[data-mode='dark'] .mode-toggle__icon--moon { opacity: 1; transform: rotate(0deg) scale(1); }
+
+/* Hover: the sun turns, the moon tilts. */
+:root:not([data-mode='dark']) .mode-toggle:hover .mode-toggle__icon--sun { transform: rotate(45deg) scale(1); }
+[data-mode='dark'] .mode-toggle:hover .mode-toggle__icon--moon { transform: rotate(-15deg) scale(1.1); }
+
+@media (prefers-reduced-motion: reduce) {
+  .mode-toggle__icon {
+    transition: none;
+  }
+
+  :root:not([data-mode='dark']) .mode-toggle:hover .mode-toggle__icon--sun,
+  [data-mode='dark'] .mode-toggle:hover .mode-toggle__icon--moon {
+    transform: rotate(0deg) scale(1);
+  }
 }
 
 .brand-picker__option {

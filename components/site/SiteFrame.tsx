@@ -4,6 +4,7 @@ import NextLink from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Link } from '@amezquita/design-system/components/primitives/Link'
 import { BrandPicker } from '@/components/site/BrandPicker'
+import { ModeToggle } from '@/components/site/ModeToggle'
 import { SkipLink } from '@amezquita/design-system/components/primitives/SkipLink'
 import { NavigationMenu } from '@amezquita/design-system/components/composition/NavigationMenu'
 import {
@@ -58,7 +59,10 @@ export function SiteFrame({ headerItems, sectionItems, version, children }: Site
             aria-label="Main"
             className="site-header__nav"
           />
-          <BrandPicker />
+          <div className="site-header__end">
+            <BrandPicker />
+            <ModeToggle />
+          </div>
         </div>
       </header>
       <div className={isLanding ? 'site-body site-body--landing' : 'site-body'}>
