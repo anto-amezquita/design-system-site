@@ -6,9 +6,10 @@
 // 1. Built CSS: every rule that sets a portfolio-only value is scoped to
 //    [data-brand="portfolio"], and only /themes links the file that has them.
 // 2. In the browser, with the system set to light and to dark, and on each of
-//    Themes' mode tabs: everything outside the portfolio panel resolves base,
-//    everything inside it resolves portfolio, and the page is still base
-//    after client-side navigation away from Themes.
+//    Themes' mode tabs: everything outside the panels resolves the brand the
+//    site wears (demo-cool, for a fresh browser), the Base panel resolves base,
+//    everything inside the portfolio panel resolves portfolio, and the page is
+//    still the site's brand after client-side navigation away from Themes.
 // 3. axe-core is clean on Themes, on both tabs.
 // 4. A menu opened from either panel matches its panel, brand and mode,
 //    although it renders at the end of <body>. The panels are ThemeScopes
@@ -72,8 +73,14 @@ function cssRules(css) {
 }
 
 const pairs = file => new Set(cssRules(readFileSync(join(BRANDS, file), 'utf8')).flatMap(([, d]) => [...d].map(([k, v]) => `${k}:${v}`)))
-const basePairs = new Set([...pairs('base-light.css'), ...pairs('base-dark.css')])
-const portfolioOnly = new Set([...pairs('portfolio-scoped.css')].filter(p => !basePairs.has(p)))
+// A value another brand also sets (a demo brand's white, say) can't tell the
+// portfolio's rules apart, so only values no other brand file has count.
+const otherPairs = new Set([
+  ...pairs('base-light.css'),
+  ...pairs('base-dark.css'),
+  ...readdirSync(BRANDS).filter(f => f.endsWith('-scoped.css') && f !== 'portfolio-scoped.css').flatMap(f => [...pairs(f)]),
+])
+const portfolioOnly = new Set([...pairs('portfolio-scoped.css')].filter(p => !otherPairs.has(p)))
 
 function cssFiles(dir) {
   return readdirSync(dir, { withFileTypes: true }).flatMap(e =>
@@ -148,12 +155,13 @@ function readThemes(page) {
     const read = el => vars.map(v => getComputedStyle(el).getPropertyValue(v).trim().toLowerCase())
     const panels = [...document.querySelectorAll('.theme-frame__panel')].filter(p => p.offsetParent)
     const portfolio = panels.find(p => p.dataset.brand === 'portfolio')
-    const base = panels.find(p => !p.dataset.brand)
+    const base = panels.find(p => p.dataset.brand === 'base')
     // The base panel sets its own data-mode, so it's compared against its tab, not the page.
     const outside = [...document.body.querySelectorAll('*')].filter(el => !el.closest('.theme-frame__panel'))
     const distinct = els => [...new Set(els.map(el => JSON.stringify(read(el))))].map(s => JSON.parse(s))
     return {
       found: Boolean(base && portfolio),
+      brand: document.documentElement.dataset.brand,
       root: read(document.documentElement),
       base: base && read(base),
       outside: distinct(outside),
@@ -181,13 +189,13 @@ try {
         continue
       }
 
-      const pageBase = VARS.slice(0, 3).map(v => expected(v, `base-${scheme}`))
+      const pageBrand = VARS.slice(0, 3).map(v => expected(v, `${seen.brand}-${scheme}`))
       const panelBase = VARS.slice(0, 3).map(v => expected(v, `base-${mode}`))
       const panelPortfolio = VARS.slice(0, 3).map(v => expected(v, `portfolio-${mode}`))
       const same = (got, want) => want.every((w, i) => got[i] === w)
 
-      if (seen.outside.length !== 1 || !same(seen.outside[0], pageBase)) {
-        fail(`${at}: outside the panels, tokens should all be base-${scheme}; found ${JSON.stringify(seen.outside)}`)
+      if (seen.outside.length !== 1 || !same(seen.outside[0], pageBrand)) {
+        fail(`${at}: outside the panels, tokens should all be ${seen.brand}-${scheme}; found ${JSON.stringify(seen.outside)}`)
       } else if (!same(seen.base, panelBase)) {
         fail(`${at}: the base panel should be base-${mode}; found ${JSON.stringify(seen.base)}`)
       } else if (seen.inside.length !== 1 || !same(seen.inside[0], panelPortfolio)) {
@@ -195,7 +203,7 @@ try {
       } else if (seen.inside[0][3] === seen.root[3]) {
         fail(`${at}: the portfolio panel has the page's font stack, not the brand's.`)
       } else {
-        pass(`${at}: base outside, portfolio-${mode} inside the panel`)
+        pass(`${at}: ${seen.brand} outside, base-${mode} and portfolio-${mode} in the panels`)
       }
 
       const violations = await runAxe(page)
@@ -207,7 +215,7 @@ try {
     // The Dark tab is open here, so on a light system the base panel's menu
     // checks the mode side and the portfolio panel's checks brand and mode.
     for (const brand of ['base', 'portfolio']) {
-      const panel = page.locator(brand === 'portfolio' ? '.theme-frame__panel[data-brand="portfolio"]' : '.theme-frame__panel:not([data-brand])').first()
+      const panel = page.locator(`.theme-frame__panel[data-brand="${brand}"]`).first()
       const panelMode = await panel.getAttribute('data-mode')
       await panel.getByRole('button', { name: 'More' }).click()
       const menu = page.getByRole('menu').first()
@@ -226,15 +234,16 @@ try {
     const after = await page.evaluate(() => {
       const root = getComputedStyle(document.documentElement)
       return {
+        brand: document.documentElement.dataset.brand,
         accent: root.getPropertyValue('--color-accent-default').trim().toLowerCase(),
         font: root.getPropertyValue('--font-family-base'),
       }
     })
     const bare = value => value.replace(/["'\s]/g, '').toLowerCase()
-    if (after.accent !== expected('--color-accent-default', `base-${scheme}`) || bare(after.font) !== bare(expected('--font-family-base', `base-${scheme}`))) {
-      fail(`system ${scheme}: after navigating from /themes to /foundations, the page isn't base: ${JSON.stringify(after)}`)
+    if (after.accent !== expected('--color-accent-default', `${after.brand}-${scheme}`) || bare(after.font) !== bare(expected('--font-family-base', `${after.brand}-${scheme}`))) {
+      fail(`system ${scheme}: after navigating from /themes to /foundations, the page isn't ${after.brand}: ${JSON.stringify(after)}`)
     } else {
-      pass(`system ${scheme}: still base after navigating away from /themes`)
+      pass(`system ${scheme}: still ${after.brand} after navigating away from /themes`)
     }
     await page.close()
   }

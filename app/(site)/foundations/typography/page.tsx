@@ -5,10 +5,12 @@ import { DoDont } from '@/components/site/DoDont'
 import { TokenGroups } from '@/components/site/TokenGroups'
 import { getTokens, getTokensByCategory } from '@/lib/ds'
 import { groupTokens, inBase } from '@/lib/token-groups'
+import { PerBrand } from '@/components/site/PerBrand'
+import type { DemoBrand } from '@/lib/demo-brands'
 
 export const metadata: Metadata = {
   title: 'Typography',
-  description: 'The type scale and typography tokens in the base theme.',
+  description: 'The type scale and typography tokens.',
 }
 
 // Specimens are hand-picked (each combines a size, weight and line-height),
@@ -30,7 +32,7 @@ const SCALE = [
 ]
 
 const GROUPS = [
-  { title: 'Families', description: 'The base theme uses the system UI font for text, so nothing is downloaded, and JetBrains Mono for code.', match: (n: string) => n.startsWith('font-family-') },
+  { title: 'Families', description: 'Each brand names its own families; the base theme uses the system UI font for text, so a new project downloads nothing.', match: (n: string) => n.startsWith('font-family-') },
   { title: 'Sizes', description: 'Display and H1 to H3 have fluid versions that scale with the viewport. Everything from H4 down is fixed.', match: (n: string) => n.startsWith('font-size-') },
   { title: 'Weights', description: 'Weights by role. Title is the bold one, for small titles in card and dialog headers (decisions/0010 in the library).', match: (n: string) => n.startsWith('font-weight-') },
   { title: 'Line heights', description: 'Fixed line heights sit on a 4px grid. Display and heading use a ratio, so they follow the fluid sizes.', match: (n: string) => n.startsWith('line-height-') },
@@ -67,7 +69,7 @@ export default function TypographyPage() {
       }
     }
   }
-  const value = (cssVar: string) => all.find(t => t.cssVar === cssVar)?.resolved['base-light'] ?? ''
+  const value = (cssVar: string, brand: DemoBrand) => all.find(t => t.cssVar === cssVar)?.resolved[`${brand}-light`] ?? ''
 
   const tokens = inBase(getTokensByCategory('typography'))
   const groups = groupTokens(tokens, GROUPS)
@@ -78,8 +80,8 @@ export default function TypographyPage() {
       title="Typography"
       lead={
         <p>
-          {tokens.length} typography tokens. The base theme sets text in the system UI font, so a new project
-          starts with nothing to download; a brand swaps the family and keeps the scale. The fluid sizes
+          {tokens.length} typography tokens. A brand swaps the families and some sizes; the scale’s steps stay
+          the same. The base theme sets text in the system UI font, so a new project starts with nothing to download. The fluid sizes
           below change with your window.
         </p>
       }
@@ -92,7 +94,7 @@ export default function TypographyPage() {
               <div className="type-scale__meta">
                 <span className="type-scale__label">{step.label}</span>
                 <code>{step.size}</code>
-                <span className="token-muted">{value(step.size)} / {value(step.lineHeight)}</span>
+                <span className="token-muted"><PerBrand>{b => `${value(step.size, b)} / ${value(step.lineHeight, b)}`}</PerBrand></span>
               </div>
               <p
                 className="type-scale__sample"

@@ -5,15 +5,10 @@ export const DEMO_BRANDS = ['demo-cool', 'demo-warm', 'demo-soft'] as const
 
 export type DemoBrand = (typeof DEMO_BRANDS)[number]
 
-// The site wears a demo brand, picked in the landing hero and remembered in
-// the browser. Pages whose subject is the base theme itself stay base.
+// The whole site wears a demo brand, picked in the landing hero and
+// remembered in the browser.
 export const DEFAULT_BRAND: DemoBrand = 'demo-cool'
 export const BRAND_STORAGE_KEY = 'ds-site-brand'
-export const BASE_ROUTES = ['/foundations', '/themes']
-
-export function isBaseRoute(pathname: string): boolean {
-  return BASE_ROUTES.some(r => pathname === r || pathname.startsWith(`${r}/`))
-}
 
 export function isDemoBrand(value: unknown): value is DemoBrand {
   return typeof value === 'string' && (DEMO_BRANDS as readonly string[]).includes(value)

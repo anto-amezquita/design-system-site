@@ -8,7 +8,7 @@ import { groupTokens, inBase } from '@/lib/token-groups'
 
 export const metadata: Metadata = {
   title: 'Spacing',
-  description: 'The spacing tokens in the base theme, named by role rather than size.',
+  description: 'The spacing tokens, named by role rather than size.',
 }
 
 const GROUPS = [

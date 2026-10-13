@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { usePathname } from 'next/navigation'
 import { Button } from '@amezquita/design-system/components/primitives/Button'
 import { Card, CardFooter, CardHeader, CardMedia, CardTitle } from '@amezquita/design-system/components/composition/Card'
 import { DEMO_BRANDS, DEMO_BRAND_CARDS, DEFAULT_BRAND, type DemoBrand } from '@/lib/demo-brands'
@@ -29,13 +28,12 @@ function Value({ value }: { value: ModeValue }) {
  * first paint; aria-checked catches up once React has read storage.
  */
 export function HeroBrandSwitch({ specs }: { specs: Record<DemoBrand, BrandSpec> }) {
-  const pathname = usePathname()
   const [brand, setBrand] = useState<DemoBrand>(DEFAULT_BRAND)
   useEffect(() => setBrand(storedBrand()), [])
 
   const pick = (b: DemoBrand) => {
     setBrand(b)
-    chooseBrand(b, pathname)
+    chooseBrand(b)
   }
 
   return (

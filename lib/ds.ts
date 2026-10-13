@@ -48,7 +48,8 @@ export type Token = {
   /** One line on what the token is for, from its $description. Null where the token has none. */
   description: string | null
   rawValue: string
-  resolved: Partial<Record<Axis, string>>
+  /** Keyed `<brand>-<mode>`, e.g. `base-light`, `demo-warm-dark`. */
+  resolved: Partial<Record<string, string>>
   axisAware: boolean
   usedBy: string[]
 }

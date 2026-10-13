@@ -1,6 +1,6 @@
 'use client'
 
-import { BRAND_STORAGE_KEY, DEFAULT_BRAND, isBaseRoute, isDemoBrand, type DemoBrand } from '@/lib/demo-brands'
+import { BRAND_STORAGE_KEY, DEFAULT_BRAND, isDemoBrand, type DemoBrand } from '@/lib/demo-brands'
 
 /** The brand the visitor picked, or the default. Storage can be blocked; that's fine. */
 export function storedBrand(): DemoBrand {
@@ -12,17 +12,15 @@ export function storedBrand(): DemoBrand {
   }
 }
 
-/** Puts the brand on <html>, or takes it off on a page about the base theme. */
-export function applyBrand(brand: DemoBrand, pathname: string) {
-  const root = document.documentElement
-  if (isBaseRoute(pathname)) delete root.dataset.brand
-  else root.dataset.brand = brand
+/** Puts the brand on <html>. */
+export function applyBrand(brand: DemoBrand) {
+  document.documentElement.dataset.brand = brand
 }
 
 /** Remembers the pick and applies it, with a crossfade unless motion is reduced. */
-export function chooseBrand(brand: DemoBrand, pathname: string) {
+export function chooseBrand(brand: DemoBrand) {
   try { localStorage.setItem(BRAND_STORAGE_KEY, brand) } catch { /* not remembered */ }
-  const apply = () => applyBrand(brand, pathname)
+  const apply = () => applyBrand(brand)
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches
   if (reduced || !document.startViewTransition) apply()
   else document.startViewTransition(apply)

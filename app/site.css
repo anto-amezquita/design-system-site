@@ -1155,3 +1155,16 @@ body {
     display: grid;
   }
 }
+
+/* ─── Per-brand values ───────────────────────────────────── */
+/* components/site/PerBrand: one copy per demo brand, the site's own shows. */
+
+.per-brand {
+  display: none;
+}
+
+[data-brand='demo-cool'] .per-brand[data-for='demo-cool'],
+[data-brand='demo-warm'] .per-brand[data-for='demo-warm'],
+[data-brand='demo-soft'] .per-brand[data-for='demo-soft'] {
+  display: inline;
+}

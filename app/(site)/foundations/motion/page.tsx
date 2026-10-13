@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { CodeBlock } from '@/components/site/CodeBlock'
 import { DocPage, DocSection } from '@/components/site/DocPage'
 import { DoDont } from '@/components/site/DoDont'
+import { DEMO_BRANDS } from '@/lib/demo-brands'
 import { MotionDemo, type MotionItem } from '@/components/site/MotionDemo'
 import { TokenTable } from '@/components/site/TokenTable'
 import { getTokens, getTokensByCategory } from '@/lib/ds'
@@ -9,7 +10,7 @@ import { inBase } from '@/lib/token-groups'
 
 export const metadata: Metadata = {
   title: 'Motion',
-  description: 'Duration and easing tokens in the base theme, with a demo of each.',
+  description: 'Duration and easing tokens, with a demo of each.',
 }
 
 /** Duration values may be ms or s: parseInt alone would read "1.2s" as 1. */
@@ -41,6 +42,10 @@ const EXAMPLE = `.panel {
   }
 }`
 
+// The demo brands share every motion value, so one brand's stand for all
+// three. If a brand ever changes one, render it with PerBrand instead.
+const MOTION_AXIS = `${DEMO_BRANDS[0]}-light`
+
 export default function MotionPage() {
   const durationTokens = inBase(getTokensByCategory('motion'))
   // The three easing curves have no semantic layer above them; components use them directly.
@@ -48,14 +53,14 @@ export default function MotionPage() {
 
   const durations: MotionItem[] = durationTokens
     .map(t => {
-      const value = t.resolved['base-light'] ?? t.rawValue
+      const value = t.resolved[MOTION_AXIS] ?? t.rawValue
       return { cssVar: t.cssVar, value, ms: toMs(value), description: t.description }
     })
     .sort((a, b) => a.ms - b.ms)
 
   const easings: MotionItem[] = easingTokens.map(t => ({
     cssVar: t.cssVar,
-    value: t.resolved['base-light'] ?? t.rawValue,
+    value: t.resolved[MOTION_AXIS] ?? t.rawValue,
     ms: 0,
     description: t.description,
   }))

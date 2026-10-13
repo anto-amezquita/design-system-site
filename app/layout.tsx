@@ -5,10 +5,12 @@ import '@amezquita/design-system/styles/brands/base-dark.css'
 import '@amezquita/design-system/styles/brands/demo-cool-scoped.css'
 import '@amezquita/design-system/styles/brands/demo-warm-scoped.css'
 import '@amezquita/design-system/styles/brands/demo-soft-scoped.css'
+// Base scoped to [data-brand="base"], for the Themes page's Base panel. Last,
+// so a base panel inside a demo brand wins ties (scripts/build-base-scoped.mjs).
+import './generated/base-scoped.css'
 import './site.css'
-import { SiteBrand } from '@/components/site/SiteBrand'
 import { getBrandFonts } from '@/lib/ds'
-import { BASE_ROUTES, BRAND_STORAGE_KEY, DEFAULT_BRAND, DEMO_BRANDS } from '@/lib/demo-brands'
+import { BRAND_STORAGE_KEY, DEFAULT_BRAND, DEMO_BRANDS } from '@/lib/demo-brands'
 import { SITE_URL } from '@/lib/site'
 
 export const metadata: Metadata = {
@@ -18,7 +20,7 @@ export const metadata: Metadata = {
     template: '%s · amezquita design system',
   },
   description:
-    'Documentation for @amezquita/design-system: tokens, components and themes. The site wears a demo brand you can switch; the pages about tokens and themes show the base theme a new project starts from.',
+    'Documentation for @amezquita/design-system: tokens, components and themes, shown in a demo brand you can switch. A new project starts from the brand-neutral base theme.',
 }
 
 // The base theme's dark values apply under [data-mode="dark"]. Set it from
@@ -27,9 +29,8 @@ const colorSchemeScript = `try{if(matchMedia('(prefers-color-scheme: dark)').mat
 
 // The site wears the demo brand picked in the landing hero (lib/demo-brands).
 // Read it before first paint, so a returning visitor sees no flash of the
-// default; pages about the base theme take the attribute off. SiteBrand keeps
-// it right on client-side navigation.
-const brandScript = `try{var r=document.documentElement,b=localStorage.getItem(${JSON.stringify(BRAND_STORAGE_KEY)}),p=location.pathname;if(${JSON.stringify(DEMO_BRANDS)}.indexOf(b)>=0)r.dataset.brand=b;if(${JSON.stringify(BASE_ROUTES)}.some(function(x){return p===x||p.indexOf(x+'/')===0}))delete r.dataset.brand}catch(e){}`
+// default.
+const brandScript = `try{var b=localStorage.getItem(${JSON.stringify(BRAND_STORAGE_KEY)});if(${JSON.stringify(DEMO_BRANDS)}.indexOf(b)>=0)document.documentElement.dataset.brand=b}catch(e){}`
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const fonts = getBrandFonts('base')
@@ -47,10 +48,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* Every demo brand's fonts, so switching never waits on a download. */}
         {DEMO_BRANDS.map(b => <link key={b} rel="stylesheet" href={getBrandFonts(b).href} />)}
       </head>
-      <body>
-        <SiteBrand />
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   )
 }
