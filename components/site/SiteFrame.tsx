@@ -16,6 +16,8 @@ import {
 type SiteFrameProps = {
   headerItems: NavItem[]
   sectionItems: NavItem[]
+  /** The installed package's version, read on the server, for the footer. */
+  version: string
   children: React.ReactNode
 }
 
@@ -26,7 +28,7 @@ type SiteFrameProps = {
  * shows no section tree beside its content, so SideNav runs drawer-only
  * there; the drawer still carries the header links and the full tree.
  */
-export function SiteFrame({ headerItems, sectionItems, children }: SiteFrameProps) {
+export function SiteFrame({ headerItems, sectionItems, version, children }: SiteFrameProps) {
   const pathname = usePathname()
   const router = useRouter()
   const isLanding = pathname === '/'
@@ -72,14 +74,34 @@ export function SiteFrame({ headerItems, sectionItems, children }: SiteFrameProp
       </div>
       <footer className="site-footer">
         <div className="site-footer__inner">
-          <p>
-            Built with <code>@amezquita/design-system</code>, installed from npm like any other project.
-          </p>
-          <p>
-            <Link href="https://github.com/anto-amezquita/design-system" variant="standalone" external>
-              Source on GitHub
-            </Link>
-          </p>
+          <div className="site-footer__credit">
+            <p>
+              Designed and built by{' '}
+              <Link href="https://amezquita.dk" variant="standalone">Antonio Amézquita</Link>
+            </p>
+            <p>
+              Built with <code>@amezquita/design-system</code>, installed from npm like any other project.
+            </p>
+          </div>
+          <ul className="site-footer__links" aria-label="Package">
+            <li>
+              <span className="site-footer__version">{version}</span>
+              {' · '}
+              <Link asChild variant="standalone">
+                <NextLink href="/changelog">Changelog</NextLink>
+              </Link>
+            </li>
+            <li>
+              <Link href="https://github.com/anto-amezquita/design-system" variant="standalone" external>
+                GitHub
+              </Link>
+            </li>
+            <li>
+              <Link href="https://www.npmjs.com/package/@amezquita/design-system" variant="standalone" external>
+                npm
+              </Link>
+            </li>
+          </ul>
         </div>
       </footer>
     </SideNavProvider>

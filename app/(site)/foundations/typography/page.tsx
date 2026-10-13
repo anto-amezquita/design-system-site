@@ -13,17 +13,19 @@ export const metadata: Metadata = {
   description: 'The type scale and typography tokens.',
 }
 
+// Heading steps are set in the brand's heading family, as Heading sets them;
+// the rest in the body family the page inherits.
 // Specimens are hand-picked (each combines a size, weight and line-height),
 // unlike the token tables below, which come straight from the reference.
 // So each referenced variable is checked against the installed package at
 // build time: a renamed token fails the build instead of rendering var(--missing).
 const SCALE = [
-  { label: 'Display', size: '--font-size-display', weight: '--font-weight-display', lineHeight: '--line-height-display', sample: 'Tokens first, then components' },
-  { label: 'H1 fluid', size: '--font-size-h1-fluid', weight: '--font-weight-heading', lineHeight: '--line-height-display', sample: 'Getting started' },
-  { label: 'H2 fluid', size: '--font-size-h2-fluid', weight: '--font-weight-heading', lineHeight: '--line-height-heading', sample: 'Component library' },
-  { label: 'H3 fluid', size: '--font-size-h3-fluid', weight: '--font-weight-heading', lineHeight: '--line-height-heading', sample: 'Foundations' },
-  { label: 'H4', size: '--font-size-h4', weight: '--font-weight-heading', lineHeight: '--line-height-h4', sample: 'Install the package' },
-  { label: 'H5', size: '--font-size-h5', weight: '--font-weight-heading', lineHeight: '--line-height-h5', sample: 'Props' },
+  { label: 'Display', heading: true, size: '--font-size-display', weight: '--font-weight-display', lineHeight: '--line-height-display', sample: 'Tokens first, then components' },
+  { label: 'H1 fluid', heading: true, size: '--font-size-h1-fluid', weight: '--font-weight-heading', lineHeight: '--line-height-display', sample: 'Getting started' },
+  { label: 'H2 fluid', heading: true, size: '--font-size-h2-fluid', weight: '--font-weight-heading', lineHeight: '--line-height-heading', sample: 'Component library' },
+  { label: 'H3 fluid', heading: true, size: '--font-size-h3-fluid', weight: '--font-weight-heading', lineHeight: '--line-height-heading', sample: 'Foundations' },
+  { label: 'H4', heading: true, size: '--font-size-h4', weight: '--font-weight-heading', lineHeight: '--line-height-h4', sample: 'Install the package' },
+  { label: 'H5', heading: true, size: '--font-size-h5', weight: '--font-weight-heading', lineHeight: '--line-height-h5', sample: 'Props' },
   { label: 'Body', size: '--font-size-body', weight: '--font-weight-body', lineHeight: '--line-height-body', sample: 'Body text is sized for reading, so long passages stay comfortable without zooming in.' },
   { label: 'Control', size: '--font-size-control', weight: '--font-weight-control', lineHeight: '--line-height-control', sample: 'Save changes' },
   { label: 'Small', size: '--font-size-small', weight: '--font-weight-body', lineHeight: '--line-height-small', sample: 'Supporting text and table cells' },
@@ -99,6 +101,13 @@ export default function TypographyPage() {
               <p
                 className="type-scale__sample"
                 style={{
+                  ...('heading' in step && step.heading
+                    ? {
+                        fontFamily: 'var(--font-family-heading)',
+                        fontVariationSettings: 'var(--font-variation-heading)',
+                        letterSpacing: 'var(--letter-spacing-heading)',
+                      }
+                    : {}),
                   fontSize: `var(${step.size})`,
                   fontWeight: `var(${step.weight})`,
                   lineHeight: `var(${step.lineHeight})`,
