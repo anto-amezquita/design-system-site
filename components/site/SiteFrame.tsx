@@ -1,9 +1,11 @@
 'use client'
 
 import NextLink from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
-import { Button } from '@amezquita/design-system/components/primitives/Button'
+import { usePathname } from 'next/navigation'
+import { GithubLogoIcon } from '@phosphor-icons/react'
 import { Link } from '@amezquita/design-system/components/primitives/Link'
+import { BrandPicker } from '@/components/site/BrandPicker'
+import { ModeToggle } from '@/components/site/ModeToggle'
 import { SkipLink } from '@amezquita/design-system/components/primitives/SkipLink'
 import { NavigationMenu } from '@amezquita/design-system/components/composition/NavigationMenu'
 import {
@@ -30,7 +32,6 @@ type SiteFrameProps = {
  */
 export function SiteFrame({ headerItems, sectionItems, version, children }: SiteFrameProps) {
   const pathname = usePathname()
-  const router = useRouter()
   const isLanding = pathname === '/'
 
   return (
@@ -38,23 +39,25 @@ export function SiteFrame({ headerItems, sectionItems, version, children }: Site
       <SkipLink />
       <header className="site-header">
         <div className="site-header__inner">
+          <div className="site-header__start">
           <SideNavTrigger />
           <Link asChild variant="standalone" className="site-header__brand">
-            <NextLink href="/">amezquita design system</NextLink>
+            <NextLink href="/" aria-label="amezquita design system, home">
+              <span>amezquita<span className="site-header__name-rest"> design system</span></span>
+            </NextLink>
           </Link>
+          </div>
           <NavigationMenu
             items={headerItems}
             currentHref={pathname}
             LinkComponent={NextLink}
             aria-label="Main"
+            className="site-header__nav"
           />
-          <Button
-            href="/getting-started"
-            onNavigate={href => router.push(href)}
-            className="site-header__cta"
-          >
-            Get started
-          </Button>
+          <div className="site-header__end">
+            <BrandPicker />
+            <ModeToggle />
+          </div>
         </div>
       </header>
       <div className={isLanding ? 'site-body site-body--landing' : 'site-body'}>
@@ -92,14 +95,31 @@ export function SiteFrame({ headerItems, sectionItems, version, children }: Site
               </Link>
             </li>
             <li>
-              <Link href="https://github.com/anto-amezquita/design-system" variant="standalone" external>
-                GitHub
-              </Link>
+              <a
+                href="https://github.com/anto-amezquita/design-system"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub, opens in a new tab"
+                title="GitHub"
+                className="site-footer__icon-link"
+              >
+                <GithubLogoIcon weight="fill" aria-hidden="true" />
+              </a>
             </li>
             <li>
-              <Link href="https://www.npmjs.com/package/@amezquita/design-system" variant="standalone" external>
-                npm
-              </Link>
+              <a
+                href="https://www.npmjs.com/package/@amezquita/design-system"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="npm, opens in a new tab"
+                title="npm"
+                className="site-footer__icon-link"
+              >
+                {/* npm's mark (Simple Icons, CC0); Phosphor has none. */}
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M1.763 0C.786 0 0 .786 0 1.763v20.474C0 23.214.786 24 1.763 24h20.474c.977 0 1.763-.786 1.763-1.763V1.763C24 .786 23.214 0 22.237 0zM5.13 5.323l13.837.019-.009 13.836h-3.464l.01-10.382h-3.456L12.04 19.17H5.113z" />
+                </svg>
+              </a>
             </li>
           </ul>
         </div>

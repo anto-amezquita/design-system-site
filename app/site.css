@@ -54,30 +54,190 @@ body {
 }
 
 .site-header__inner {
-  display: flex;
+  /* Logo, nav centred, picker: the Day 3 design's three columns. */
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
   gap: var(--space-inline-gap);
   padding: var(--space-compact-padding-y) var(--space-layout-margin);
 }
 
+.site-header__start {
+  display: flex;
+  align-items: center;
+  gap: var(--space-inline-gap);
+  min-width: 0;
+}
+
+/* The icons at either end sit on the page margin, in line with the content
+   below: their buttons stay full touch targets, pulled out by the space
+   around the icon. */
+.site-header .side-nav-trigger {
+  width: var(--size-touch-target);
+  padding: 0;
+  /* SideNav.css sizes the trigger icon with --size-icon-sm. */
+  margin-inline-start: calc((var(--size-icon-sm) - var(--size-touch-target)) / 2);
+}
+
+.site-header .mode-toggle {
+  margin-inline-end: calc((var(--size-icon-md) - var(--size-touch-target)) / 2);
+}
+
+.site-header__nav {
+  grid-column: 2;
+}
+
 .site-header__brand {
-  margin-inline-end: auto;
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+  font-family: var(--font-family-heading);
+  font-variation-settings: var(--font-variation-heading);
   font-size: var(--font-size-control);
   font-weight: var(--font-weight-heading);
   line-height: var(--line-height-control);
   white-space: nowrap;
 }
 
-.site-header__cta {
-  flex-shrink: 0;
+/* Two classes to outrank Link's own colour: the design sets the logo in
+   the text colour, not the link accent. */
+.site-header .site-header__brand {
+  color: var(--color-text-primary);
 }
 
-/* Two classes to outrank .button's own display. Below 768px the drawer
-   carries the links, and Getting started is the first one in it. */
+/* The nav shows from 1024px (NavigationMenu). Below that there's nothing
+   to centre, and equal side columns squeezed the logo into the controls on
+   a phone: two columns, the logo taking what the controls leave. */
+@media (max-width: 1023px) {
+  .site-header__inner {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .site-header__end {
+    grid-column: 2;
+  }
+}
+
+/* Below 768px the name shortens to "amezquita", as in the design. */
 @media (max-width: 767px) {
-  .site-header .site-header__cta {
+  .site-header__name-rest {
     display: none;
   }
+}
+
+/* ─── Brand picker (header) ──────────────────────────────── */
+/* components/site/BrandPicker: each dot carries its own data-brand, so its
+   accent is that brand's. Solid and ringed when picked; a ring otherwise.
+   The picked look comes from <html data-brand>, right before React runs. */
+
+.site-header__end {
+  grid-column: 3;
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: var(--space-tight-gap);
+}
+
+.brand-picker {
+  display: flex;
+}
+
+/* ─── Mode toggle (header) ───────────────────────────────── */
+/* components/site/ModeToggle, ported from amezquita.dk: a bare icon button,
+   sun and moon crossfading in one grid cell. The icon shown comes from
+   <html data-mode>, so it's right before React runs. */
+
+.mode-toggle {
+  display: inline-grid;
+  place-items: center;
+  width: var(--size-touch-target);
+  height: var(--size-touch-target);
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-text-primary);
+  cursor: pointer;
+}
+
+.mode-toggle:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-border-focus);
+  outline-offset: calc(-1 * var(--focus-ring-width));
+  border-radius: var(--border-radius-pill);
+}
+
+/* Both icons share one cell; the button stays the hit target, so the swap
+   under the pointer can't drop the hover. */
+.mode-toggle__icon {
+  grid-area: 1 / 1;
+  width: var(--size-icon-md);
+  height: var(--size-icon-md);
+  pointer-events: none;
+  transition:
+    opacity var(--duration-fast) var(--easing-default),
+    transform var(--duration-fast) var(--easing-default);
+}
+
+.mode-toggle__icon--sun { opacity: 1; transform: rotate(0deg) scale(1); }
+.mode-toggle__icon--moon { opacity: 0; transform: rotate(-20deg) scale(0.7); }
+
+[data-mode='dark'] .mode-toggle__icon--sun { opacity: 0; transform: rotate(20deg) scale(0.7); }
+[data-mode='dark'] .mode-toggle__icon--moon { opacity: 1; transform: rotate(0deg) scale(1); }
+
+/* Hover: the sun turns, the moon tilts. */
+:root:not([data-mode='dark']) .mode-toggle:hover .mode-toggle__icon--sun { transform: rotate(45deg) scale(1); }
+[data-mode='dark'] .mode-toggle:hover .mode-toggle__icon--moon { transform: rotate(-15deg) scale(1.1); }
+
+@media (prefers-reduced-motion: reduce) {
+  .mode-toggle__icon {
+    transition: none;
+  }
+
+  :root:not([data-mode='dark']) .mode-toggle:hover .mode-toggle__icon--sun,
+  [data-mode='dark'] .mode-toggle:hover .mode-toggle__icon--moon {
+    transform: rotate(0deg) scale(1);
+  }
+}
+
+.brand-picker__option {
+  display: grid;
+  place-items: center;
+  /* 32px wide, 44px tall: compact between the dots, still well over the
+     24px minimum target. */
+  width: calc(2 * var(--space-element-gap));
+  height: var(--size-touch-target);
+  padding: 0;
+  border: none;
+  border-radius: var(--border-radius-pill);
+  background: none;
+  cursor: pointer;
+}
+
+.brand-picker__option:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-border-focus);
+  outline-offset: calc(-1 * var(--focus-ring-width));
+}
+
+.brand-picker__dot {
+  width: var(--space-element-gap);
+  height: var(--space-element-gap);
+  border-radius: var(--border-radius-pill);
+  box-shadow: inset 0 0 0 var(--focus-ring-width) var(--color-accent-default);
+  transition: background-color var(--duration-interaction) var(--easing-default);
+}
+
+.brand-picker__option:hover .brand-picker__dot {
+  outline: var(--border-width-default) solid var(--color-border-strong);
+  outline-offset: var(--focus-ring-width);
+}
+
+/* The picked one: filled, and ringed in the page's text colour, so the
+   state doesn't rest on colour alone (a pastel ring is faint on light). */
+[data-brand='demo-cool'] .brand-picker__option[data-for='demo-cool'] .brand-picker__dot,
+[data-brand='demo-warm'] .brand-picker__option[data-for='demo-warm'] .brand-picker__dot,
+[data-brand='demo-soft'] .brand-picker__option[data-for='demo-soft'] .brand-picker__dot {
+  background: var(--color-accent-default);
+  outline: var(--focus-ring-width) solid var(--color-text-primary);
+  outline-offset: var(--focus-ring-width);
 }
 
 /* ─── Body: section tree + content ──────────────────────── */
@@ -92,6 +252,10 @@ body {
 }
 
 .site-sidenav {
+  /* SideNav pads each link by --space-control-padding-x inside its
+     highlight. Pulled out by that, the link text lines up with the logo
+     above it, and the highlight reaches into the margin. */
+  margin-inline-start: calc(-1 * var(--space-control-padding-x));
   position: sticky;
   top: var(--site-header-height);
   align-self: flex-start;
@@ -124,14 +288,14 @@ body {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  align-items: flex-start;
-  gap: var(--space-element-gap) var(--space-component-gap);
-  padding: var(--space-section-gap) var(--space-layout-margin);
+  align-items: center;
+  gap: var(--space-inline-gap) var(--space-component-gap);
+  padding: var(--space-component-gap) var(--space-layout-margin);
 }
 
 .site-footer__credit {
   display: grid;
-  gap: var(--space-inline-gap);
+  gap: var(--space-tight-gap);
 }
 
 .site-footer__credit p:first-child {
@@ -141,15 +305,47 @@ body {
 .site-footer__links {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-inline-gap) var(--space-component-gap);
+  align-items: center;
+  /* The icon links carry 12px either side of their icon already. */
+  gap: var(--space-tight-gap);
   margin: 0;
+  /* The last icon sits on the page margin, like the header's mode toggle. */
+  margin-inline-end: calc((var(--size-icon-md) - var(--size-touch-target)) / 2);
   padding: 0;
   list-style: none;
+}
+
+
+/* GitHub and npm as icons: 44px targets, the icon on the footer's text
+   colour, the accent on hover, like the links beside them. */
+.site-footer__icon-link {
+  display: grid;
+  place-items: center;
+  width: var(--size-touch-target);
+  height: var(--size-touch-target);
+  border-radius: var(--border-radius-pill);
+  color: var(--color-text-secondary);
+  transition: color var(--duration-interaction) var(--easing-default);
+}
+
+.site-footer__icon-link:hover {
+  color: var(--color-accent-text);
+}
+
+.site-footer__icon-link:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-border-focus);
+  outline-offset: calc(-1 * var(--focus-ring-width));
+}
+
+.site-footer__icon-link svg {
+  width: var(--size-icon-md);
+  height: var(--size-icon-md);
 }
 
 .site-footer__release {
   display: inline-flex;
   gap: var(--space-inline-gap);
+  margin-inline-end: var(--space-inline-gap);
 }
 
 .site-footer__version {
@@ -338,27 +534,9 @@ body {
 
 /* ─── Shared blocks ──────────────────────────────────────── */
 
-.stat-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-component-gap) var(--space-container-padding);
-}
 
-.stat {
-  display: grid;
-}
 
-.stat__value {
-  font-size: var(--font-size-h4);
-  font-weight: var(--font-weight-heading);
-  line-height: var(--line-height-h4);
-}
 
-.stat__label {
-  color: var(--color-text-secondary);
-  font-size: var(--font-size-small);
-  line-height: var(--line-height-small);
-}
 
 .link-grid {
   display: grid;
@@ -945,12 +1123,6 @@ body {
   gap: var(--space-element-gap);
 }
 
-/* The numbers close the hero: a rule above them ties them to it, so they
-   don't float between the hero and "What's here". */
-.landing__stats {
-  padding-top: var(--space-component-gap);
-  border-top: var(--border-width-default) solid var(--color-border-default);
-}
 
 .table-prose {
   display: block;
@@ -1014,28 +1186,13 @@ body {
 .landing-hero__inner {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 520px);
-  grid-template-rows: auto auto;
-  gap: var(--space-element-gap) var(--space-section-gap);
+  align-items: center;
+  gap: var(--space-section-gap);
   /* Below, the landing's own section gap spaces it from the numbers. */
   padding-top: var(--hero-padding-y);
 }
 
-/* The switch sits in row 1 on the right; the copy and the card both start
-   in row 2, so the badge lines up with the card's top edge. */
-.landing-hero__demo {
-  grid-column: 2;
-  grid-row: 1 / span 2;
-  display: grid;
-  grid-template-rows: subgrid;
-}
-
-.landing-hero__demo .hero-switch {
-  display: contents;
-}
-
 .landing-hero__copy {
-  grid-column: 1;
-  grid-row: 2;
   container-type: inline-size;
   display: flex;
   flex-direction: column;
@@ -1086,45 +1243,9 @@ body {
   gap: var(--space-element-gap);
 }
 
-/* The brand switch: a radio group drawn like the pill tabs. The selected
-   look comes from <html data-brand>, so it's right before React runs. */
-.brand-switch {
-  display: flex;
-  gap: var(--space-inline-gap);
-}
-
-.brand-switch__option {
-  padding: var(--space-compact-padding-y) var(--space-compact-padding-x);
-  border: none;
-  border-radius: var(--border-radius-interactive);
-  background: none;
-  color: var(--color-text-secondary);
-  font: inherit;
-  font-size: var(--font-size-control);
-  cursor: pointer;
-  transition: background-color var(--duration-interaction) var(--easing-default),
-    color var(--duration-interaction) var(--easing-default);
-}
-
-.brand-switch__option:hover {
-  color: var(--color-text-primary);
-}
-
-.brand-switch__option:focus-visible {
-  outline: var(--focus-ring-width) solid var(--color-border-focus);
-  outline-offset: var(--focus-ring-offset);
-}
-
 /* One card per brand; only the site's current brand shows. */
 .hero-switch__card {
   display: none;
-}
-
-[data-brand='demo-cool'] .brand-switch__option[data-for='demo-cool'],
-[data-brand='demo-warm'] .brand-switch__option[data-for='demo-warm'],
-[data-brand='demo-soft'] .brand-switch__option[data-for='demo-soft'] {
-  background: var(--color-surface-secondary);
-  color: var(--color-text-primary);
 }
 
 [data-brand='demo-cool'] .hero-switch__card[data-for='demo-cool'],
@@ -1139,6 +1260,13 @@ body {
   height: auto;
   aspect-ratio: 21 / 9;
   object-fit: cover;
+}
+
+/* Card's header has no bottom padding: it expects a footer under it. Here
+   it's the last part, so it takes the footer's bottom padding. Library
+   follow-up: .card__header:last-child should do this itself. */
+.hero-switch__card .card__header:last-child {
+  padding-bottom: var(--space-container-padding);
 }
 
 .hero-switch__meta {
@@ -1184,23 +1312,10 @@ body {
 @media (max-width: 1023px) {
   .landing-hero__inner {
     grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: none;
-    row-gap: var(--space-section-gap);
-  }
-
-  .landing-hero__copy,
-  .landing-hero__demo {
-    grid-column: auto;
-    grid-row: auto;
   }
 
   .landing-hero__demo {
-    display: block;
     max-width: 520px;
-  }
-
-  .landing-hero__demo .hero-switch {
-    display: grid;
   }
 }
 

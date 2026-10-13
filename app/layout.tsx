@@ -13,6 +13,7 @@ import './site.css'
 import { getBrandFonts } from '@/lib/ds'
 import { BRAND_STORAGE_KEY, DEFAULT_BRAND, DEMO_BRANDS } from '@/lib/demo-brands'
 import { SITE_URL } from '@/lib/site'
+import { MODE_STORAGE_KEY } from '@/lib/site-mode-key'
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -25,14 +26,14 @@ export const metadata: Metadata = {
 }
 
 // Runs before first paint, so there's no flash:
-// - the mode: the base theme's dark values apply under [data-mode="dark"],
-//   set from the system preference;
+// - the mode: the base theme's dark values apply under [data-mode="dark"];
+//   a visitor's pick (lib/site-mode), else the system preference;
 // - the brand: the site wears the demo brand picked in the landing hero
 //   (lib/demo-brands), remembered in the browser.
 // next/script with beforeInteractive puts it in the initial HTML; a plain
 // <script> in a component made React warn ("Encountered a script tag").
 const beforePaintScript = [
-  `try{if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.mode='dark'}catch(e){}`,
+  `try{var m=localStorage.getItem(${JSON.stringify(MODE_STORAGE_KEY)});if(m!=='light'&&m!=='dark')m=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.dataset.mode=m}catch(e){}`,
   `try{var b=localStorage.getItem(${JSON.stringify(BRAND_STORAGE_KEY)});if(${JSON.stringify(DEMO_BRANDS)}.indexOf(b)>=0)document.documentElement.dataset.brand=b}catch(e){}`,
 ].join(';')
 
