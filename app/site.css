@@ -76,7 +76,6 @@ body {
 .site-header__brand {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-inline-gap);
   min-width: 0;
   font-family: var(--font-family-heading);
   font-variation-settings: var(--font-variation-heading);
@@ -90,10 +89,6 @@ body {
    the text colour, not the link accent. */
 .site-header .site-header__brand {
   color: var(--color-text-primary);
-}
-
-.site-header__mark {
-  flex-shrink: 0;
 }
 
 /* The nav shows from 1024px (NavigationMenu). Below that there's nothing

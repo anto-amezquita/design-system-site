@@ -42,12 +42,6 @@ export function SiteFrame({ headerItems, sectionItems, version, children }: Site
           <SideNavTrigger />
           <Link asChild variant="standalone" className="site-header__brand">
             <NextLink href="/" aria-label="amezquita design system, home">
-              {/* The mark from the Day 3 design; the name stays text, so it takes the brand's heading font. */}
-              <svg className="site-header__mark" width="16" height="16" viewBox="0 4 16 16" aria-hidden="true">
-                <rect x="0" y="4" width="16" height="4" rx="2" fill="currentColor" />
-                <rect x="0" y="10" width="12" height="4" rx="2" fill="currentColor" />
-                <rect x="0" y="16" width="8" height="4" rx="2" fill="currentColor" />
-              </svg>
               <span>amezquita<span className="site-header__name-rest"> design system</span></span>
             </NextLink>
           </Link>
