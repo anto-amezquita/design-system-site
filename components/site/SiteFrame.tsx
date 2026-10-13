@@ -84,9 +84,9 @@ export function SiteFrame({ headerItems, sectionItems, version, children }: Site
             </p>
           </div>
           <ul className="site-footer__links" aria-label="Package">
-            <li>
+            <li className="site-footer__release">
               <span className="site-footer__version">{version}</span>
-              {' · '}
+              <span aria-hidden="true">·</span>
               <Link asChild variant="standalone">
                 <NextLink href="/changelog">Changelog</NextLink>
               </Link>

@@ -147,6 +147,11 @@ body {
   list-style: none;
 }
 
+.site-footer__release {
+  display: inline-flex;
+  gap: var(--space-inline-gap);
+}
+
 .site-footer__version {
   font-family: var(--font-family-mono);
 }
