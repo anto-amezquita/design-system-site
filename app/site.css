@@ -968,12 +968,28 @@ body {
 .landing-hero__inner {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 520px);
-  align-items: center;
-  gap: var(--space-section-gap);
+  grid-template-rows: auto auto;
+  gap: var(--space-element-gap) var(--space-section-gap);
   padding-block: var(--hero-padding-y);
 }
 
+/* The switch sits in row 1 on the right; the copy and the card both start
+   in row 2, so the badge lines up with the card's top edge. */
+.landing-hero__demo {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  display: grid;
+  grid-template-rows: subgrid;
+}
+
+.landing-hero__demo .hero-switch {
+  display: contents;
+}
+
 .landing-hero__copy {
+  grid-column: 1;
+  grid-row: 2;
+  container-type: inline-size;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -992,6 +1008,15 @@ body {
 
 .landing-hero__title span {
   display: block;
+  white-space: nowrap;
+}
+
+/* Never break "The fundamentals," itself: past the column's width the
+   title scales with the column (Archivo at 112.5 width runs about 10.4em). */
+@supports (font-size: 1cqi) {
+  .landing-hero__title {
+    font-size: min(var(--font-size-h1-fluid), 9.4cqi);
+  }
 }
 
 .landing-hero__lead {
@@ -1041,6 +1066,13 @@ body {
   font-size: var(--font-size-small);
 }
 
+/* A caption, not inline code: no chip. */
+.hero-switch__tokens code {
+  padding: 0;
+  background: none;
+  color: inherit;
+}
+
 .hero-switch__value--dark {
   display: none;
 }
@@ -1073,9 +1105,22 @@ body {
 @media (max-width: 1023px) {
   .landing-hero__inner {
     grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: none;
+    row-gap: var(--space-section-gap);
+  }
+
+  .landing-hero__copy,
+  .landing-hero__demo {
+    grid-column: auto;
+    grid-row: auto;
   }
 
   .landing-hero__demo {
+    display: block;
     max-width: 520px;
+  }
+
+  .landing-hero__demo .hero-switch {
+    display: grid;
   }
 }
