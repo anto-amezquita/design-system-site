@@ -1,7 +1,6 @@
 'use client'
 
-import { Button } from '@amezquita/design-system/components/primitives/Button'
-import { Card, CardFooter, CardHeader, CardMedia, CardTitle } from '@amezquita/design-system/components/composition/Card'
+import { Card, CardHeader, CardMedia, CardTitle } from '@amezquita/design-system/components/composition/Card'
 import { DEMO_BRANDS, DEMO_BRAND_CARDS, DEFAULT_BRAND, type DemoBrand } from '@/lib/demo-brands'
 
 /** A token value per mode, read from the package's token reference on the server. */
@@ -48,9 +47,6 @@ export function HeroCard({ specs }: { specs: Record<DemoBrand, BrandSpec> }) {
                   <CardTitle>{card.title}</CardTitle>
                   <p className="hero-switch__meta">Updated 2 days ago</p>
                 </CardHeader>
-                <CardFooter>
-                  <Button>Read more</Button>
-                </CardFooter>
               </Card>
               <p className="hero-switch__tokens">
                 <code>
