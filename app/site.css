@@ -732,6 +732,22 @@ body {
   gap: var(--space-element-gap);
 }
 
+/* Each column starts at the top, so a taller panel doesn't push the others'
+   captions down. */
+.button-demo__brands .theme-frame {
+  align-content: start;
+}
+
+/* One line of buttons per brand: a brand with wider type would otherwise wrap
+   its last button and stand taller than the others. Scrolls when narrow. */
+.button-demo__brands .theme-frame__panel {
+  overflow-x: auto;
+}
+
+.button-demo__brands .demo-stack--row {
+  flex-wrap: nowrap;
+}
+
 /* Buttons never wrap, so on a narrow screen the table scrolls inside its
    panel instead of running out of it. */
 .button-demo .theme-frame__panel {
