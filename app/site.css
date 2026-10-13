@@ -986,6 +986,18 @@ body {
   gap: var(--space-inline-gap);
 }
 
+/* A long unbroken run, like "4/8/12/…/128" in a changelog entry, has
+   nowhere to break and ran past a phone's edge. Both rules are needed: a
+   grid child keeps its longest word's width unless it may shrink, and
+   break-word only breaks a word once the box is narrower than it. */
+.markdown li > * {
+  min-width: 0;
+}
+
+.markdown {
+  overflow-wrap: break-word;
+}
+
 .markdown li + li {
   margin-top: var(--space-inline-gap);
 }
