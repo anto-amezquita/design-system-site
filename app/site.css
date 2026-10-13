@@ -720,9 +720,24 @@ body {
   gap: var(--space-element-gap);
 }
 
+.button-demo__frames {
+  display: grid;
+  gap: var(--space-element-gap);
+}
+
+/* Buttons never wrap, so on a narrow screen the table scrolls inside its
+   panel instead of running out of it. */
+.button-demo .theme-frame__panel {
+  overflow-x: auto;
+}
+
 .button-states {
   width: 100%;
   border-collapse: collapse;
+}
+
+.button-states th[scope='row'] {
+  white-space: nowrap;
 }
 
 .button-states th {

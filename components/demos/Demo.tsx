@@ -75,7 +75,9 @@ function BadgeDemo() {
 // Button gets more than one row: every variant against the states its props
 // produce, in light and dark side by side. Hover, keyboard focus and pressed
 // are the browser's own states, so they live in a column to try, not in a
-// static picture that would have to copy Button.css to fake them.
+// static picture that would have to copy Button.css to fake them. Light and
+// dark stack rather than sit side by side: five columns of unwrapping buttons
+// need the full width.
 const BUTTON_VARIANTS = ['primary', 'secondary', 'ghost', 'link'] as const
 const BUTTON_STATES = [
   { label: 'Rest', props: {} },
@@ -115,7 +117,7 @@ function ButtonStates() {
 function ButtonDemo() {
   return (
     <div className="demo-full button-demo">
-      <div className="theme-frames">
+      <div className="button-demo__frames">
         {(['light', 'dark'] as const).map(mode => (
           <div key={mode} className="theme-frame">
             <p className="theme-frame__caption"><span className="theme-frame__name">{mode === 'light' ? 'Light' : 'Dark'}</span></p>
