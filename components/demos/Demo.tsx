@@ -72,14 +72,63 @@ function BadgeDemo() {
   )
 }
 
+// Button gets more than one row: every variant against the states its props
+// produce, in light and dark side by side. Hover, keyboard focus and pressed
+// are the browser's own states, so they live in a column to try, not in a
+// static picture that would have to copy Button.css to fake them.
+const BUTTON_VARIANTS = ['primary', 'secondary', 'ghost', 'link'] as const
+const BUTTON_STATES = [
+  { label: 'Rest', props: {} },
+  { label: 'Disabled', props: { disabled: true } },
+  { label: 'Loading', props: { loading: true } },
+] as const
+
+function ButtonStates() {
+  return (
+    <table className="button-states">
+      <thead>
+        <tr>
+          <th scope="col">Variant</th>
+          {BUTTON_STATES.map(state => <th key={state.label} scope="col">{state.label}</th>)}
+          <th scope="col">Hover, focus, press</th>
+        </tr>
+      </thead>
+      <tbody>
+        {BUTTON_VARIANTS.map(variant => (
+          <tr key={variant}>
+            <th scope="row"><code>{variant}</code></th>
+            {BUTTON_STATES.map(state => (
+              <td key={state.label}>
+                <Button variant={variant} {...state.props}>Save</Button>
+              </td>
+            ))}
+            <td>
+              <Button variant={variant}>Try me</Button>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  )
+}
+
 function ButtonDemo() {
   return (
-    <Stack row>
-      <Button>Save</Button>
-      <Button variant="secondary">Cancel</Button>
-      <Button variant="ghost">Skip</Button>
-      <Button loading>Saving</Button>
-    </Stack>
+    <div className="demo-full button-demo">
+      <div className="theme-frames">
+        {(['light', 'dark'] as const).map(mode => (
+          <div key={mode} className="theme-frame">
+            <p className="theme-frame__caption"><span className="theme-frame__name">{mode === 'light' ? 'Light' : 'Dark'}</span></p>
+            <ThemeScope mode={mode} className="theme-frame__panel">
+              <ButtonStates />
+            </ThemeScope>
+          </div>
+        ))}
+      </div>
+      <p className="note">
+        Rest, disabled and loading come from props. Hover, keyboard focus and pressed are the browser&rsquo;s own states: point at, Tab to, or press and hold the buttons in the last column.
+      </p>
+    </div>
   )
 }
 

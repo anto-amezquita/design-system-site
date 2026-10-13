@@ -714,6 +714,35 @@ body {
   width: 100%;
 }
 
+/* Button's states grid: variants down, states across, once per mode. */
+.button-demo {
+  display: grid;
+  gap: var(--space-element-gap);
+}
+
+.button-states {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.button-states th {
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+  font-weight: var(--font-weight-body);
+  color: var(--color-text-secondary);
+  text-align: start;
+}
+
+.button-states th,
+.button-states td {
+  padding: var(--space-inline-gap);
+  vertical-align: middle;
+}
+
+.button-states thead th {
+  border-bottom: var(--border-width-default) solid var(--color-border-default);
+}
+
 .demo-grow {
   flex: 1;
 }
