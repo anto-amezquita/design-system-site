@@ -725,6 +725,13 @@ body {
   gap: var(--space-element-gap);
 }
 
+/* The same Buttons in each demo brand, side by side where they fit. */
+.button-demo__brands {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: var(--space-element-gap);
+}
+
 /* Buttons never wrap, so on a narrow screen the table scrolls inside its
    panel instead of running out of it. */
 .button-demo .theme-frame__panel {
