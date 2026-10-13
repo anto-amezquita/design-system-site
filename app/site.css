@@ -124,8 +124,36 @@ body {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-element-gap) var(--space-component-gap);
+  padding: var(--space-section-gap) var(--space-layout-margin);
+}
+
+.site-footer__credit {
+  display: grid;
+  gap: var(--space-inline-gap);
+}
+
+.site-footer__credit p:first-child {
+  color: var(--color-text-primary);
+}
+
+.site-footer__links {
+  display: flex;
+  flex-wrap: wrap;
   gap: var(--space-inline-gap) var(--space-component-gap);
-  padding: var(--space-component-gap) var(--space-layout-margin);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.site-footer__release {
+  display: inline-flex;
+  gap: var(--space-inline-gap);
+}
+
+.site-footer__version {
+  font-family: var(--font-family-mono);
 }
 
 /* ─── Docs page shell ────────────────────────────────────── */

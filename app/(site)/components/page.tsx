@@ -32,7 +32,7 @@ export default function ComponentsPage() {
                 {inTier.map(c => (
                   <li key={c.slug} className="component-card">
                     <div className="component-card__preview">
-                      <Demo slug={c.slug} name={c.name} />
+                      <Demo slug={c.slug} name={c.name} preview />
                     </div>
                     <div className="component-card__body">
                       <span className="component-card__name">

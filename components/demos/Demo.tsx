@@ -167,6 +167,18 @@ function ButtonDemo() {
   )
 }
 
+// The Components overview's card: the variants side by side. The full
+// states table and the brand row are for the Button page, and overflow a card.
+function ButtonPreview() {
+  return (
+    <Stack row>
+      <Button>Save</Button>
+      <Button variant="secondary">Share</Button>
+      <Button variant="ghost">Skip</Button>
+    </Stack>
+  )
+}
+
 function CheckboxDemo() {
   const id = useId()
   return (
@@ -580,6 +592,11 @@ const DEMOS: Record<string, () => React.ReactNode> = {
   tabs: TabsDemo,
 }
 
+/** Smaller renders for the Components overview's cards, where a page's demo is too big for one. */
+const PREVIEWS: Record<string, () => React.ReactNode> = {
+  button: ButtonPreview,
+}
+
 /** Providers the overlay demos need, mounted once per page. */
 export function DemoProviders({ children }: { children: React.ReactNode }) {
   return (
@@ -589,8 +606,8 @@ export function DemoProviders({ children }: { children: React.ReactNode }) {
   )
 }
 
-export function Demo({ slug, name }: { slug: string; name: string }) {
-  const Render = DEMOS[slug]
+export function Demo({ slug, name, preview = false }: { slug: string; name: string; preview?: boolean }) {
+  const Render = (preview && PREVIEWS[slug]) || DEMOS[slug]
   if (!Render) {
     return <p className="demo-note">No live render of {name} on this site yet. Its docs below come straight from the package.</p>
   }
