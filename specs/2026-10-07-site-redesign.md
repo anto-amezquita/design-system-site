@@ -199,6 +199,13 @@ Checking the token files showed why `portfolio` looked like `base`: it overrides
 - `demo-warm` and `demo-soft` are each a small `brand-direction` run (Antonio designs them). Until they exist, the switch can ship with `demo-cool` alone or with the brands that are ready.
 - Order: brand tokens in the library → release (ADR 0022) → `/design-sync` → the hero scene picks the changes up with no page edits.
 
+## Day 4 — Button in depth (2026-10-13)
+
+Built in code, not Figma: the component already exists, so redrawing it would be copying, not designing.
+
+- **Library** (`docs/button-in-depth`, merged): every Button prop described (12 of 15 had none); Do / Don't, with the twin generator now rendering a Best practices section for any component that has `**Do**` / `**Don't**` blocks in `docs/components.md`; a pressed state; ghost's hover border fixed. Reaches the site with the next release.
+- **Site** (`feat/button-page`, not pushed): the Live render becomes a states table, every variant against rest, disabled and loading, plus a column to try hover, focus and press, once in light and once in dark, stacked. Held back until the release, so the page ships complete.
+
 ## Later, out of scope this week
 
 - **Stripe-grade motion, as its own track after the site ships.** Stripe's premium feel comes from bespoke animated graphics: the hero wave, and a WebGL2 canvas per card ("Monetise through agentic commerce", "Create a card issuing programme", the globe, the "squeezy" carousel). That layer sits on top of a design system; tokens and Figma don't produce it. Learn it separately, starting with three.js. This week builds the foundation it will sit on: the motion only reads as premium because the type, spacing and restraint underneath are already right.
@@ -210,7 +217,8 @@ Checking the token files showed why `portfolio` looked like `base`: it overrides
 ## Open questions
 
 - Interaction states as overlays? In the library today they are solid colours: nav hover and selected share one fill (`color-surface-secondary`, neutral-100), so they look the same, and the secondary Button jumps to the accent on hover. Astryx stacks a 5% / 10% overlay that works over any surface and any brand. A library change, so it would ship with the new brand under ADR 0022, or not at all this week.
-- **Button has no pressed state** (found 2026-10-12 while rendering `demo-warm` and `demo-soft` in Claude Design: it had to draw the pressed swatches by hand). Library work: add a pressed state to Button, ideally as the 10% overlay from the question above, so every brand gets it from tokens. Ships under ADR 0022.
+- ~~**Button has no pressed state**~~ Done 2026-10-13 (library PR `docs/button-in-depth`, merged): a `color-accent-pressed` token per brand and mode, `:active` for mouse and touch. Ghost's stray hover border fixed in the same PR.
+- **Loading looks almost like disabled** (seen 2026-10-13 on the Button page's states table). Loading uses the same reduced opacity as disabled, so on light `primary` the fill goes pale grey and the spinner is barely visible. Loading says "busy, wait", not "unavailable", so it should keep the variant's colours with only the label hidden. Library follow-up, after this week.
 - ~~Hero theme carousel~~ Decided 2026-10-12 (Day 3): no carousel. A brand switch with three demo brands (`demo-cool` · `demo-warm` · `demo-soft`, `demo-cool` first) re-skins one real Card in the hero. `base` and `portfolio` are not on it. It is the hero's labelled exception to the 0017 amendment, which keeps component previews in `base` elsewhere.
 
 - ~~The brand's name.~~ Decided 2026-10-09 as `site`; renamed 2026-10-12 to `demo-cool`, one of three demo brands named by character (see Day 3). It is the folder `tokens/brands/demo-cool/` and the `ThemeScope` value (`brand="demo-cool"`). "Resolution" stays the direction's name in the case study.
