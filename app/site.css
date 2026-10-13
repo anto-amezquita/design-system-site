@@ -714,6 +714,73 @@ body {
   width: 100%;
 }
 
+/* Button's states grid: variants down, states across, once per mode. */
+.button-demo {
+  display: grid;
+  gap: var(--space-element-gap);
+}
+
+.button-demo__frames {
+  display: grid;
+  gap: var(--space-element-gap);
+}
+
+/* The same Buttons in each demo brand, side by side where they fit. */
+.button-demo__brands {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: var(--space-element-gap);
+}
+
+/* Each column starts at the top, so a taller panel doesn't push the others'
+   captions down. */
+.button-demo__brands .theme-frame {
+  align-content: start;
+}
+
+/* One line of buttons per brand: a brand with wider type would otherwise wrap
+   its last button and stand taller than the others. Scrolls when narrow. */
+.button-demo__brands .theme-frame__panel {
+  overflow-x: auto;
+}
+
+.button-demo__brands .demo-stack--row {
+  flex-wrap: nowrap;
+}
+
+/* Buttons never wrap, so on a narrow screen the table scrolls inside its
+   panel instead of running out of it. */
+.button-demo .theme-frame__panel {
+  overflow-x: auto;
+}
+
+.button-states {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.button-states th[scope='row'] {
+  white-space: nowrap;
+}
+
+.button-states th {
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+  font-weight: var(--font-weight-body);
+  color: var(--color-text-secondary);
+  text-align: start;
+}
+
+.button-states th,
+.button-states td {
+  padding: var(--space-inline-gap);
+  vertical-align: middle;
+}
+
+.button-states thead th {
+  border-bottom: var(--border-width-default) solid var(--color-border-default);
+}
+
 .demo-grow {
   flex: 1;
 }

@@ -80,7 +80,7 @@ export type BrandFonts = {
 }
 
 /** The font links each brand needs. The package names the fonts but ships no font files. */
-export function getBrandFonts(brand: 'base' | 'portfolio'): BrandFonts {
+export function getBrandFonts(brand: string): BrandFonts {
   const fonts = readJson<{ brands: Record<string, BrandFonts> }>('tokens/fonts.json').brands[brand]
   if (!fonts) throw new Error(`@amezquita/design-system's tokens/fonts.json has no "${brand}" brand.`)
   return fonts

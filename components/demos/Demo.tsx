@@ -26,6 +26,10 @@ import { Menu } from '@amezquita/design-system/components/composition/Menu'
 import { NavigationMenu } from '@amezquita/design-system/components/composition/NavigationMenu'
 import { ToastProvider, useToast } from '@amezquita/design-system/components/composition/Toast'
 import { ThemeScope } from '@amezquita/design-system/components/composition/ThemeScope'
+import '@amezquita/design-system/styles/brands/demo-cool-scoped.css'
+import '@amezquita/design-system/styles/brands/demo-warm-scoped.css'
+import '@amezquita/design-system/styles/brands/demo-soft-scoped.css'
+import { DEMO_BRANDS } from '@/lib/demo-brands'
 import { Tooltip, TooltipProvider } from '@amezquita/design-system/components/composition/Tooltip'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@amezquita/design-system/components/patterns/Accordion'
 import { Breadcrumb } from '@amezquita/design-system/components/patterns/Breadcrumb'
@@ -72,14 +76,94 @@ function BadgeDemo() {
   )
 }
 
+// Button gets more than one row: every variant against the states its props
+// produce, in light and dark side by side. Hover, keyboard focus and pressed
+// are the browser's own states, so they live in a column to try, not in a
+// static picture that would have to copy Button.css to fake them. Light and
+// dark stack rather than sit side by side: five columns of unwrapping buttons
+// need the full width.
+const BUTTON_VARIANTS = ['primary', 'secondary', 'ghost', 'link'] as const
+const BUTTON_STATES = [
+  { label: 'Rest', props: {} },
+  { label: 'Disabled', props: { disabled: true } },
+  { label: 'Loading', props: { loading: true } },
+] as const
+
+function ButtonStates() {
+  return (
+    <table className="button-states">
+      <thead>
+        <tr>
+          <th scope="col">Variant</th>
+          {BUTTON_STATES.map(state => <th key={state.label} scope="col">{state.label}</th>)}
+          <th scope="col">Hover, focus, press</th>
+        </tr>
+      </thead>
+      <tbody>
+        {BUTTON_VARIANTS.map(variant => (
+          <tr key={variant}>
+            <th scope="row"><code>{variant}</code></th>
+            {BUTTON_STATES.map(state => (
+              <td key={state.label}>
+                <Button variant={variant} {...state.props}>Save</Button>
+              </td>
+            ))}
+            <td>
+              <Button variant={variant}>Try me</Button>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  )
+}
+
+// Primary, secondary and ghost in each demo brand: three fit on one line in
+// a third of the content width, and link already has its row in the table. Their tokens come from the
+// package's *-scoped.css files, imported above; their fonts are linked by the
+// Button page (app/(site)/components/[slug]/page.tsx). ThemeScope applies one
+// brand per panel.
+
+function ButtonBrands() {
+  return (
+    <div className="button-demo__brands">
+      {DEMO_BRANDS.map(brand => (
+        <div key={brand} className="theme-frame">
+          <p className="theme-frame__caption"><span className="theme-frame__name">{brand}</span></p>
+          <ThemeScope brand={brand} className="theme-frame__panel">
+            <Stack row>
+              <Button>Save</Button>
+              <Button variant="secondary">Share</Button>
+              <Button variant="ghost">Skip</Button>
+            </Stack>
+          </ThemeScope>
+        </div>
+      ))}
+    </div>
+  )
+}
+
 function ButtonDemo() {
   return (
-    <Stack row>
-      <Button>Save</Button>
-      <Button variant="secondary">Cancel</Button>
-      <Button variant="ghost">Skip</Button>
-      <Button loading>Saving</Button>
-    </Stack>
+    <div className="demo-full button-demo">
+      <div className="button-demo__frames">
+        {(['light', 'dark'] as const).map(mode => (
+          <div key={mode} className="theme-frame">
+            <p className="theme-frame__caption"><span className="theme-frame__name">{mode === 'light' ? 'Light' : 'Dark'}</span></p>
+            <ThemeScope mode={mode} className="theme-frame__panel">
+              <ButtonStates />
+            </ThemeScope>
+          </div>
+        ))}
+      </div>
+      <p className="note">
+        Rest, disabled and loading come from props. Hover, keyboard focus and pressed are the browser&rsquo;s own states: point at, Tab to, or press and hold the buttons in the last column.
+      </p>
+      <ButtonBrands />
+      <p className="note">
+        The same Button in the three demo brands. Nothing about the component changes: each panel is a <code>ThemeScope</code>, and the brand&rsquo;s tokens set the font, colours, corners and outline.
+      </p>
+    </div>
   )
 }
 
