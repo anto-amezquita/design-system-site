@@ -956,11 +956,9 @@ body {
 }
 
 /* ─── Landing hero ───────────────────────────────────────── */
-/* Copy on the left, one real Card on the right, re-skinned by brand.
-   The hero wears demo-cool; the card wears whichever brand is picked. */
+/* Copy on the left, one real Card on the right. The switch above the card
+   sets the brand the whole site wears (lib/site-brand). */
 
-/* No background of its own: demo-cool's surface is a shade off base's, and
-   until the whole frame wears demo-cool it would show as a box. */
 .landing-hero {
   color: var(--color-text-primary);
   font-family: var(--font-family-base);
@@ -984,69 +982,58 @@ body {
 }
 
 .landing-hero__demo .hero-switch {
-  display: contents;
-}
-
-.landing-hero__copy {
-  grid-column: 1;
-  grid-row: 2;
-  container-type: inline-size;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-component-gap);
-}
-
-.landing-hero__title {
-  margin: 0;
-  font-family: var(--font-family-heading);
-  font-variation-settings: var(--font-variation-heading);
-  font-size: var(--font-size-h1-fluid);
-  font-weight: var(--hero-title-weight);
-  line-height: var(--line-height-display);
-  letter-spacing: var(--letter-spacing-heading);
-}
-
-.landing-hero__title span {
-  display: block;
-  white-space: nowrap;
-}
-
-/* Never break "The fundamentals," itself: past the column's width the
-   title scales with the column (Archivo at 112.5 width runs about 10.4em). */
-@supports (font-size: 1cqi) {
-  .landing-hero__title {
-    font-size: min(var(--font-size-h1-fluid), 9.4cqi);
-  }
-}
-
-.landing-hero__lead {
-  margin: 0;
-  max-width: var(--hero-lead-max-width);
-  font-size: var(--hero-lead-size);
-  line-height: var(--line-height-body);
-  color: var(--color-text-secondary);
-}
-
-.landing-hero__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-inline-gap);
-  margin-top: var(--space-inline-gap);
-}
-
-.hero-switch {
   display: grid;
   gap: var(--space-element-gap);
 }
 
-.hero-switch__scope {
-  /* The scope sets the brand's fonts; the card inherits them. */
-  font-family: var(--font-family-base);
+/* The brand switch: a radio group drawn like the pill tabs. The selected
+   look comes from <html data-brand>, so it's right before React runs. */
+.brand-switch {
+  display: flex;
+  gap: var(--space-inline-gap);
+}
+
+.brand-switch__option {
+  padding: var(--space-compact-padding-y) var(--space-compact-padding-x);
+  border: none;
+  border-radius: var(--border-radius-interactive);
+  background: none;
+  color: var(--color-text-secondary);
+  font: inherit;
+  font-size: var(--font-size-control);
+  cursor: pointer;
+  transition: background-color var(--duration-interaction) var(--easing-default),
+    color var(--duration-interaction) var(--easing-default);
+}
+
+.brand-switch__option:hover {
   color: var(--color-text-primary);
 }
 
-.hero-switch__scope .card__media img {
+.brand-switch__option:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-border-focus);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* One card per brand; only the site's current brand shows. */
+.hero-switch__card {
+  display: none;
+}
+
+[data-brand='demo-cool'] .brand-switch__option[data-for='demo-cool'],
+[data-brand='demo-warm'] .brand-switch__option[data-for='demo-warm'],
+[data-brand='demo-soft'] .brand-switch__option[data-for='demo-soft'] {
+  background: var(--color-surface-secondary);
+  color: var(--color-text-primary);
+}
+
+[data-brand='demo-cool'] .hero-switch__card[data-for='demo-cool'],
+[data-brand='demo-warm'] .hero-switch__card[data-for='demo-warm'],
+[data-brand='demo-soft'] .hero-switch__card[data-for='demo-soft'] {
+  display: block;
+}
+
+.hero-switch__card .card__media img {
   display: block;
   width: 100%;
   height: auto;
@@ -1086,21 +1073,12 @@ body {
   display: inline;
 }
 
-/* A short crossfade as the card changes brand. Radix mounts only the
-   selected panel, so the fade runs on each switch. */
-.hero-switch__panel[data-state='active'] {
-  animation: hero-switch-in var(--duration-base) var(--easing-out);
-}
-
-@keyframes hero-switch-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-switch__panel[data-state='active'] {
-    animation: none;
-  }
+/* Switching brand re-skins the whole page as one crossfade (the View
+   Transitions API). lib/site-brand skips it under reduced motion. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: var(--duration-base);
+  animation-timing-function: var(--easing-out);
 }
 
 @media (max-width: 1023px) {

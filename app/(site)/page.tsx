@@ -1,12 +1,11 @@
 import NextLink from 'next/link'
 import { Badge } from '@amezquita/design-system/components/primitives/Badge'
-import { ThemeScope } from '@amezquita/design-system/components/composition/ThemeScope'
 import { Heading } from '@amezquita/design-system/components/primitives/Heading'
 import { Link } from '@amezquita/design-system/components/primitives/Link'
 import { LandingActions } from '@/components/site/LandingActions'
 import { HeroBrandSwitch, type BrandSpec } from '@/components/site/HeroBrandSwitch'
 import { DEMO_BRANDS, type DemoBrand } from '@/lib/demo-brands'
-import { getBrandFonts, getBrandNames, getPackageVersion, getPublicComponents, getTokenReference } from '@/lib/ds'
+import { getBrandNames, getPackageVersion, getPublicComponents, getTokenReference } from '@/lib/ds'
 
 // The line under the hero card: values from the package's token reference,
 // so it can't drift from what the card renders.
@@ -49,12 +48,7 @@ export default function LandingPage() {
 
   return (
     <div className="landing">
-      {/* Each demo brand's fonts, for the card's switch. React hoists these into <head>. */}
-      {DEMO_BRANDS.map(b => (
-        <link key={b} rel="stylesheet" href={getBrandFonts(b).href} precedence="default" />
-      ))}
-
-      <ThemeScope brand="demo-cool" className="landing-hero">
+      <div className="landing-hero">
         <section className="landing-hero__inner" aria-labelledby="landing-title">
           <div className="landing-hero__copy">
             <Badge variant="success">Stable</Badge>
@@ -71,7 +65,7 @@ export default function LandingPage() {
             <HeroBrandSwitch specs={brandSpecs()} />
           </div>
         </section>
-      </ThemeScope>
+      </div>
 
       <section className="landing__stats" aria-label="The package in numbers">
         <div className="stat-row">

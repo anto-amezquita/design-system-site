@@ -1,14 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { usePathname } from 'next/navigation'
 import { Button } from '@amezquita/design-system/components/primitives/Button'
 import { Card, CardFooter, CardHeader, CardMedia, CardTitle } from '@amezquita/design-system/components/composition/Card'
-import { ThemeScope } from '@amezquita/design-system/components/composition/ThemeScope'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@amezquita/design-system/components/patterns/Tabs'
-import '@amezquita/design-system/styles/brands/demo-cool-scoped.css'
-import '@amezquita/design-system/styles/brands/demo-warm-scoped.css'
-import '@amezquita/design-system/styles/brands/demo-soft-scoped.css'
-import { DEMO_BRANDS, DEMO_BRAND_CARDS, type DemoBrand } from '@/lib/demo-brands'
+import { DEMO_BRANDS, DEMO_BRAND_CARDS, DEFAULT_BRAND, type DemoBrand } from '@/lib/demo-brands'
+import { chooseBrand, storedBrand } from '@/lib/site-brand'
 
 /** A token value per mode, read from the package's token reference on the server. */
 type ModeValue = { light: string; dark: string }
@@ -26,33 +23,64 @@ function Value({ value }: { value: ModeValue }) {
 }
 
 /**
- * One real Card, re-skinned by ThemeScope as the brand changes. Nothing in the
- * card changes but the brand: the markup and props are the same three times.
+ * Picks the brand the whole site wears. It's a setting, not tabs: nothing
+ * here owns a panel. Which option looks selected, and which card shows, come
+ * from <html data-brand> in CSS, so a returning visitor's pick is right from
+ * first paint; aria-checked catches up once React has read storage.
  */
 export function HeroBrandSwitch({ specs }: { specs: Record<DemoBrand, BrandSpec> }) {
-  const [brand, setBrand] = useState<DemoBrand>('demo-cool')
+  const pathname = usePathname()
+  const [brand, setBrand] = useState<DemoBrand>(DEFAULT_BRAND)
+  useEffect(() => setBrand(storedBrand()), [])
+
+  const pick = (b: DemoBrand) => {
+    setBrand(b)
+    chooseBrand(b, pathname)
+  }
 
   return (
-    <Tabs
-      variant="pill"
-      size="sm"
-      value={brand}
-      onValueChange={v => setBrand(v as DemoBrand)}
-      className="hero-switch"
-    >
-      <TabsList aria-label="Brand">
-        {DEMO_BRANDS.map(b => <TabsTrigger key={b} value={b}>{b}</TabsTrigger>)}
-      </TabsList>
-      {DEMO_BRANDS.map(b => {
-        const card = DEMO_BRAND_CARDS[b]
-        const spec = specs[b]
-        return (
-          <TabsContent key={b} value={b} className="hero-switch__panel">
-            <ThemeScope brand={b} className="hero-switch__scope">
+    <div className="hero-switch">
+      <div role="radiogroup" aria-label="Brand for this site" className="brand-switch">
+        {DEMO_BRANDS.map(b => (
+          <button
+            key={b}
+            type="button"
+            role="radio"
+            aria-checked={brand === b}
+            tabIndex={brand === b ? 0 : -1}
+            data-for={b}
+            className="brand-switch__option"
+            onClick={() => pick(b)}
+            onKeyDown={e => {
+              const step = e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : e.key === 'ArrowLeft' || e.key === 'ArrowUp' ? -1 : 0
+              if (!step) return
+              e.preventDefault()
+              const next = DEMO_BRANDS[(DEMO_BRANDS.indexOf(b) + step + DEMO_BRANDS.length) % DEMO_BRANDS.length]
+              pick(next)
+              const group = e.currentTarget.parentElement
+              group?.querySelector<HTMLButtonElement>(`[data-for="${next}"]`)?.focus()
+            }}
+          >
+            {b}
+          </button>
+        ))}
+      </div>
+      <div className="hero-switch__cards">
+        {DEMO_BRANDS.map(b => {
+          const card = DEMO_BRAND_CARDS[b]
+          const spec = specs[b]
+          return (
+            <div key={b} data-for={b} className="hero-switch__card">
               <Card>
                 <CardMedia>
                   {/* Decorative: the title beside it says what the picture is. */}
-                  <img src={card.image} alt="" width={1584} height={672} />
+                  <img
+                    src={card.image}
+                    alt=""
+                    width={1584}
+                    height={672}
+                    loading={b === DEFAULT_BRAND ? 'eager' : 'lazy'}
+                  />
                 </CardMedia>
                 <CardHeader>
                   <CardTitle>{card.title}</CardTitle>
@@ -62,15 +90,15 @@ export function HeroBrandSwitch({ specs }: { specs: Record<DemoBrand, BrandSpec>
                   <Button>Read more</Button>
                 </CardFooter>
               </Card>
-            </ThemeScope>
-            <p className="hero-switch__tokens">
-              <code>
-                accent <Value value={spec.accent} /> · radius <Value value={spec.radius} /> · <Value value={spec.font} />
-              </code>
-            </p>
-          </TabsContent>
-        )
-      })}
-    </Tabs>
+              <p className="hero-switch__tokens">
+                <code>
+                  accent <Value value={spec.accent} /> · radius <Value value={spec.radius} /> · <Value value={spec.font} />
+                </code>
+              </p>
+            </div>
+          )
+        })}
+      </div>
+    </div>
   )
 }

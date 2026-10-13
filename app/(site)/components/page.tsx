@@ -19,7 +19,7 @@ export default function ComponentsPage() {
       lead={
         <p>
           {components.length} components in three tiers, read from the installed package’s registry.
-          Every card is the real component running in the base theme, not a screenshot.
+          Every card is the real component, not a screenshot, in the brand picked on the home page.
         </p>
       }
       sections={TIERS.map(tier => ({ id: tier, label: TIER_LABELS[tier] }))}
