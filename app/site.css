@@ -959,8 +959,9 @@ body {
 /* Copy on the left, one real Card on the right, re-skinned by brand.
    The hero wears demo-cool; the card wears whichever brand is picked. */
 
+/* No background of its own: demo-cool's surface is a shade off base's, and
+   until the whole frame wears demo-cool it would show as a box. */
 .landing-hero {
-  background: var(--color-surface-primary);
   color: var(--color-text-primary);
   font-family: var(--font-family-base);
 }
