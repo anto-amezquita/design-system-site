@@ -1,10 +1,9 @@
 'use client'
 
-import { useEffect, useState } from 'react'
 import { Button } from '@amezquita/design-system/components/primitives/Button'
 import { Card, CardFooter, CardHeader, CardMedia, CardTitle } from '@amezquita/design-system/components/composition/Card'
 import { DEMO_BRANDS, DEMO_BRAND_CARDS, DEFAULT_BRAND, type DemoBrand } from '@/lib/demo-brands'
-import { chooseBrand, storedBrand } from '@/lib/site-brand'
+import { chooseBrand, useSiteBrand } from '@/lib/site-brand'
 
 /** A token value per mode, read from the package's token reference on the server. */
 type ModeValue = { light: string; dark: string }
@@ -25,16 +24,11 @@ function Value({ value }: { value: ModeValue }) {
  * Picks the brand the whole site wears. It's a setting, not tabs: nothing
  * here owns a panel. Which option looks selected, and which card shows, come
  * from <html data-brand> in CSS, so a returning visitor's pick is right from
- * first paint; aria-checked catches up once React has read storage.
+ * first paint; aria-checked follows it through useSiteBrand.
  */
 export function HeroBrandSwitch({ specs }: { specs: Record<DemoBrand, BrandSpec> }) {
-  const [brand, setBrand] = useState<DemoBrand>(DEFAULT_BRAND)
-  useEffect(() => setBrand(storedBrand()), [])
-
-  const pick = (b: DemoBrand) => {
-    setBrand(b)
-    chooseBrand(b)
-  }
+  const brand = useSiteBrand()
+  const pick = chooseBrand
 
   return (
     <div className="hero-switch">

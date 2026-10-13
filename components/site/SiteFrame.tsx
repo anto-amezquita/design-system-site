@@ -1,9 +1,9 @@
 'use client'
 
 import NextLink from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
-import { Button } from '@amezquita/design-system/components/primitives/Button'
+import { usePathname } from 'next/navigation'
 import { Link } from '@amezquita/design-system/components/primitives/Link'
+import { BrandPicker } from '@/components/site/BrandPicker'
 import { SkipLink } from '@amezquita/design-system/components/primitives/SkipLink'
 import { NavigationMenu } from '@amezquita/design-system/components/composition/NavigationMenu'
 import {
@@ -30,7 +30,6 @@ type SiteFrameProps = {
  */
 export function SiteFrame({ headerItems, sectionItems, version, children }: SiteFrameProps) {
   const pathname = usePathname()
-  const router = useRouter()
   const isLanding = pathname === '/'
 
   return (
@@ -38,23 +37,28 @@ export function SiteFrame({ headerItems, sectionItems, version, children }: Site
       <SkipLink />
       <header className="site-header">
         <div className="site-header__inner">
+          <div className="site-header__start">
           <SideNavTrigger />
           <Link asChild variant="standalone" className="site-header__brand">
-            <NextLink href="/">amezquita design system</NextLink>
+            <NextLink href="/" aria-label="amezquita design system, home">
+              {/* The mark from the Day 3 design; the name stays text, so it takes the brand's heading font. */}
+              <svg className="site-header__mark" width="16" height="16" viewBox="0 4 16 16" aria-hidden="true">
+                <rect x="0" y="4" width="16" height="4" rx="2" fill="currentColor" />
+                <rect x="0" y="10" width="12" height="4" rx="2" fill="currentColor" />
+                <rect x="0" y="16" width="8" height="4" rx="2" fill="currentColor" />
+              </svg>
+              <span>amezquita<span className="site-header__name-rest"> design system</span></span>
+            </NextLink>
           </Link>
+          </div>
           <NavigationMenu
             items={headerItems}
             currentHref={pathname}
             LinkComponent={NextLink}
             aria-label="Main"
+            className="site-header__nav"
           />
-          <Button
-            href="/getting-started"
-            onNavigate={href => router.push(href)}
-            className="site-header__cta"
-          >
-            Get started
-          </Button>
+          <BrandPicker />
         </div>
       </header>
       <div className={isLanding ? 'site-body site-body--landing' : 'site-body'}>
