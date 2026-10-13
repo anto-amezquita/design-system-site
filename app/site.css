@@ -252,6 +252,10 @@ body {
 }
 
 .site-sidenav {
+  /* SideNav pads each link by --space-control-padding-x inside its
+     highlight. Pulled out by that, the link text lines up with the logo
+     above it, and the highlight reaches into the margin. */
+  margin-inline-start: calc(-1 * var(--space-control-padding-x));
   position: sticky;
   top: var(--site-header-height);
   align-self: flex-start;
