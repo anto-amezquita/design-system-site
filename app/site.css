@@ -301,15 +301,47 @@ body {
 .site-footer__links {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-inline-gap) var(--space-component-gap);
+  align-items: center;
+  /* The icon links carry 12px either side of their icon already. */
+  gap: var(--space-tight-gap);
   margin: 0;
+  /* The last icon sits on the page margin, like the header's mode toggle. */
+  margin-inline-end: calc((var(--size-icon-md) - var(--size-touch-target)) / 2);
   padding: 0;
   list-style: none;
+}
+
+
+/* GitHub and npm as icons: 44px targets, the icon on the footer's text
+   colour, the accent on hover, like the links beside them. */
+.site-footer__icon-link {
+  display: grid;
+  place-items: center;
+  width: var(--size-touch-target);
+  height: var(--size-touch-target);
+  border-radius: var(--border-radius-pill);
+  color: var(--color-text-secondary);
+  transition: color var(--duration-interaction) var(--easing-default);
+}
+
+.site-footer__icon-link:hover {
+  color: var(--color-accent-text);
+}
+
+.site-footer__icon-link:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-border-focus);
+  outline-offset: calc(-1 * var(--focus-ring-width));
+}
+
+.site-footer__icon-link svg {
+  width: var(--size-icon-md);
+  height: var(--size-icon-md);
 }
 
 .site-footer__release {
   display: inline-flex;
   gap: var(--space-inline-gap);
+  margin-inline-end: var(--space-inline-gap);
 }
 
 .site-footer__version {
