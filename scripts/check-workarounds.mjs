@@ -25,6 +25,13 @@ const CHECKS = [
       'app/generated/base-scoped.css, then delete scripts/build-base-scoped.mjs, its predev and ' +
       'prebuild steps, and app/generated/ in .gitignore.',
   },
+  {
+    workaround: 'the hero card\'s bottom padding in app/site.css',
+    fixed: () => read('components/composition/Card/Card.css').includes('.card__header:last-child'),
+    todo:
+      'Card pads a last CardHeader itself. Delete the ".hero-switch__card .card__header:last-child" rule ' +
+      'in app/site.css.',
+  },
 ]
 
 const ci = process.env.GITHUB_ACTIONS === 'true'

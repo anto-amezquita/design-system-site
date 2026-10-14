@@ -1263,8 +1263,8 @@ body {
 }
 
 /* Card's header has no bottom padding: it expects a footer under it. Here
-   it's the last part, so it takes the footer's bottom padding. Library
-   follow-up: .card__header:last-child should do this itself. */
+   it's the last part, so it takes the footer's bottom padding. Fixed in the
+   library (fix/card-header-last); check-workarounds says when to delete. */
 .hero-switch__card .card__header:last-child {
   padding-bottom: var(--space-container-padding);
 }
