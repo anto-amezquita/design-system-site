@@ -40,9 +40,14 @@ import { Pagination } from '@amezquita/design-system/components/patterns/Paginat
 import { SideNav, SideNavProvider, SideNavTrigger } from '@amezquita/design-system/components/patterns/SideNav'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@amezquita/design-system/components/patterns/Table'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@amezquita/design-system/components/patterns/Tabs'
+import { PRIMITIVE_DEMOS, PRIMITIVE_PREVIEWS } from './primitives'
+import { COMPOSITION_DEMOS } from './composition'
+import { PATTERN_DEMOS, PATTERN_PREVIEWS } from './patterns'
 
 // One small live render per public component, keyed by the registry slug.
-// These are the only hand-written part of the Components pages: a prop
+// The first 35 are below; the components 1.5.0 and 1.6.0 added are in
+// primitives.tsx, composition.tsx and patterns.tsx, by tier, merged into the
+// same map. These are the only hand-written part of the Components pages: a prop
 // rename in a release breaks the typecheck here, which is the point. A
 // component the package adds before a render is written here falls back to
 // a note, so a release never fails the build for want of a demo (FR-12).
@@ -590,11 +595,16 @@ const DEMOS: Record<string, () => React.ReactNode> = {
   'side-nav': SideNavDemo,
   table: TableDemo,
   tabs: TabsDemo,
+  ...PRIMITIVE_DEMOS,
+  ...COMPOSITION_DEMOS,
+  ...PATTERN_DEMOS,
 }
 
 /** Smaller renders for the Components overview's cards, where a page's demo is too big for one. */
 const PREVIEWS: Record<string, () => React.ReactNode> = {
   button: ButtonPreview,
+  ...PRIMITIVE_PREVIEWS,
+  ...PATTERN_PREVIEWS,
 }
 
 /** Providers the overlay demos need, mounted once per page. */

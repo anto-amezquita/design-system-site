@@ -88,7 +88,8 @@ export default async function ComponentPage({ params }: Props) {
 
       {twinSections.map(section => (
         <DocSection key={section.id} id={section.id} title={section.heading}>
-          <Markdown source={section.body} headingLevel={3} idPrefix={`${section.id}-`} />
+          {/* A section's own subheadings ("### Do") sit one level under its h2. */}
+          <Markdown source={section.body} headingLevel={2} idPrefix={`${section.id}-`} />
         </DocSection>
       ))}
 
