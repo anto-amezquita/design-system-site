@@ -199,6 +199,8 @@ Found moving to 1.2.0:
 
 Also replaced in 1.2.0, with no deviation behind them: Motion's role one-liners now come from each token's `description` (nothing shows where it's `null`, as for the three easing primitives); the MCP tool list on Working with AI is parsed from `llms.txt`'s "MCP server" section instead of copied by hand; the root layout's font link and a new "Load the fonts" section on Getting started come from `tokens/fonts.json`.
 
+Removed in 1.5.0, both flagged by `check-workarounds.mjs`: `scripts/build-base-scoped.mjs`, which derived a `[data-brand="base"]` theme for the Themes page's Base panel (the package now ships `base-scoped.css`, imported in the root layout), and the hero card's bottom-padding rule in `app/site.css` (Card now pads a last CardHeader itself). `check:themes` also stopped counting the header's brand picker dots, which set their own `data-brand` on purpose, as a leak outside the panels.
+
 ### How the build was checked
 
 `npx tsc --noEmit` and `npm run build` clean (52 static pages). axe-core over every page type, light and dark: no violations, apart from a race where it ran before the package's Table marked its scroll region focusable (it passes on a re-run; the Table sets `tabIndex` from a ResizeObserver). The agent-facing files are byte-identical to the package's; the portfolio brand CSS appears only in the `/themes/preview/portfolio/*` documents; `app/site.css` has no hex values, primitive tokens or two-argument `var()`; checked at 1440px and at a 390px viewport, light and dark.

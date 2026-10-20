@@ -7,8 +7,8 @@ import '@amezquita/design-system/styles/brands/demo-cool-scoped.css'
 import '@amezquita/design-system/styles/brands/demo-warm-scoped.css'
 import '@amezquita/design-system/styles/brands/demo-soft-scoped.css'
 // Base scoped to [data-brand="base"], for the Themes page's Base panel. Last,
-// so a base panel inside a demo brand wins ties (scripts/build-base-scoped.mjs).
-import './generated/base-scoped.css'
+// so a base panel inside a demo brand wins ties.
+import '@amezquita/design-system/styles/brands/base-scoped.css'
 import './site.css'
 import { getBrandFonts } from '@/lib/ds'
 import { BRAND_STORAGE_KEY, DEFAULT_BRAND, DEMO_BRANDS } from '@/lib/demo-brands'

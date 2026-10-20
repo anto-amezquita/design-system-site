@@ -19,9 +19,6 @@ public/llms.txt
 public/llms-full.txt
 public/tokens.json
 
-# The base theme scoped to [data-brand="base"], by scripts/build-base-scoped.mjs.
-app/generated/
-
 # env
 .env*.local
 .vercel
