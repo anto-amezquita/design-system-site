@@ -157,7 +157,11 @@ function readThemes(page) {
     const portfolio = panels.find(p => p.dataset.brand === 'portfolio')
     const base = panels.find(p => p.dataset.brand === 'base')
     // The base panel sets its own data-mode, so it's compared against its tab, not the page.
-    const outside = [...document.body.querySelectorAll('*')].filter(el => !el.closest('.theme-frame__panel'))
+    // An element that names its own brand (the header's brand picker dots) is
+    // meant to differ; "outside" is everything that takes the page's brand.
+    const outside = [...document.body.querySelectorAll('*')].filter(
+      el => !el.closest('.theme-frame__panel') && el.closest('[data-brand]') === document.documentElement,
+    )
     const distinct = els => [...new Set(els.map(el => JSON.stringify(read(el))))].map(s => JSON.parse(s))
     return {
       found: Boolean(base && portfolio),
