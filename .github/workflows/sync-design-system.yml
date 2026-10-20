@@ -54,20 +54,22 @@ jobs:
         run: npm ci
 
       # The dispatch arrives seconds after the publish, and npm can take a
-      # minute or two to serve the new version: 1.3.1's first sync failed
-      # with ETARGET. Wait for it, then install without npm's cached metadata.
+      # while to serve the new version: 1.3.1's first sync failed with
+      # ETARGET, and 1.6.0's gave up after the 5 minutes this used to wait
+      # (issue #24). Wait up to 15 minutes, then install without npm's cached
+      # metadata.
       - name: Wait for the version on npm
         id: published
         continue-on-error: true
         run: |
-          for i in $(seq 1 20); do
+          for i in $(seq 1 60); do
             if npm view "@amezquita/design-system@$VERSION" version --prefer-online > /dev/null 2>&1; then
               echo "On npm after $(( (i - 1) * 15 ))s"
               exit 0
             fi
             sleep 15
           done
-          echo "::error::@amezquita/design-system@$VERSION isn't on npm after 5 minutes"
+          echo "::error::@amezquita/design-system@$VERSION isn't on npm after 15 minutes"
           exit 1
 
       - name: Bump @amezquita/design-system
