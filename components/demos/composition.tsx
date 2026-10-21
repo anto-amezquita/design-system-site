@@ -36,7 +36,7 @@ function CommandPaletteDemo() {
   ]
   return (
     <Stack>
-      <Button variant="secondary" onClick={() => setOpen(true)}>Search commands <Kbd>Ctrl</Kbd> <Kbd>K</Kbd></Button>
+      <Button variant="secondary" onClick={() => setOpen(true)}>Commands <Kbd>Ctrl</Kbd> <Kbd>K</Kbd></Button>
       <Text size="small" tone="secondary" aria-live="polite">{ran ? `Ran: ${ran}` : 'Pick a command to see it run.'}</Text>
       <CommandPalette open={open} onOpenChange={setOpen} groups={groups} />
     </Stack>

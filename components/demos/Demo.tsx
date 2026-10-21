@@ -214,7 +214,7 @@ function LabelDemo() {
   return (
     <Stack>
       <Label htmlFor={id} required>Project name</Label>
-      <input id={id} className="demo-native-input" defaultValue="Ajar" />
+      <input id={id} className="demo-native-input demo-full" defaultValue="Ajar" />
     </Stack>
   )
 }
@@ -401,6 +401,20 @@ function ThemeScopeDemo() {
       {(['light', 'dark'] as const).map(mode => (
         <ThemeScope key={mode} mode={mode} className="theme-frame__panel">
           <p>A {mode} part of the page.</p>
+          <MenuDemo />
+        </ThemeScope>
+      ))}
+    </div>
+  )
+}
+
+/** The card's version: one word a panel, so the two panels fit side by side in a card. */
+function ThemeScopePreview() {
+  return (
+    <div className="theme-frames theme-frames--pair">
+      {(['light', 'dark'] as const).map(mode => (
+        <ThemeScope key={mode} mode={mode} className="theme-frame__panel">
+          <p>{mode === 'light' ? 'Light' : 'Dark'}</p>
           <MenuDemo />
         </ThemeScope>
       ))}
@@ -603,6 +617,7 @@ const DEMOS: Record<string, () => React.ReactNode> = {
 /** Smaller renders for the Components overview's cards, where a page's demo is too big for one. */
 const PREVIEWS: Record<string, () => React.ReactNode> = {
   button: ButtonPreview,
+  'theme-scope': ThemeScopePreview,
   ...PRIMITIVE_PREVIEWS,
   ...PATTERN_PREVIEWS,
 }

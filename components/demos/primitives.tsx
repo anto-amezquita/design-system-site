@@ -488,4 +488,7 @@ export const PRIMITIVE_DEMOS: Record<string, () => React.ReactNode> = {
 }
 
 /** Smaller cards for the Components overview where the page's render is too tall. */
-export const PRIMITIVE_PREVIEWS: Record<string, () => React.ReactNode> = {}
+export const PRIMITIVE_PREVIEWS: Record<string, () => React.ReactNode> = {
+  // Six boxes don't fit a card three a row; the page shows six.
+  'otp-input': () => <OtpInput label="Verification code" length={4} hint="We sent 4 digits." />,
+}
