@@ -15,23 +15,10 @@ const read = path => readFileSync(join(PKG, path), 'utf8')
 
 // When a fix lands and its workaround is removed, remove its entry here too.
 // (Spec §9 items 6, 1, 7 and 9 went this way: 6 in 1.1.2, 1 and 7 in 1.2.0,
-// 9 in 1.3.0; the base-scoped.css build and the hero card's padding in 1.5.0.)
-// Each entry: { workaround, fixed: () => boolean, todo }.
-const CHECKS = [
-  {
-    workaround: '@types/d3-scale and @types/d3-shape in devDependencies',
-    // The package ships Chart's TypeScript source, which imports d3-scale and
-    // d3-shape; 1.6.0 lists their types only as its own devDependencies, so a
-    // strict typecheck here couldn't see them.
-    fixed: () => {
-      const deps = JSON.parse(read('package.json')).dependencies ?? {}
-      return Boolean(deps['@types/d3-scale'] && deps['@types/d3-shape'])
-    },
-    todo:
-      'the package now depends on @types/d3-scale and @types/d3-shape itself. Remove both from ' +
-      'devDependencies in package.json.',
-  },
-]
+// 9 in 1.3.0; the base-scoped.css build and the hero card's padding in 1.5.0;
+// the d3 types in 1.6.1.) Each entry: { workaround, fixed: () => boolean, todo }.
+// None are open now; add one when the site works around a library gap.
+const CHECKS = []
 
 const ci = process.env.GITHUB_ACTIONS === 'true'
 
