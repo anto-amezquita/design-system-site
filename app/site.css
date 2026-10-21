@@ -1013,6 +1013,101 @@ body {
   width: 100%;
 }
 
+/* Running text inside a demo: body type, no extra margin. */
+.demo-text {
+  margin: 0;
+  max-width: var(--size-container-text);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+}
+
+/* A placeholder block for layout demos (Grid, Stack): a quiet filled box. */
+.demo-tile {
+  display: grid;
+  place-items: center;
+  min-height: var(--size-touch-target);
+  padding: var(--space-inline-gap) var(--space-element-gap);
+  border: var(--border-width-default) solid var(--color-border-default);
+  border-radius: var(--border-radius-interactive);
+  background: var(--color-surface-primary);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-small);
+}
+
+/* Demos of app frames (AppShell, TopNav, MobileNav) render inside a box that
+   is the containing block for their fixed and sticky parts, so nothing
+   escapes onto the docs page. */
+.demo-frame {
+  position: relative;
+  width: 100%;
+  height: 22rem;
+  overflow: auto;
+  transform: translateZ(0);
+  border: var(--border-width-default) solid var(--color-border-default);
+  border-radius: var(--border-radius-component);
+  background: var(--color-surface-primary);
+}
+
+.demo-frame--short {
+  height: 9rem;
+}
+
+/* A photo filling a slide or a frame edge to edge. */
+.demo-photo {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: var(--border-radius-image);
+}
+
+/* ResizablePanels needs a height to split. */
+.demo-panels {
+  height: 12rem;
+  border: var(--border-width-default) solid var(--color-border-default);
+  border-radius: var(--border-radius-component);
+  overflow: hidden;
+  background: var(--color-surface-primary);
+}
+
+.demo-pane {
+  height: 100%;
+  padding: var(--space-element-gap);
+}
+
+/* TableOfContents beside a short scrolling article it follows. */
+.demo-toc {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 12rem;
+  gap: var(--space-component-gap);
+  align-items: start;
+}
+
+.demo-toc__article {
+  height: 16rem;
+  overflow: auto;
+  padding-inline: var(--space-inline-gap);
+  border-radius: var(--border-radius-interactive);
+}
+
+.demo-toc__article:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-border-focus);
+}
+
+/* Chat and data demos need a fixed height so their lists scroll inside. */
+.demo-chat {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: var(--space-inline-gap);
+  width: 100%;
+  height: 26rem;
+}
+
+.demo-chat--short {
+  grid-template-rows: minmax(0, 1fr);
+  height: 13rem;
+}
+
 /* ─── Sample screen (themes) ─────────────────────────────── */
 
 .sample {
