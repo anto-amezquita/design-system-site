@@ -847,10 +847,17 @@ body {
 
 .component-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
+  /* As many columns as fit at 17rem or wider, never more than three. */
+  grid-template-columns: repeat(auto-fill, minmax(max(min(100%, 17rem), calc((100% - 2 * var(--space-element-gap)) / 3)), 1fr));
   gap: var(--space-element-gap);
   list-style: none;
   padding: 0;
+}
+
+/* The grid takes the page's width, not the prose measure that
+   `.doc__section > ul` sets for running lists. */
+.doc__section > .component-grid {
+  max-width: none;
 }
 
 .component-card {
@@ -866,7 +873,9 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 11rem;
-  padding: var(--space-component-gap) var(--space-element-gap);
+  /* A narrow side gutter: three cards a row leaves each about 17rem, and a
+     month calendar or a row of buttons needs nearly all of it. */
+  padding: var(--space-component-gap) var(--space-inline-gap);
   background: var(--color-surface-secondary);
   overflow: hidden;
 }
@@ -1157,6 +1166,16 @@ body {
   .theme-frames {
     grid-template-columns: 1fr 1fr;
   }
+}
+
+/* ThemeScope's card: always the two panels side by side, at any width. */
+.theme-frames--pair {
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-inline-gap);
+}
+
+.theme-frames--pair .theme-frame__panel {
+  padding: var(--space-element-gap);
 }
 
 .theme-frame {
